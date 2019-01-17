@@ -1,6 +1,6 @@
 import React from "react";
 
-const SignUpStepThree = props => {
+const SignUpSummary = props => {
   const {
     first_name,
     last_name,
@@ -103,4 +103,4 @@ const SignUpStepThree = props => {
   );
 };
 
-export default SignUpStepThree;
+export default SignUpSummary;

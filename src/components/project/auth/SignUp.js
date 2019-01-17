@@ -1,21 +1,22 @@
 import React, { Component } from "react";
 import SignUpStepOne from "./signUpForm/SignUpStepOne";
 import SignUpStepTwo from "./signUpForm/SignUpStepTwo";
-import SignUpStepThree from "./signUpForm/SignUpStepThree";
+import SignUpSummary from "./signUpForm/SignUpSummary";
 
 class SignUp extends Component {
   state = {
     step: 1,
-
-    first_name: "",
-    last_name: "",
-    email: "",
-    phone: "",
-    password: "",
-    city: "",
-    trainer: false,
-    user: true,
-    photo: ""
+    personData: {
+      first_name: "",
+      last_name: "",
+      email: "",
+      phone: "",
+      password: "",
+      city: "",
+      trainer: false,
+      user: true,
+      photo: ""
+    }
   };
 
   prevStep = () => {
@@ -31,10 +32,19 @@ class SignUp extends Component {
   };
 
   onInputChange = e => {
+    const personData = {
+      ...this.state.personData,
+      [e.target.id]: e.target.value
+    };
+    // valid values in checkboxes obtained from e.target.checked, not value.
     if (e.target.id === "trainer" || e.target.id === "user") {
-      this.setState({ [e.target.id]: e.target.checked });
+      const personData = {
+        ...this.state.personData,
+        [e.target.id]: e.target.checked
+      };
+      this.setState({ personData });
     } else {
-      this.setState({ [e.target.id]: e.target.value });
+      this.setState({ personData });
     }
   };
 
@@ -93,14 +103,16 @@ class SignUp extends Component {
       onInputChange,
       state: {
         step,
-        first_name,
-        last_name,
-        email,
-        phone,
-        password,
-        city,
-        trainer,
-        user
+        personData: {
+          first_name,
+          last_name,
+          email,
+          phone,
+          password,
+          city,
+          trainer,
+          user
+        }
       }
     } = this;
 
@@ -131,7 +143,7 @@ class SignUp extends Component {
       //
       case 3: {
         return (
-          <SignUpStepThree
+          <SignUpSummary
             first_name={first_name}
             last_name={last_name}
             email={email}
