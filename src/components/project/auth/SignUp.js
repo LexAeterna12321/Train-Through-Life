@@ -1,0 +1,167 @@
+import React, { Component } from "react";
+import SignUpStepOne from "./signUpForm/SignUpStepOne";
+import SignUpStepTwo from "./signUpForm/SignUpStepTwo";
+import SignUpStepThree from "./signUpForm/SignUpStepThree";
+
+class SignUp extends Component {
+  state = {
+    step: 1,
+
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    password: "",
+    city: "",
+    trainer: false,
+    user: true,
+    photo: ""
+  };
+
+  prevStep = () => {
+    this.setState({
+      step: this.state.step - 1
+    });
+  };
+
+  nextStep = () => {
+    this.setState({
+      step: this.state.step + 1
+    });
+  };
+
+  onInputChange = e => {
+    if (e.target.id === "trainer" || e.target.id === "user") {
+      this.setState({ [e.target.id]: e.target.checked });
+    } else {
+      this.setState({ [e.target.id]: e.target.value });
+    }
+  };
+
+  onFormSubmit = e => {
+    e.preventDefault();
+    console.log(this.state);
+    this.props.history.push("/");
+  };
+
+  renderButtons = () => {
+    const {
+      prevStep,
+      nextStep,
+      onFormSubmit,
+      state: { step }
+    } = this;
+
+    if (step === 1) {
+      return (
+        <button className="btn" onClick={nextStep} style={buttonStyle}>
+          Dalej
+          <i className="material-icons right">navigate_next</i>
+        </button>
+      );
+    } else if (step === 2) {
+      return (
+        <React.Fragment>
+          <button className="btn" onClick={prevStep} style={buttonStyle}>
+            Powrót
+            <i className="material-icons right">navigate_before</i>
+          </button>
+          <button className="btn" onClick={nextStep} style={buttonStyle}>
+            Dalej
+            <i className="material-icons right">navigate_next</i>
+          </button>
+        </React.Fragment>
+      );
+    } else if (step === 3) {
+      return (
+        <React.Fragment>
+          <button className="btn" onClick={prevStep} style={buttonStyle}>
+            Powrót
+            <i className="material-icons right">navigate_before</i>
+          </button>
+          <button className="btn" onClick={onFormSubmit} style={buttonStyle}>
+            Zarejestruj
+            <i className="material-icons right">navigate_next</i>
+          </button>
+        </React.Fragment>
+      );
+    }
+  };
+
+  renderForm = () => {
+    const {
+      onInputChange,
+      state: {
+        step,
+        first_name,
+        last_name,
+        email,
+        phone,
+        password,
+        city,
+        trainer,
+        user
+      }
+    } = this;
+
+    switch (step) {
+      //
+      case 1:
+        return (
+          <SignUpStepOne
+            onInputChange={onInputChange}
+            first_name={first_name}
+            last_name={last_name}
+            email={email}
+            phone={phone}
+          />
+        );
+      //
+      case 2: {
+        return (
+          <SignUpStepTwo
+            onInputChange={onInputChange}
+            password={password}
+            city={city}
+            trainer={trainer}
+            user={user}
+          />
+        );
+      }
+      //
+      case 3: {
+        return (
+          <SignUpStepThree
+            first_name={first_name}
+            last_name={last_name}
+            email={email}
+            phone={phone}
+            password={password}
+            city={city}
+            trainer={trainer}
+            user={user}
+          />
+        );
+      }
+      default:
+        return null;
+    }
+  };
+
+  render() {
+    return (
+      <div className="container center-align">
+        <div className="row">
+          {this.renderForm()}
+          {this.renderButtons()}
+        </div>
+      </div>
+    );
+  }
+}
+
+const buttonStyle = {
+  margin: "0px 5px 5px 5px"
+};
+
+export default SignUp;
