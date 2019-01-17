@@ -1,13 +1,13 @@
 import React from "react";
-
+import Footer from "./Footer";
 const About = () => {
   return (
     <div className="container">
       <div className="col s12 m7">
         <h2 className="header">Informacje o aplikacji</h2>
 
-        <div className="card  center-aligned">
-          <div className="row ">
+        <div className="card center-aligned">
+          <div className="row">
             <div className="col s12 m6">
               <div
                 className="card-image "
@@ -38,6 +38,7 @@ const About = () => {
               </div>
             </div>
           </div>
+          <Footer />
         </div>
       </div>
     </div>
