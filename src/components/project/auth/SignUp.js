@@ -169,7 +169,13 @@ class SignUp extends Component {
           <nav className="teal lighten-1 hide-on-small-only">
             <div className="nav-wrapper">
               <div className="col s12">
-                <span className="breadcrumb">Krok pierwszy</span>
+                <span
+                  className="breadcrumb"
+                  onClick={() => this.setState({ step: 1 })}
+                  style={navStepsStyle}
+                >
+                  Krok pierwszy
+                </span>
               </div>
             </div>
           </nav>
@@ -179,8 +185,20 @@ class SignUp extends Component {
           <nav className="teal lighten-1 hide-on-small-only">
             <div className="nav-wrapper">
               <div className="col s12">
-                <span className="breadcrumb">Krok pierwszy</span>
-                <span className="breadcrumb">Krok drugi</span>
+                <span
+                  className="breadcrumb"
+                  onClick={() => this.setState({ step: 1 })}
+                  style={navStepsStyle}
+                >
+                  Krok pierwszy
+                </span>
+                <span
+                  className="breadcrumb"
+                  onClick={() => this.setState({ step: 2 })}
+                  style={navStepsStyle}
+                >
+                  Krok drugi
+                </span>
               </div>
             </div>
           </nav>
@@ -190,9 +208,27 @@ class SignUp extends Component {
           <nav className="teal lighten-1 hide-on-small-only">
             <div className="nav-wrapper">
               <div className="col s12">
-                <span className="breadcrumb">Krok pierwszy</span>{" "}
-                <span className="breadcrumb">Krok drugi</span>
-                <span className="breadcrumb">Podsumowanie</span>
+                <span
+                  className="breadcrumb"
+                  onClick={() => this.setState({ step: 1 })}
+                  style={navStepsStyle}
+                >
+                  Krok pierwszy
+                </span>
+                <span
+                  className="breadcrumb"
+                  onClick={() => this.setState({ step: 2 })}
+                  style={navStepsStyle}
+                >
+                  Krok drugi
+                </span>
+                <span
+                  className="breadcrumb"
+                  onClick={() => this.setState({ step: 3 })}
+                  style={navStepsStyle}
+                >
+                  Podsumowanie
+                </span>
               </div>
             </div>
           </nav>
@@ -217,6 +253,9 @@ class SignUp extends Component {
 
 const buttonStyle = {
   margin: "0px 5px 5px 5px"
+};
+const navStepsStyle = {
+  cursor: "pointer"
 };
 
 export default SignUp;
