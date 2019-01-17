@@ -13,6 +13,7 @@ class SignInTrainer extends Component {
   onFormSubmit = e => {
     e.preventDefault();
     console.log(this.state);
+    this.props.history.push("/dashboard");
   };
 
   render() {
@@ -30,6 +31,7 @@ class SignInTrainer extends Component {
                     className="validate white-text"
                     value={this.state.email}
                     onChange={this.onInputChange}
+                    required
                   />
                   <label htmlFor="email">Email</label>
                   <span
@@ -48,6 +50,7 @@ class SignInTrainer extends Component {
                     className="validate white-text"
                     value={this.state.password}
                     onChange={this.onInputChange}
+                    required
                   />
                   <label htmlFor="password">Password</label>
                   <span
@@ -59,7 +62,9 @@ class SignInTrainer extends Component {
                   </span>
                 </div>
               </div>
-              <button className="btn">Zaloguj</button>
+              <button className="btn" type="submit">
+                Zaloguj
+              </button>
             </form>
           </div>
         </div>

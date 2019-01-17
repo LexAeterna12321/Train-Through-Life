@@ -6,6 +6,8 @@ import AuthPreloader from "./components/project/auth/AuthPreloader";
 import SignUp from "./components/project/auth/SignUp";
 import SignInUser from "./components/project/auth/SignInUser";
 import SignInTrainer from "./components/project/auth/SignInTrainer";
+import Dashboard from "./components/project/Dashboard";
+
 import About from "./components/project/About";
 
 class App extends Component {
@@ -20,6 +22,7 @@ class App extends Component {
             <Route exact path="/about" component={About} />
             <Route exact path="/signinuser" component={SignInUser} />
             <Route exact path="/signintrainer" component={SignInTrainer} />
+            <Route exact path="/dashboard" component={Dashboard} />
           </Switch>
         </React.Fragment>
       </Router>

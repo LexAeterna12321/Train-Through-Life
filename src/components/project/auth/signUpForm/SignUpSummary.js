@@ -8,10 +8,15 @@ const SignUpSummary = props => {
     phone,
     password,
     city,
-    trainer
+    trainer,
+    onFormSubmit
   } = props;
   return (
-    <form>
+    <form
+      onSubmit={() => {
+        onFormSubmit();
+      }}
+    >
       <h2>Podsumowanie Rejestracji</h2>
       <div className="row">
         <div className="input-field col s12">
@@ -21,6 +26,7 @@ const SignUpSummary = props => {
             id="disabled"
             type="text"
             className="validate"
+            required
           />
           <label htmlFor="disabled" className="active">
             First Name
@@ -33,6 +39,7 @@ const SignUpSummary = props => {
             id="disabled"
             type="text"
             className="validate"
+            required
           />
           <label htmlFor="disabled" className="active">
             Last Name
@@ -45,6 +52,7 @@ const SignUpSummary = props => {
             id="disabled"
             type="text"
             className="validate"
+            required
           />
           <label htmlFor="disabled" className="active">
             Email
@@ -57,6 +65,7 @@ const SignUpSummary = props => {
             id="disabled"
             type="text"
             className="validate"
+            required
           />
           <label htmlFor="disabled" className="active">
             Phone
@@ -69,6 +78,7 @@ const SignUpSummary = props => {
             id="disabled"
             type="text"
             className="validate"
+            required
           />
           <label htmlFor="disabled" className="active">
             Password
@@ -81,6 +91,7 @@ const SignUpSummary = props => {
             id="disabled"
             type="text"
             className="validate"
+            required
           />
           <label htmlFor="disabled" className="active">
             City
@@ -94,6 +105,7 @@ const SignUpSummary = props => {
           id="disabled"
           type="text"
           className="validate"
+          required
         />
         <label htmlFor="disabled" className="active">
           Your Role:

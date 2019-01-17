@@ -1,7 +1,10 @@
 import React, { Component } from "react";
+
 import SignUpStepOne from "./signUpForm/SignUpStepOne";
 import SignUpStepTwo from "./signUpForm/SignUpStepTwo";
 import SignUpSummary from "./signUpForm/SignUpSummary";
+import FormSteps from "./signUpForm/FormSteps";
+import Buttons from "./signUpForm/Buttons";
 
 class SignUp extends Component {
   state = {
@@ -54,55 +57,12 @@ class SignUp extends Component {
     this.props.history.push("/");
   };
 
-  renderButtons = () => {
-    const {
-      prevStep,
-      nextStep,
-      onFormSubmit,
-      state: { step }
-    } = this;
-
-    if (step === 1) {
-      return (
-        <button className="btn" onClick={nextStep} style={buttonStyle}>
-          Dalej
-          <i className="material-icons right">navigate_next</i>
-        </button>
-      );
-    } else if (step === 2) {
-      return (
-        <React.Fragment>
-          <button className="btn" onClick={prevStep} style={buttonStyle}>
-            Powrót
-            <i className="material-icons left">navigate_before</i>
-          </button>
-          <button className="btn" onClick={nextStep} style={buttonStyle}>
-            Dalej
-            <i className="material-icons right">navigate_next</i>
-          </button>
-        </React.Fragment>
-      );
-    } else if (step === 3) {
-      return (
-        <React.Fragment>
-          <button className="btn" onClick={prevStep} style={buttonStyle}>
-            Powrót
-            <i className="material-icons left">navigate_before</i>
-          </button>
-          <button className="btn" onClick={onFormSubmit} style={buttonStyle}>
-            Zarejestruj
-            <i className="material-icons right">navigate_next</i>
-          </button>
-        </React.Fragment>
-      );
-    }
-  };
-
   renderForm = () => {
     const {
       onInputChange,
       state: {
         step,
+        onFormSubmit,
         personData: {
           first_name,
           last_name,
@@ -154,6 +114,7 @@ class SignUp extends Component {
             trainer={trainer}
             user={user}
             photo={photo}
+            onFormSubmit={onFormSubmit}
           />
         );
       }
@@ -162,100 +123,28 @@ class SignUp extends Component {
     }
   };
 
-  renderSteps = () => {
-    switch (this.state.step) {
-      case 1:
-        return (
-          <nav className="teal lighten-1 hide-on-small-only">
-            <div className="nav-wrapper">
-              <div className="col s12">
-                <span
-                  className="breadcrumb"
-                  onClick={() => this.setState({ step: 1 })}
-                  style={navStepsStyle}
-                >
-                  Krok pierwszy
-                </span>
-              </div>
-            </div>
-          </nav>
-        );
-      case 2:
-        return (
-          <nav className="teal lighten-1 hide-on-small-only">
-            <div className="nav-wrapper">
-              <div className="col s12">
-                <span
-                  className="breadcrumb"
-                  onClick={() => this.setState({ step: 1 })}
-                  style={navStepsStyle}
-                >
-                  Krok pierwszy
-                </span>
-                <span
-                  className="breadcrumb"
-                  onClick={() => this.setState({ step: 2 })}
-                  style={navStepsStyle}
-                >
-                  Krok drugi
-                </span>
-              </div>
-            </div>
-          </nav>
-        );
-      case 3:
-        return (
-          <nav className="teal lighten-1 hide-on-small-only">
-            <div className="nav-wrapper">
-              <div className="col s12">
-                <span
-                  className="breadcrumb"
-                  onClick={() => this.setState({ step: 1 })}
-                  style={navStepsStyle}
-                >
-                  Krok pierwszy
-                </span>
-                <span
-                  className="breadcrumb"
-                  onClick={() => this.setState({ step: 2 })}
-                  style={navStepsStyle}
-                >
-                  Krok drugi
-                </span>
-                <span
-                  className="breadcrumb"
-                  onClick={() => this.setState({ step: 3 })}
-                  style={navStepsStyle}
-                >
-                  Podsumowanie
-                </span>
-              </div>
-            </div>
-          </nav>
-        );
-      default:
-        return null;
-    }
-  };
-
   render() {
+    const {
+      state: { step },
+      prevStep,
+      nextStep,
+      onFormSubmit
+    } = this;
     return (
       <div className="container center-align">
         <div className="row">
-          {this.renderSteps()}
+          <FormSteps step={step} />
           {this.renderForm()}
-          {this.renderButtons()}
+          <Buttons
+            step={step}
+            prevStep={prevStep}
+            nextStep={nextStep}
+            onFormSubmit={onFormSubmit}
+          />
         </div>
       </div>
     );
   }
 }
-
-const buttonStyle = {
-  margin: "0px 5px 5px 5px"
-};
-const navStepsStyle = {
-  cursor: "pointer"
-};
 
 export default SignUp;
