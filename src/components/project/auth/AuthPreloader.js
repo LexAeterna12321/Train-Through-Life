@@ -13,7 +13,7 @@ const AuthPreloader = () => {
                 src="https://images.pexels.com/photos/116079/pexels-photo-116079.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
                 alt="training person"
               />
-              <span className="card-title">Train Through Life</span>
+              <span className="card-title">Personal Training App</span>
             </div>
             <div className="card-content" style={authPreloaderStyle}>
               <h5>Train how You like. Share Your Passion. Training is You.</h5>

@@ -12,7 +12,7 @@ const SignUpStepThree = props => {
   } = props;
   return (
     <form>
-      <h2>Podsumowanie</h2>
+      <h2>Podsumowanie Rejestracji</h2>
       <div className="row">
         <div className="input-field col s12">
           <input

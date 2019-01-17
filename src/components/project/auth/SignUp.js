@@ -64,7 +64,7 @@ class SignUp extends Component {
         <React.Fragment>
           <button className="btn" onClick={prevStep} style={buttonStyle}>
             Powrót
-            <i className="material-icons right">navigate_before</i>
+            <i className="material-icons left">navigate_before</i>
           </button>
           <button className="btn" onClick={nextStep} style={buttonStyle}>
             Dalej
@@ -77,7 +77,7 @@ class SignUp extends Component {
         <React.Fragment>
           <button className="btn" onClick={prevStep} style={buttonStyle}>
             Powrót
-            <i className="material-icons right">navigate_before</i>
+            <i className="material-icons left">navigate_before</i>
           </button>
           <button className="btn" onClick={onFormSubmit} style={buttonStyle}>
             Zarejestruj
