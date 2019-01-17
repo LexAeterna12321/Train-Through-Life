@@ -19,6 +19,12 @@ class Notifications extends Component {
                 <p>
                   Status:{" "}
                   <span style={trainingApprovedStyle}>"potwierdzone"</span>
+                  <i
+                    className="material-icons right"
+                    style={trainingApprovedStyle}
+                  >
+                    alarm_on
+                  </i>
                 </p>
                 <p>
                   Proponowana data:{" "}
@@ -36,6 +42,12 @@ class Notifications extends Component {
                   <span style={trainingPendingStyle}>
                     "czeka na potwierdzenie"
                   </span>
+                  <i
+                    className="material-icons right"
+                    style={trainingPendingStyle}
+                  >
+                    alarm
+                  </i>
                 </p>
                 <p>
                   Proponowana data:{" "}
@@ -53,6 +65,12 @@ class Notifications extends Component {
                   <span style={trainingCanceledStyle}>
                     "anulowane przez trenera"
                   </span>
+                  <i
+                    className="material-icons right"
+                    style={trainingCanceledStyle}
+                  >
+                    alarm_off
+                  </i>
                 </p>
                 <p>
                   Proponowana data:{" "}
@@ -83,11 +101,11 @@ const trainingApprovedStyle = {
 };
 
 const trainingPendingStyle = {
-  color: "yellow"
+  color: "#f1c40f"
 };
 
 const trainingCanceledStyle = {
-  color: "#ee7777"
+  color: "#FF5252"
 };
 
 export default Notifications;

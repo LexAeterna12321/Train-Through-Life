@@ -1,7 +1,7 @@
 import React from "react";
 
 const TrainerDetail = props => {
-  const { first_name, last_name, photo, description } = props.trainer;
+  const { first_name, last_name, photo, description, classes } = props.trainer;
   return (
     <div className="col s12  center-align">
       <div className="card">
@@ -19,6 +19,14 @@ const TrainerDetail = props => {
         </div>
         <div className="card-content left-align">
           <p>{description}</p>
+        </div>
+        <div className="card-content left-align">
+          <p>
+            Zajęcia:{" "}
+            {classes.map(classType => {
+              return <span>{classType.type}, </span>;
+            })}
+          </p>
         </div>
       </div>
     </div>

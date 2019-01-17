@@ -13,7 +13,9 @@ class Dashboard extends Component {
         description:
           "Cześć jestem Claudio ! Jestem trenerem personalnym od 7 lat. Zajmuję się profesjonalnym treningiem cardio oraz cross-fit. Dużą wagę przywiązuję do jakości przeprowadzanych zajęć, co pozytywnie przekłada się na zainteresowanie ćwiczących.",
         photo:
-          "https://images.pexels.com/photos/733500/pexels-photo-733500.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+          "https://images.pexels.com/photos/733500/pexels-photo-733500.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+        // classes: ["Cardio", "Cross-Fit"],
+        classes: [{ type: "Cardio", cost: 30 }, { type: "Cross-Fit", cost: 50 }]
       },
       {
         id: 2,
@@ -22,7 +24,8 @@ class Dashboard extends Component {
         description:
           "Cześć jestem Claudio ! Jestem trenerem personalnym od 7 lat. Zajmuję się profesjonalnym treningiem cardio oraz cross-fit. Dużą wagę przywiązuję do jakości przeprowadzanych zajęć, co pozytywnie przekłada się na zainteresowanie ćwiczących.",
         photo:
-          "https://images.pexels.com/photos/733500/pexels-photo-733500.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+          "https://images.pexels.com/photos/733500/pexels-photo-733500.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+        classes: [{ type: "Cardio", cost: 30 }, { type: "Cross-Fit", cost: 50 }]
       }
     ]
   };
