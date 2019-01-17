@@ -64,16 +64,16 @@ const SignUpStepTwo = props => {
               City
             </label>
           </div>
+
           <div className="input-field col s10 m6">
-            {" "}
-            <i className="material-icons prefix">add_a_photo</i>
+            <i className="material-icons prefix ">add_a_photo</i>
             <input
               id="photo"
-              type="email"
-              className="validate"
+              type="file"
+              className="validate btn  "
               onChange={onInputChange}
+
               //
-              disabled
             />
             <label htmlFor="photo" className="active">
               Add profile image

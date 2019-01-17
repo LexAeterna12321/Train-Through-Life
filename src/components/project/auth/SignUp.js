@@ -111,7 +111,8 @@ class SignUp extends Component {
           password,
           city,
           trainer,
-          user
+          user,
+          photo
         }
       }
     } = this;
@@ -152,6 +153,7 @@ class SignUp extends Component {
             city={city}
             trainer={trainer}
             user={user}
+            photo={photo}
           />
         );
       }

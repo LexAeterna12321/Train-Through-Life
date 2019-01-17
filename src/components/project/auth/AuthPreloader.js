@@ -18,23 +18,25 @@ const AuthPreloader = () => {
             <div className="card-content" style={authPreloaderStyle}>
               <h5>Train how You like. Share Your Passion. Training is You.</h5>
             </div>
-            <div className="card-action  ">
-              <Link
-                to="/signinuser"
-                className="center-align blue-text text-darken-2"
-              >
-                Login as User
-              </Link>{" "}
-              <Link
-                to="/signintrainer"
-                className="center-align blue-text text-darken-2"
-              >
-                Login as Trainer
-              </Link>
+            <div className="card-action">
+              <div className="row">
+                <Link
+                  to="/signinuser"
+                  className="center-align text-darken-2 col s12 m3 offset-m2 btn"
+                >
+                  Login as User
+                </Link>{" "}
+                <Link
+                  to="/signintrainer"
+                  className="center-align  text-darken-2 col s12 m3 offset-m2 btn"
+                >
+                  Login as Trainer
+                </Link>
+              </div>
             </div>
 
             <div className="card-action ">
-              <Link to="/signup" className="blue-text text-darken-2">
+              <Link to="/signup" className=" text-darken-2 btn">
                 Sign Up
               </Link>
             </div>

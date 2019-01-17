@@ -4,8 +4,8 @@ import { NavLink } from "react-router-dom";
 const Navbar = () => {
   return (
     <nav>
-      <div className="nav-wrapper">
-        <NavLink to="/" className="brand-logo center">
+      <div className="nav-wrapper teal lighten-1">
+        <NavLink to="/" className="brand-logo center truncate ">
           TRAIN THROUGH LIFE
         </NavLink>
         <ul id="nav-mobile" className="right hide-on-med-and-down">
