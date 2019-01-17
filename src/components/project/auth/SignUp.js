@@ -162,10 +162,51 @@ class SignUp extends Component {
     }
   };
 
+  renderSteps = () => {
+    switch (this.state.step) {
+      case 1:
+        return (
+          <nav className="teal lighten-1 hide-on-small-only">
+            <div className="nav-wrapper">
+              <div className="col s12">
+                <span className="breadcrumb">Krok pierwszy</span>
+              </div>
+            </div>
+          </nav>
+        );
+      case 2:
+        return (
+          <nav className="teal lighten-1 hide-on-small-only">
+            <div className="nav-wrapper">
+              <div className="col s12">
+                <span className="breadcrumb">Krok pierwszy</span>
+                <span className="breadcrumb">Krok drugi</span>
+              </div>
+            </div>
+          </nav>
+        );
+      case 3:
+        return (
+          <nav className="teal lighten-1 hide-on-small-only">
+            <div className="nav-wrapper">
+              <div className="col s12">
+                <span className="breadcrumb">Krok pierwszy</span>{" "}
+                <span className="breadcrumb">Krok drugi</span>
+                <span className="breadcrumb">Podsumowanie</span>
+              </div>
+            </div>
+          </nav>
+        );
+      default:
+        return null;
+    }
+  };
+
   render() {
     return (
       <div className="container center-align">
         <div className="row">
+          {this.renderSteps()}
           {this.renderForm()}
           {this.renderButtons()}
         </div>
