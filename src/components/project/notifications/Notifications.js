@@ -27,8 +27,10 @@ class Notifications extends Component {
                   </i>
                 </p>
                 <p>
-                  Proponowana data:{" "}
-                  <span style={trainingApprovedStyle}>20 maj 2019r</span>
+                  Data: <span style={trainingApprovedStyle}>20 maj 2019r</span>
+                </p>
+                <p>
+                  Typ zajęć: <span style={trainingApprovedStyle}>CrossFit</span>
                 </p>
                 <p>
                   Koszt / Czas Trwania:{" "}
@@ -50,8 +52,10 @@ class Notifications extends Component {
                   </i>
                 </p>
                 <p>
-                  Proponowana data:{" "}
-                  <span style={trainingPendingStyle}>20 maj 2019r</span>
+                  Data: <span style={trainingPendingStyle}>20 maj 2019r</span>
+                </p>
+                <p>
+                  Typ zajęć: <span style={trainingPendingStyle}>CrossFit</span>
                 </p>
                 <p>
                   Koszt / Czas Trwania:{" "}
@@ -73,8 +77,10 @@ class Notifications extends Component {
                   </i>
                 </p>
                 <p>
-                  Proponowana data:{" "}
-                  <span style={trainingCanceledStyle}>20 maj 2019r</span>
+                  Data: <span style={trainingCanceledStyle}>20 maj 2019r</span>
+                </p>
+                <p>
+                  Typ zajęć: <span style={trainingCanceledStyle}>CrossFit</span>
                 </p>
                 <p>
                   Koszt / Czas Trwania:{" "}

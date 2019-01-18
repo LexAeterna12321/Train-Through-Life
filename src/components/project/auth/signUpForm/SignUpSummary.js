@@ -2,13 +2,15 @@ import React from "react";
 
 const SignUpSummary = props => {
   const {
-    first_name,
-    last_name,
-    email,
-    phone,
-    password,
-    city,
-    trainer,
+    personData: {
+      first_name,
+      last_name,
+      email,
+      phone,
+      password,
+      city,
+      trainer
+    },
     onFormSubmit
   } = props;
   return (

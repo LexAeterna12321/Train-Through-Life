@@ -12,6 +12,7 @@ const SignUpStepTwo = props => {
             type="checkbox"
             onChange={onInputChange}
             checked={user}
+            name="profileType"
           />
           <span>User</span>
         </label>
@@ -23,6 +24,7 @@ const SignUpStepTwo = props => {
             type="checkbox"
             onChange={onInputChange}
             checked={trainer}
+            name="profileType"
           />
           <span>Trainer</span>
         </label>
@@ -70,7 +72,7 @@ const SignUpStepTwo = props => {
             <input
               id="photo"
               type="file"
-              className="validate btn  "
+              className="validate btn"
               onChange={onInputChange}
 
               //

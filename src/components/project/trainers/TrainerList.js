@@ -3,7 +3,7 @@ import TrainerDetail from "../trainers/TrainerDetail";
 
 const TrainerList = ({ trainers }) => {
   return (
-    <div className="card col s12 m8 l3 offset-m2 offset-l1">
+    <div className="card col s12 m8 l3 offset-m2 offset-l1 kot">
       <h5 className="center" style={headerStyle}>
         Oferty Trenerów z Twojego Miasta
       </h5>

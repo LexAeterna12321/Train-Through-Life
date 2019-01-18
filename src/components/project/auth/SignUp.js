@@ -40,11 +40,17 @@ class SignUp extends Component {
       [e.target.id]: e.target.value
     };
     // valid values in checkboxes obtained from e.target.checked, not value.
+
     if (e.target.id === "trainer" || e.target.id === "user") {
       const personData = {
         ...this.state.personData,
         [e.target.id]: e.target.checked
       };
+      // checkboxes radio buttons mechanic imitaion
+      e.target.id === "trainer"
+        ? (personData.user = !this.state.personData.user)
+        : (personData.trainer = !this.state.personData.trainer);
+
       this.setState({ personData });
     } else {
       this.setState({ personData });
@@ -58,6 +64,7 @@ class SignUp extends Component {
   };
 
   renderForm = () => {
+    const { personData } = this.state;
     const {
       onInputChange,
       state: {
@@ -71,8 +78,7 @@ class SignUp extends Component {
           password,
           city,
           trainer,
-          user,
-          photo
+          user
         }
       }
     } = this;
@@ -104,18 +110,7 @@ class SignUp extends Component {
       //
       case 3: {
         return (
-          <SignUpSummary
-            first_name={first_name}
-            last_name={last_name}
-            email={email}
-            phone={phone}
-            password={password}
-            city={city}
-            trainer={trainer}
-            user={user}
-            photo={photo}
-            onFormSubmit={onFormSubmit}
-          />
+          <SignUpSummary personData={personData} onFormSubmit={onFormSubmit} />
         );
       }
       default:
