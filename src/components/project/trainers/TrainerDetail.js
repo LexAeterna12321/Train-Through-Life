@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const TrainerDetail = props => {
   const { first_name, last_name, photo, description, classes } = props.trainer;
@@ -12,12 +13,12 @@ const TrainerDetail = props => {
           <span className="card-title black-text">
             {first_name} {last_name}
           </span>
-          <a
-            href="/addTraining"
+          <Link
+            to="/addTraining"
             className="btn-floating halfway-fab waves-effect waves-light red right"
           >
             <i className="material-icons">alarm_add</i>
-          </a>
+          </Link>
         </div>
         <div className="card-content left-align">
           <p>{description}</p>

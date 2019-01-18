@@ -7,7 +7,7 @@ import SignUp from "./components/project/auth/SignUp";
 import SignInUser from "./components/project/auth/SignInUser";
 import SignInTrainer from "./components/project/auth/SignInTrainer";
 import Dashboard from "./components/project/Dashboard";
-import AddTraining from "./components/project/dashboard/AddTraining";
+import AddTraining from "./components/project/training/TrainingList";
 import About from "./components/project/About";
 
 class App extends Component {
