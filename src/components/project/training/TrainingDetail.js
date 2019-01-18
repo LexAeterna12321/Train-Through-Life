@@ -22,11 +22,12 @@ class TrainingDetail extends Component {
     const ref = this.classesRef.current;
     const type = ref.innerText;
     ref.classList.remove("green-text");
-    const classes = { ...this.state.classes, type };
+    const classes = { ...this.state.classes, type, duration: 0, totalCost: 0 };
     this.setState({ classes, orderedClasses: "" });
   };
 
   incrementDuration = () => {
+    if (!this.state.orderedClasses) return;
     let duration = this.state.classes.duration;
     let totalCost = this.state.classes.totalCost;
     totalCost += 40;
@@ -86,7 +87,12 @@ class TrainingDetail extends Component {
           </button>
 
           <button
-            className="btn btn-small waves-effect waves-light teal lighten-1 left"
+            className={
+              this.state.orderedClasses
+                ? "btn btn-small waves-effect waves-light teal lighten-1  left"
+                : "btn btn-small waves-effect waves-light teal lighten-1 disabled left"
+            }
+            // className="btn btn-small waves-effect waves-light teal lighten-1 left"
             style={buttonsStyle}
             onClick={this.incrementDuration}
           >
