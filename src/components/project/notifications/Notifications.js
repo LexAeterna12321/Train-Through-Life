@@ -11,7 +11,7 @@ class Notifications extends Component {
         <div className="card blue-grey darken-1">
           <div className="card-content white-text">
             <h5 className="card-title center" style={headerStyle}>
-              Twoje Ostatenie Aktywności
+              Twoje Ostatnie Aktywności
             </h5>
             <ul>
               <li style={notificationStyle}>

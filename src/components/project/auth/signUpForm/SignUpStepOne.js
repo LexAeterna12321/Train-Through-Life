@@ -5,7 +5,7 @@ const SignUpStepOne = props => {
 
   return (
     <React.Fragment>
-      <h2> Rejestracja </h2>
+      <h3> Rejestracja </h3>
       <h6>Zarejestruj się w aplikacji wypełniając poniższe pola</h6>
       <form className="col s12">
         <div className="row">

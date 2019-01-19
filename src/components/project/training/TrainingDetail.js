@@ -5,53 +5,98 @@ class TrainingDetail extends Component {
     super(props);
     this.classesRef = React.createRef();
     this.state = {
-      classes: { type: "Crossfit", duration: 0, totalCost: 0 },
-      orderedClasses: ""
+      orderedClasses: { type: "", duration: 0, totalCost: 0 }
     };
   }
+
+  // wynieść totalCost wyżej żeby sumować kwoty z paru treningów
+  // treningi też poziom wyżej w TrainingList najlepiej w tablicy. Potem mapowanie w zamówionych treningach
+  ////
 
   activateClasses = () => {
     const ref = this.classesRef.current;
     const type = ref.innerText;
     ref.classList.remove("red-text");
     ref.classList.add("green-text");
-    const classes = { ...this.state.classes, type };
-    this.setState({ classes, orderedClasses: classes.type });
+    const orderedClasses = { ...this.state.orderedClasses, type };
+    this.setState({ orderedClasses });
   };
+
+  ////
+
   deactivateClasses = () => {
     const ref = this.classesRef.current;
-    const type = ref.innerText;
+    // const type = ref.innerText;
     ref.classList.remove("green-text");
-    const classes = { ...this.state.classes, type, duration: 0, totalCost: 0 };
-    this.setState({ classes, orderedClasses: "" });
+    const orderedClasses = {
+      ...this.state.orderedClasses,
+      type: "",
+      duration: 0,
+      totalCost: 0
+    };
+    this.setState({ orderedClasses });
   };
+
+  ////
 
   incrementDuration = () => {
-    if (!this.state.orderedClasses) return;
-    let duration = this.state.classes.duration;
-    let totalCost = this.state.classes.totalCost;
-    totalCost += 40;
+    const { cost } = this.props.classes;
+    const { orderedClasses } = this.state;
+    // const { calculateTotalTrainingCost } = this.props;
+    if (!orderedClasses.type) return;
+
+    let duration = orderedClasses.duration;
+    let totalCost = orderedClasses.totalCost;
+    totalCost += cost;
     duration += 30;
-    const classes = { ...this.state.classes, duration, totalCost };
-    this.setState({ classes });
+
+    // calculateTotalTrainingCost(totalCost);
+    // constans + 30min incrementation.
+
+    const newOrderedClasses = {
+      ...orderedClasses,
+      duration,
+      totalCost
+    };
+    console.log({ newOrderedClasses });
+    this.setState({ orderedClasses: newOrderedClasses });
   };
+
+  ////
 
   decrementDuration = () => {
-    let duration = this.state.classes.duration;
-    let totalCost = this.state.classes.totalCost;
-    totalCost -= 40;
+    const { cost } = this.props.classes;
+    const { orderedClasses } = this.state;
+    // const { calculateTotalTrainingCost } = this.props;
+    let duration = orderedClasses.duration;
+    let totalCost = orderedClasses.totalCost;
+    totalCost -= cost;
     duration -= 30;
-    const classes = { ...this.state.classes, duration, totalCost };
-    this.setState({ classes });
+
+    // calculateTotalTrainingCost(totalCost);
+
+    const newOrderedClasses = {
+      ...orderedClasses,
+      duration,
+      totalCost
+    };
+    this.setState({ orderedClasses: newOrderedClasses });
   };
 
+  ////
+
   render() {
+    const { classes } = this.props;
+    const { orderedClasses } = this.state;
+
+    console.log(this.state);
+
     return (
       <tr style={centeringContent}>
         <td style={columnsStyle}>
           <button
             className={
-              this.state.orderedClasses
+              orderedClasses.type
                 ? "btn btn-small waves-effect waves-light red  left"
                 : "btn btn-small waves-effect waves-light red disabled left"
             }
@@ -69,14 +114,14 @@ class TrainingDetail extends Component {
             <i className="material-icons">add</i>
           </button>
           <p className="flow-text center" ref={this.classesRef}>
-            {this.state.classes.type}
+            {classes.type}
           </p>
         </td>
         {/* ------------------------------------------------------------------- */}
         <td style={columnsStyle}>
           <button
             className={
-              this.state.classes.duration > 0
+              orderedClasses.duration > 0
                 ? "btn btn-small waves-effect waves-light red  left"
                 : "btn btn-small waves-effect waves-light red disabled left"
             }
@@ -88,7 +133,7 @@ class TrainingDetail extends Component {
 
           <button
             className={
-              this.state.orderedClasses
+              orderedClasses.type
                 ? "btn btn-small waves-effect waves-light teal lighten-1  left"
                 : "btn btn-small waves-effect waves-light teal lighten-1 disabled left"
             }
@@ -98,7 +143,7 @@ class TrainingDetail extends Component {
           >
             <i className="material-icons">add</i>
           </button>
-          <p className="flow-text center">{this.state.classes.duration}min</p>
+          <p className="flow-text center">{orderedClasses.duration}min</p>
         </td>
         {/* ------------------------------------------------------------------- */}
         <td style={columnsStyle}>
@@ -114,7 +159,7 @@ class TrainingDetail extends Component {
           >
             <i className="material-icons">add</i>
           </button>{" "}
-          <p className="flow-text center">{this.state.classes.totalCost}</p>
+          <p className="flow-text center">{orderedClasses.totalCost}</p>
         </td>
       </tr>
     );

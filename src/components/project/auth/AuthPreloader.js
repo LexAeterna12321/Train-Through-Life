@@ -23,12 +23,14 @@ const AuthPreloader = () => {
                 <Link
                   to="/signinuser"
                   className="center-align text-darken-2 col s12 m3 offset-m2 btn"
+                  style={{ marginBottom: "10px" }}
                 >
                   Login as User
                 </Link>{" "}
                 <Link
                   to="/signintrainer"
                   className="center-align  text-darken-2 col s12 m3 offset-m2 btn"
+                  style={{ marginBottom: "10px" }}
                 >
                   Login as Trainer
                 </Link>

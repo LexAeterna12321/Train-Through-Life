@@ -19,7 +19,7 @@ const SignUpSummary = props => {
         onFormSubmit();
       }}
     >
-      <h2>Podsumowanie Rejestracji</h2>
+      <h3>Podsumowanie</h3>
       <div className="row">
         <div className="input-field col s12">
           <input
