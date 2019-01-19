@@ -7,7 +7,7 @@ class Dashboard extends Component {
   state = {
     trainers: [
       {
-        id: 1,
+        trainerId: 1,
         first_name: "Claudio ",
         last_name: "Ruiz",
         description:
@@ -18,7 +18,7 @@ class Dashboard extends Component {
         classes: [{ type: "Cardio", cost: 30 }, { type: "CrossFit", cost: 50 }]
       },
       {
-        id: 2,
+        trainerId: 2,
         first_name: "Claudio ",
         last_name: "Ruiz",
         description:

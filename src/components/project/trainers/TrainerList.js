@@ -9,7 +9,7 @@ const TrainerList = ({ trainers }) => {
       </h5>
 
       {trainers.map(trainer => {
-        return <TrainerDetail key={trainer.id} trainer={trainer} />;
+        return <TrainerDetail key={trainer.trainerId} trainer={trainer} />;
       })}
     </div>
   );

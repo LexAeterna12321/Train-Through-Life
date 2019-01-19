@@ -6,6 +6,9 @@ import SignUpSummary from "./signUpForm/SignUpSummary";
 import FormSteps from "./signUpForm/FormSteps";
 import Buttons from "./signUpForm/Buttons";
 
+import addUser from "../../store/actions/addUser";
+import { connect } from "react-redux";
+
 class SignUp extends Component {
   state = {
     step: 1,
@@ -34,6 +37,12 @@ class SignUp extends Component {
     });
   };
 
+  redirectToStep = step =>
+    // redirects  to clicked step in signUp form
+    this.setState({
+      step
+    });
+
   onInputChange = e => {
     const personData = {
       ...this.state.personData,
@@ -60,6 +69,7 @@ class SignUp extends Component {
   onFormSubmit = e => {
     e.preventDefault();
     console.log(this.state);
+    this.props.addUser(this.state.personData);
     this.props.history.push("/");
   };
 
@@ -123,12 +133,13 @@ class SignUp extends Component {
       state: { step },
       prevStep,
       nextStep,
-      onFormSubmit
+      onFormSubmit,
+      redirectToStep
     } = this;
     return (
       <div className="container center-align">
         <div className="row">
-          <FormSteps step={step} />
+          <FormSteps step={step} redirectToStep={redirectToStep} />
           {this.renderForm()}
           <Buttons
             step={step}
@@ -142,4 +153,18 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+const mapStateToProps = state => {
+  return {
+    users: state.users
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    addUser: user => dispatch(addUser(user))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignUp);

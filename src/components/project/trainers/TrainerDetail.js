@@ -14,7 +14,7 @@ const TrainerDetail = props => {
             {first_name} {last_name}
           </span>
           <Link
-            to="/addTraining"
+            to="/addTraining/:trainerId"
             className="btn-floating halfway-fab waves-effect waves-light red right"
           >
             <i className="material-icons">alarm_add</i>
