@@ -26,9 +26,13 @@ const TrainerDetail = props => {
         <div className="card-content left-align">
           <p>
             Zajęcia:{" "}
-            {classes.map(classType => {
-              return <span key={randClassTypeId()}>{classType.type}, </span>;
-            })}
+            {classes
+              ? classes.map(classType => {
+                  return (
+                    <span key={randClassTypeId()}>{classType.name}, </span>
+                  );
+                })
+              : null}
           </p>
         </div>
       </div>

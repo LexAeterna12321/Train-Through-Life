@@ -3,35 +3,42 @@ import { Link } from "react-router-dom";
 
 class Profile extends Component {
   render() {
-    return (
-      <div className="card col s12 m8 l3 offset-m2 ">
-        <div className="avatar-photo" style={avatarContainer}>
-          <img
-            src="/img/avatar.png"
-            className="circle center"
-            alt="profile avatar"
-            style={avatarStyle}
-          />
-        </div>
+    if (this.props.profile) {
+      const { first_name, last_name, city } = this.props.profile;
+      return (
+        <div className="card col s12 m8 l3 offset-m2 ">
+          <div className="avatar-photo" style={avatarContainer}>
+            <img
+              src="/img/avatar.png"
+              className="circle center"
+              alt="profile avatar"
+              style={avatarStyle}
+            />
+          </div>
 
-        <div className="card-title center ">
-          <h3>Ania Rubik</h3>
-          <h5>Wrocław</h5>
-        </div>
+          <div className="card-title center ">
+            <h3>
+              {first_name} {last_name}
+            </h3>
+            <h5>{city}</h5>
+          </div>
 
-        <div className="card-action">
-          <Link to="/">
-            <h6 style={profileSectionsStyle}>Moje Treningi</h6>
-          </Link>
-          <Link to="/">
-            <h6 style={profileSectionsStyle}>Historia Treningów</h6>
-          </Link>
-          <Link to="/">
-            <h6 style={profileSectionsStyle}>Edytuj Profil</h6>
-          </Link>
+          <div className="card-action">
+            <Link to="/">
+              <h6 style={profileSectionsStyle}>Moje Treningi</h6>
+            </Link>
+            <Link to="/">
+              <h6 style={profileSectionsStyle}>Historia Treningów</h6>
+            </Link>
+            <Link to="/">
+              <h6 style={profileSectionsStyle}>Edytuj Profil</h6>
+            </Link>
+          </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return <div>brak</div>;
+    }
   }
 }
 

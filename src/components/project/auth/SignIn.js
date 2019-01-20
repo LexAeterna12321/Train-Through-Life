@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-
-class SignInUser extends Component {
+import { connect } from "react-redux";
+class SignIn extends Component {
   state = {
     email: "",
     password: ""
@@ -12,15 +12,35 @@ class SignInUser extends Component {
 
   onFormSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
-    this.props.history.push("/dashboard");
+
+    const userEmail = this.state.email;
+    const userPassword = this.state.password;
+
+    const userMatched = this.props.users.find(user => {
+      return userEmail === user.email && userPassword === user.password;
+    });
+
+    console.log(userMatched);
+
+    if (userMatched) {
+      const id = userMatched.id;
+      this.props.history.push(`/dashboard/${id}`);
+    } else {
+      return console.log("Brak usera w bazie");
+    }
   };
 
   render() {
+    const { email, password } = this.state;
+    const { path } = this.props.match;
     return (
       <div style={bgStyle}>
         <div className="container white-text">
-          <h2 style={{ paddingTop: "25px" }}>Zaloguj się jako User</h2>
+          <h2 style={{ paddingTop: "25px" }}>
+            {path === "/signinuser"
+              ? "Zaloguj się jako User"
+              : "Zaloguj się jako Trener"}
+          </h2>
           <div className="row">
             <form className="col s12" onSubmit={this.onFormSubmit}>
               <div className="row">
@@ -29,7 +49,7 @@ class SignInUser extends Component {
                     id="email"
                     type="email"
                     className="validate white-text"
-                    value={this.state.email}
+                    value={email}
                     onChange={this.onInputChange}
                     required
                   />
@@ -38,9 +58,7 @@ class SignInUser extends Component {
                     className="helper-text white-text"
                     data-error=""
                     data-success=""
-                  >
-                    Wpisz swój adres email podany przy rejestracji konta.
-                  </span>
+                  />
                 </div>
 
                 <div className="input-field col s12">
@@ -48,18 +66,16 @@ class SignInUser extends Component {
                     id="password"
                     type="text"
                     className="validate white-text"
-                    value={this.state.password}
+                    value={password}
                     onChange={this.onInputChange}
                     required
                   />
                   <label htmlFor="password">Password</label>
                   <span
                     className="helper-text white-text"
-                    data-error=""
-                    data-success=""
-                  >
-                    Wpisz swoje hasło podane przy rejestracji konta.
-                  </span>
+                    data-error="Hasło nieprawidłowe. Podaj prawidłowe hasło."
+                    data-success="dobrze"
+                  />
                 </div>
               </div>
               <button className="btn" type="submit">
@@ -87,4 +103,8 @@ const bgStyle = {
   backgroundSize: "cover"
 };
 
-export default SignInUser;
+const mapStateToProps = state => {
+  return { users: state.users.users };
+};
+
+export default connect(mapStateToProps)(SignIn);

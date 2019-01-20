@@ -69,7 +69,9 @@ class SignUp extends Component {
   onFormSubmit = e => {
     e.preventDefault();
     console.log(this.state);
-    this.props.addUser(this.state.personData);
+    const personData = this.state.personData;
+    personData.id = Math.random();
+    this.props.addUser(personData);
     this.props.history.push("/");
   };
 

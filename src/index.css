@@ -17,3 +17,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+/* input bgc in login windows */
+/* input:-internal-autofill-selected {
+  background-color: transparent !important
+} */
