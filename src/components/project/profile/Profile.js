@@ -5,6 +5,7 @@ class Profile extends Component {
   render() {
     if (this.props.profile) {
       const { first_name, last_name, city } = this.props.profile;
+      console.log(this.props);
       return (
         <div className="card col s12 m8 l3 offset-m2 ">
           <div className="avatar-photo" style={avatarContainer}>

@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
+
 class SignIn extends Component {
   state = {
     email: "",
@@ -104,7 +108,12 @@ const bgStyle = {
 };
 
 const mapStateToProps = state => {
-  return { users: state.users.users };
+  console.log(state);
+  // return { users: state.users.users };
+  return { users: state.firestore.ordered.users };
 };
 
-export default connect(mapStateToProps)(SignIn);
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([{ collection: "users" }])
+)(SignIn);

@@ -68,7 +68,6 @@ class SignUp extends Component {
 
   onFormSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
     const personData = this.state.personData;
     personData.id = Math.random();
     this.props.addUser(personData);

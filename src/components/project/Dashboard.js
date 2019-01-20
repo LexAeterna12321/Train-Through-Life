@@ -3,6 +3,9 @@ import Profile from "./profile/Profile";
 import Notifications from "./notifications/Notifications";
 import TrainerList from "./trainers/TrainerList";
 import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
+
 class Dashboard extends Component {
   state = {
     // trainers: [
@@ -29,17 +32,23 @@ class Dashboard extends Component {
     //   }
     // ]
   };
+
   render() {
     const { trainers, profile } = this.props;
-    return (
-      <div className="container" style={dashboardContainerStyle}>
-        <div className="row">
-          <Profile profile={profile} />
-          <Notifications />
-          <TrainerList trainers={trainers} />
+    console.log(profile);
+    if (!trainers) {
+      return <div>Ładowanie...</div>;
+    } else {
+      return (
+        <div className="container" style={dashboardContainerStyle}>
+          <div className="row">
+            <Profile profile={profile} />
+            <Notifications />
+            <TrainerList trainers={trainers} />
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 
@@ -49,20 +58,37 @@ const dashboardContainerStyle = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const id = parseInt(ownProps.match.params.id);
+  // console.log(state);
+  // const getUser = () => {
+  //   const id = parseInt(ownProps.match.params.id);
+  //   const userProfile = state.firestore.ordered.users.filter(user => {
+  //     return user.id === id;
+  //   })[0];
 
-  const userProfile = state.users.users.filter(user => {
-    return user.id === id;
-  })[0];
-  const trainerProfile = state.users.trainers.filter(trainer => {
-    return trainer.id === id;
-  })[0];
+  //   const trainerProfile = state.firestore.ordered.trainers.filter(trainer => {
+  //     return trainer.id === id;
+  //   })[0];
+
+  //   console.log(userProfile, trainerProfile);
+  //   const data = userProfile ? userProfile : trainerProfile;
+
+  //   return data;
+  // };
+
+  // !!! wprowadzić asynchroniczność w kod
+
+  console.log(state);
+  const id = parseInt(ownProps.match.params.id);
+  console.log(state);
 
   return {
-    // finds correct user by id delivered from signIn component
-    profile: userProfile ? userProfile : trainerProfile,
-    trainers: state.users.trainers
+    profile: state.firestore.ordered.users,
+
+    trainers: state.firestore.ordered.trainers
   };
 };
 
-export default connect(mapStateToProps)(Dashboard);
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([{ collection: "users" }, { collection: "trainers" }])
+)(Dashboard);
