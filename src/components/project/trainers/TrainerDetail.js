@@ -10,7 +10,7 @@ const TrainerDetail = props => {
       <div className="card">
         <div className="card-image">
           <img src={`${photo}`} alt="trainer-avatar" />
-          <span className="card-title black-text">
+          <span className="card-title black-text" style={trainerNameStyle}>
             {first_name} {last_name}
           </span>
           <Link
@@ -40,4 +40,8 @@ const TrainerDetail = props => {
   );
 };
 
+const trainerNameStyle = {
+  backgroundColor: "rgba(255,255,255,0.5)",
+  width: "100%"
+};
 export default TrainerDetail;

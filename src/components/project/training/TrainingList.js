@@ -36,7 +36,7 @@ class TrainingList extends Component {
     const { passOrderedClasses } = this;
 
     const { calculateTotalTrainingCost } = this;
-    console.log(this.state);
+
     return (
       <div className="container">
         <table>

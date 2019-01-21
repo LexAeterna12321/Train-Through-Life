@@ -58,29 +58,17 @@ const dashboardContainerStyle = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  // console.log(state);
-  // const getUser = () => {
-  //   const id = parseInt(ownProps.match.params.id);
-  //   const userProfile = state.firestore.ordered.users.filter(user => {
-  //     return user.id === id;
-  //   })[0];
+  const id = ownProps.match.params.id;
 
-  //   const trainerProfile = state.firestore.ordered.trainers.filter(trainer => {
-  //     return trainer.id === id;
-  //   })[0];
+  const users = state.firestore.data.users;
+  const trainers = state.firestore.data.trainers;
 
-  //   console.log(userProfile, trainerProfile);
-  //   const data = userProfile ? userProfile : trainerProfile;
+  const profiles = { ...users, ...trainers };
 
-  //   return data;
-  // };
-
-  console.log(state);
-  // const id = parseInt(ownProps.match.params.id);
-  console.log(state);
+  const profile = profiles ? profiles[id] : null;
 
   return {
-    profile: state.firestore.ordered.users,
+    profile,
 
     trainers: state.firestore.ordered.trainers
   };

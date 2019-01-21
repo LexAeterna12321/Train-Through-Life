@@ -73,7 +73,20 @@ class TrainingDetail extends Component {
     totalCost -= cost;
     duration -= 30;
 
-    calculateTotalTrainingCost(totalCost);
+    //////////////////////////////////
+    // calculateTotalTrainingCost(totalCost);
+
+    //  !!! ten componentDidMount może się przydać, żeby wartosci wracały na swoje miejsce po dodaniu zamówienia
+
+    // componentDidMount() {
+    //   const { title, item1, item2 } = this.props.treasure;
+    //   this.setState({
+    //     title: title,
+    //     item1: item1,
+    //     item2: item2
+    //   });
+    // }
+    /////////////////////////////////////
 
     const newOrderedClasses = {
       ...orderedClasses,

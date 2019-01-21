@@ -27,13 +27,12 @@ class SignIn extends Component {
 
     const userMatched = profiles
       ? profiles.find(profile => {
-          console.log("users", profile);
           return (
             userEmail === profile.email && userPassword === profile.password
           );
         })
       : null;
-    console.log("usm", userMatched);
+
     if (!userMatched) return;
     // matching if user is logging through user signIn and if trainer is logging through trainer signIn
     if (
