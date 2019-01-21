@@ -75,10 +75,8 @@ const mapStateToProps = (state, ownProps) => {
   //   return data;
   // };
 
-  // !!! wprowadzić asynchroniczność w kod
-
   console.log(state);
-  const id = parseInt(ownProps.match.params.id);
+  // const id = parseInt(ownProps.match.params.id);
   console.log(state);
 
   return {

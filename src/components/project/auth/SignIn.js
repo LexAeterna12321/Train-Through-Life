@@ -17,21 +17,37 @@ class SignIn extends Component {
   onFormSubmit = e => {
     e.preventDefault();
 
+    // avoids invalid users  sprawdzić!!!
+
     const userEmail = this.state.email;
     const userPassword = this.state.password;
 
-    const userMatched = this.props.users.find(user => {
-      return userEmail === user.email && userPassword === user.password;
-    });
+    // combined arrays of users and trainers
+    const profiles = [...this.props.users, ...this.props.trainers];
 
-    console.log(userMatched);
-
-    if (userMatched) {
+    const userMatched = profiles
+      ? profiles.find(profile => {
+          console.log("users", profile);
+          return (
+            userEmail === profile.email && userPassword === profile.password
+          );
+        })
+      : null;
+    console.log("usm", userMatched);
+    if (!userMatched) return;
+    // matching if user is logging through user signIn and if trainer is logging through trainer signIn
+    if (
+      (userMatched.trainer && this.props.match.path === "/signintrainer") ||
+      (userMatched.user && this.props.match.path === "/signinuser")
+    ) {
       const id = userMatched.id;
       this.props.history.push(`/dashboard/${id}`);
     } else {
-      return console.log("Brak usera w bazie");
+      return console.log(
+        "Brak usera w bazie, lub user loguje się jako trener lub odwrotnie"
+      );
     }
+    this.setState({ email: "", password: "" });
   };
 
   render() {
@@ -108,12 +124,21 @@ const bgStyle = {
 };
 
 const mapStateToProps = state => {
-  console.log(state);
-  // return { users: state.users.users };
-  return { users: state.firestore.ordered.users };
+  const trainers = state.firestore.ordered.trainers;
+  const users = state.firestore.ordered.users;
+
+  return {
+    users,
+    trainers
+  };
 };
 
 export default compose(
   connect(mapStateToProps),
-  firestoreConnect([{ collection: "users" }])
+  firestoreConnect([
+    // check this line
+    // { collection: "users", subCollections: [{ collection: "trainers" }] }
+    { collection: "users" },
+    { collection: "trainers" }
+  ])
 )(SignIn);
