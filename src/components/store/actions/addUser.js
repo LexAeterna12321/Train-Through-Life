@@ -23,17 +23,5 @@ export default user => {
       .catch(err => {
         dispatch({ type: ADD_USER_ERROR, err });
       });
-    // console.log(user);
-    // if (user.user) {
-    //   dispatch({
-    //     type: ADD_USER,
-    //     user
-    //   });
-    // } else if (user.trainer) {
-    //   dispatch({
-    //     type: ADD_TRAINER,
-    //     user
-    //   });
-    // }
   };
 };

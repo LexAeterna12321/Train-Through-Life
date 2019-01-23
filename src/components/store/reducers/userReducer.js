@@ -1,5 +1,9 @@
-import { ADD_USER } from "../types";
-import { ADD_TRAINER } from "../types";
+import {
+  ADD_TRAINER,
+  ADD_USER,
+  EDIT_PROFILE,
+  EDIT_PROFILE_ERROR
+} from "../types";
 
 const initState = {
   users: [
@@ -88,6 +92,14 @@ export default (state = initState, action) => {
       const trainers = [...state.trainers, user];
       console.log(trainers);
       return { ...state, trainers };
+
+    case EDIT_PROFILE:
+      console.log("update profilu");
+      console.log(action);
+      return state;
+    case EDIT_PROFILE_ERROR:
+      console.log("error w update profilu");
+      return state;
     default:
       console.log(" nie dodano usera, ani trenera");
       return state;

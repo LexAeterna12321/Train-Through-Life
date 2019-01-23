@@ -17,8 +17,6 @@ class SignIn extends Component {
   onFormSubmit = e => {
     e.preventDefault();
 
-    // avoids invalid users  sprawdzić!!!
-
     const userEmail = this.state.email;
     const userPassword = this.state.password;
 

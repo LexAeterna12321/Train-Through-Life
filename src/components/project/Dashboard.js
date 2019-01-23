@@ -34,7 +34,7 @@ class Dashboard extends Component {
   };
 
   render() {
-    const { trainers, profile } = this.props;
+    const { trainers, profile, profileId } = this.props;
     console.log(profile);
     if (!trainers) {
       return <div>Ładowanie...</div>;
@@ -42,7 +42,7 @@ class Dashboard extends Component {
       return (
         <div className="container" style={dashboardContainerStyle}>
           <div className="row">
-            <Profile profile={profile} />
+            <Profile profile={profile} profileId={profileId} />
             <Notifications />
             <TrainerList trainers={trainers} />
           </div>
@@ -69,7 +69,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     profile,
-
+    profileId: id,
     trainers: state.firestore.ordered.trainers
   };
 };

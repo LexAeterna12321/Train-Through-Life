@@ -4,13 +4,15 @@ import { Link } from "react-router-dom";
 class Profile extends Component {
   render() {
     if (this.props.profile) {
-      const { first_name, last_name, city } = this.props.profile;
-      console.log(this.props);
+      const { first_name, last_name, city, photo } = this.props.profile;
+      const { profileId } = this.props;
+
       return (
         <div className="card col s12 m8 l3 offset-m2 ">
           <div className="avatar-photo" style={avatarContainer}>
             <img
-              src="/img/avatar.png"
+              // default photo if no photo provided
+              src={!photo ? "/img/avatar.png" : photo}
               className="circle center"
               alt="profile avatar"
               style={avatarStyle}
@@ -31,7 +33,7 @@ class Profile extends Component {
             <Link to="/">
               <h6 style={profileSectionsStyle}>Historia Treningów</h6>
             </Link>
-            <Link to="/">
+            <Link to={`/editprofile/${profileId}`}>
               <h6 style={profileSectionsStyle}>Edytuj Profil</h6>
             </Link>
           </div>

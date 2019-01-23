@@ -13,6 +13,7 @@ const Navbar = () => {
             <NavLink to="/">Start</NavLink>
           </li>
           <li>
+            {/* zaktualizować widoczność Home Page tylko w przypadku zalogowanego użytkownika */}
             <NavLink to="/dashboard/id">Home Page</NavLink>
           </li>
           <li>
