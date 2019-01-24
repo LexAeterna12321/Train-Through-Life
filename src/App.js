@@ -23,7 +23,11 @@ class App extends Component {
             <Route exact path="/signinuser" component={SignIn} />
             <Route exact path="/signintrainer" component={SignIn} />
             <Route exact path="/dashboard/:id" component={Dashboard} />
-            <Route exact path="/addtraining" component={TrainingList} />
+            <Route
+              exact
+              path="/addtraining/:trainerid"
+              component={TrainingList}
+            />
             <Route exact path="/editprofile/:id" component={EditProfile} />
           </Switch>
         </React.Fragment>

@@ -2,7 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const TrainerDetail = props => {
-  const { first_name, last_name, photo, description, classes } = props.trainer;
+  const {
+    first_name,
+    last_name,
+    photo,
+    description,
+    classes,
+    id
+  } = props.trainer;
   const randClassTypeId = () => Math.random();
 
   return (
@@ -14,7 +21,7 @@ const TrainerDetail = props => {
             {first_name} {last_name}
           </span>
           <Link
-            to="/addTraining/:trainerId"
+            to={`/addTraining/${id}`}
             className="btn-floating halfway-fab waves-effect waves-light red right"
           >
             <i className="material-icons">alarm_add</i>

@@ -115,7 +115,7 @@ export class EditProfile extends Component {
                     id="photo"
                     type="file"
                     className="validate btn"
-                    value={photo}
+                    src={photo}
                     onChange={onInputChange}
 
                     //

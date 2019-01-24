@@ -11,6 +11,7 @@ class TrainingDetail extends Component {
 
   // wynieść totalCost wyżej żeby sumować kwoty z paru treningów
   // treningi też poziom wyżej w TrainingList najlepiej w tablicy. Potem mapowanie w zamówionych treningach
+  // może być problem z tym, że nie jest mapowany state, dlatego się resetuje wszystko po wywołaniu metody calculateTotalTrainingCost(totalCost);
   ////
 
   activateClasses = () => {
@@ -42,7 +43,7 @@ class TrainingDetail extends Component {
   incrementDuration = () => {
     const { cost } = this.props.trainerClasses;
     const { orderedClasses } = this.state;
-    const { calculateTotalTrainingCost } = this.props;
+
     if (!orderedClasses.name) return;
 
     let duration = orderedClasses.duration;
@@ -50,7 +51,6 @@ class TrainingDetail extends Component {
     totalCost += cost;
     duration += 30;
 
-    calculateTotalTrainingCost(totalCost);
     // constans + 30min incrementation.
 
     const newOrderedClasses = {
@@ -67,32 +67,17 @@ class TrainingDetail extends Component {
   decrementDuration = () => {
     const { cost } = this.props.trainerClasses;
     const { orderedClasses } = this.state;
-    const { calculateTotalTrainingCost } = this.props;
     let duration = orderedClasses.duration;
     let totalCost = orderedClasses.totalCost;
     totalCost -= cost;
     duration -= 30;
-
-    //////////////////////////////////
-    // calculateTotalTrainingCost(totalCost);
-
-    //  !!! ten componentDidMount może się przydać, żeby wartosci wracały na swoje miejsce po dodaniu zamówienia
-
-    // componentDidMount() {
-    //   const { title, item1, item2 } = this.props.treasure;
-    //   this.setState({
-    //     title: title,
-    //     item1: item1,
-    //     item2: item2
-    //   });
-    // }
-    /////////////////////////////////////
 
     const newOrderedClasses = {
       ...orderedClasses,
       duration,
       totalCost
     };
+
     this.setState({ orderedClasses: newOrderedClasses });
   };
 
@@ -100,7 +85,10 @@ class TrainingDetail extends Component {
 
   render() {
     const { trainerClasses } = this.props;
-    const { orderedClasses } = this.state;
+    const {
+      orderedClasses,
+      orderedClasses: { totalCost }
+    } = this.state;
 
     return (
       <tr style={centeringContent}>
@@ -173,8 +161,14 @@ class TrainingDetail extends Component {
         </td>
         <td>
           <button
-            className="btn"
-            onClick={() => this.props.passOrderedClasses(orderedClasses)}
+            className={`btn ${
+              orderedClasses.name && orderedClasses.duration > 0
+                ? ""
+                : "disabled"
+            }`}
+            onClick={() =>
+              this.props.passOrderedClasses(orderedClasses, totalCost)
+            }
           >
             Zatwierdź
           </button>

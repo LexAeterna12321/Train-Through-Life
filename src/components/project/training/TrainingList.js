@@ -1,92 +1,110 @@
 import React, { Component } from "react";
 import TrainingDetail from "./TrainingDetail";
-import { Link } from "react-router-dom";
 import addTraining from "../../store/actions/addTraining";
 import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
+
 class TrainingList extends Component {
-  // po podpięciu reduxa przekazać dane o treningu i koszcie usługi
   state = {
-    // classes: [{ name: "Crossfit", cost: 40 }, { name: "Cardio", cost: 30 }],
     totalCost: 0,
-    orderedClasses: ""
+    orderedClasses: []
   };
 
   randClassTypeId = () => Math.random();
 
-  calculateTotalTrainingCost = cost => {
-    let totalCost = this.state.totalCost;
-    totalCost += cost;
-    this.setState({ totalCost });
-  };
-
-  passOrderedClasses = orderedClasses => {
+  passOrderedClasses = (orderedClasses, totalCost) => {
     const updatedOrderedClasses = [
       ...this.state.orderedClasses,
       orderedClasses
     ];
-
+    console.log({ totalCost });
     this.setState({
-      orderedClasses: updatedOrderedClasses
+      orderedClasses: updatedOrderedClasses,
+      totalCost: this.state.totalCost + totalCost
     });
-    this.props.addTraining(orderedClasses);
   };
+
+  deleteClasses = (id, totalCost) => {
+    const updatedClasses = this.state.orderedClasses.filter((c, index) => {
+      return index !== id;
+    });
+    this.setState({
+      orderedClasses: [...updatedClasses],
+      totalCost: this.state.totalCost - totalCost
+    });
+  };
+
+  reserveTraining = () => {
+    console.log(this.state);
+    const training = this.state.orderedClasses;
+    training.trainingStatus = "pending";
+    this.props.addTraining(training);
+    this.props.history.goBack();
+  };
+
   render() {
-    const { totalCost } = this.state;
-    const { trainerClasses } = this.props;
-    const { passOrderedClasses } = this;
+    if (this.props.trainerClasses) {
+      const { totalCost } = this.state;
+      const { trainerClasses } = this.props;
+      const { passOrderedClasses, reserveTraining, deleteClasses } = this;
 
-    const { calculateTotalTrainingCost } = this;
+      return (
+        <div className="container">
+          <table>
+            <thead>
+              <tr style={centeringContent}>
+                <th>Typ aktywności</th>
+                <th>Czas Trwania</th>
+                <th>Cena (zł)</th>
+              </tr>
+            </thead>
 
-    return (
-      <div className="container">
-        <table>
-          <thead>
-            <tr style={centeringContent}>
-              <th>Typ aktywności</th>
-              <th>Czas Trwania</th>
-              <th>Cena (zł)</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {trainerClasses
-              ? trainerClasses.map(classType => {
-                  return (
-                    <TrainingDetail
-                      key={this.randClassTypeId()}
-                      trainerClasses={classType}
-                      passOrderedClasses={passOrderedClasses}
-                      calculateTotalTrainingCost={calculateTotalTrainingCost}
-                    />
-                  );
-                })
-              : null}
-          </tbody>
-        </table>
-        {this.state.orderedClasses ? (
-          <React.Fragment>
-            <div>
-              {this.state.orderedClasses.map(oc => (
-                <h6>
-                  Dodano {oc.name} w czasie: {oc.duration}min. Koszt -{" "}
-                  {oc.totalCost}
-                </h6>
-              ))}
-            </div>
-            <h6>Całkowity koszt treningu: {totalCost}</h6>
-            <Link
-              to="/dashboard"
-              className="btn"
-              onClick={() => {
-                this.props.addTraining(this.state.orderedClasses);
-              }}
-            >
-              Umów spotkanie
-            </Link>
-          </React.Fragment>
-        ) : null}
-      </div>
-    );
+            <tbody>
+              {trainerClasses
+                ? trainerClasses.map(classType => {
+                    return (
+                      <TrainingDetail
+                        key={this.randClassTypeId()}
+                        trainerClasses={classType}
+                        passOrderedClasses={passOrderedClasses}
+                      />
+                    );
+                  })
+                : null}
+            </tbody>
+          </table>
+          {this.state.orderedClasses ? (
+            <React.Fragment>
+              <div>
+                {this.state.orderedClasses.map((oc, id) => (
+                  <div key={this.randClassTypeId()}>
+                    <h6>
+                      Dodano {oc.name} w czasie: {oc.duration}min. Koszt -{" "}
+                      {oc.totalCost} zł
+                    </h6>
+                    <button
+                      className="btn"
+                      onClick={() => {
+                        deleteClasses(id, oc.totalCost);
+                      }}
+                    >
+                      Usuń
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <h6>Całkowity koszt treningu: {totalCost}</h6>
+              <button className="btn" onClick={reserveTraining}>
+                Umów spotkanie
+              </button>
+            </React.Fragment>
+          ) : null}
+        </div>
+      );
+    } else {
+      return <div>loading...</div>;
+    }
   }
 }
 
@@ -96,8 +114,14 @@ const centeringContent = {
   justifyContent: "space-between"
 };
 
-const mapStateToProps = state => {
-  return { trainerClasses: state.trainerClasses.trainerClasses };
+const mapStateToProps = (state, ownProps) => {
+  const trainerId = ownProps.match.params.trainerid;
+
+  const trainers = state.firestore.data.trainers;
+
+  const trainerClasses = trainers ? trainers[trainerId].classes : null;
+
+  return { trainerClasses };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -106,7 +130,10 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  firestoreConnect([{ collection: "trainers" }])
 )(TrainingList);

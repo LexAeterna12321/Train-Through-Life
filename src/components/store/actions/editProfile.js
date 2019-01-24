@@ -5,7 +5,10 @@ export const editProfile = (profile, id) => {
     // make async call to database
     const firestore = getFirestore();
 
-    const oldProfile = getState().firestore.data.users[id];
+    const oldProfile = getState().firestore.data.users[id]
+      ? getState().firestore.data.users[id]
+      : getState().firestore.data.trainers[id];
+
     const updatedProfile = { ...oldProfile, ...profile };
     console.log({ oldProfile, profile, id });
     firestore
