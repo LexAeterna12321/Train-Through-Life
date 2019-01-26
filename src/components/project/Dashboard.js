@@ -35,7 +35,6 @@ class Dashboard extends Component {
 
   render() {
     const { trainers, profile, profileId } = this.props;
-    console.log(profile);
     if (!trainers) {
       return <div>Ładowanie...</div>;
     } else {
@@ -44,7 +43,7 @@ class Dashboard extends Component {
           <div className="row">
             <Profile profile={profile} profileId={profileId} />
             <Notifications />
-            <TrainerList trainers={trainers} />
+            <TrainerList trainers={trainers} userId={profileId} />
           </div>
         </div>
       );

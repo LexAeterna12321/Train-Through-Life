@@ -25,7 +25,7 @@ class App extends Component {
             <Route exact path="/dashboard/:id" component={Dashboard} />
             <Route
               exact
-              path="/addtraining/:trainerid"
+              path="/addtraining/:trainerid/:userid"
               component={TrainingList}
             />
             <Route exact path="/editprofile/:id" component={EditProfile} />

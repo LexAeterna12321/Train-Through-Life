@@ -10,8 +10,11 @@ const TrainerDetail = props => {
     classes,
     id
   } = props.trainer;
+
+  const { userId } = props;
   const randClassTypeId = () => Math.random();
 
+  console.log(userId);
   return (
     <div className="col s12  center-align">
       <div className="card">
@@ -21,7 +24,7 @@ const TrainerDetail = props => {
             {first_name} {last_name}
           </span>
           <Link
-            to={`/addTraining/${id}`}
+            to={`/addTraining/${id}/${userId}`}
             className="btn-floating halfway-fab waves-effect waves-light red right"
           >
             <i className="material-icons">alarm_add</i>

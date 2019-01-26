@@ -18,7 +18,7 @@ class TrainingList extends Component {
       ...this.state.orderedClasses,
       orderedClasses
     ];
-    console.log({ totalCost });
+
     this.setState({
       orderedClasses: updatedOrderedClasses,
       totalCost: this.state.totalCost + totalCost
@@ -36,10 +36,18 @@ class TrainingList extends Component {
   };
 
   reserveTraining = () => {
-    console.log(this.state);
+    const { trainerid, userid } = this.props.match.params;
+
     const training = this.state.orderedClasses;
-    training.trainingStatus = "pending";
-    this.props.addTraining(training);
+
+    const info = {};
+    // adding trainer and user id to notification collection
+    info.trainerId = trainerid;
+    info.userId = userid;
+    // adding starting status
+    info.trainingStatus = "pending";
+
+    this.props.addTraining(training, info);
     this.props.history.goBack();
   };
 
@@ -126,7 +134,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addTraining: training => dispatch(addTraining(training))
+    addTraining: (training, info) => dispatch(addTraining(training, info))
   };
 };
 
