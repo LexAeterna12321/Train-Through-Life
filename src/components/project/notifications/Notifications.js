@@ -1,97 +1,52 @@
 import React, { Component } from "react";
 
+import Notification from "./Notification";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
+
 class Notifications extends Component {
   // przerobić notyfikacje z rozbiciem na pojedyńczy element. Trzy fazy umawiania spotkań akceptacja, oczekiwanie, anulowanie. W zależności od fazy różne style użyte w notyfikacji
   state = {
     notifications: []
   };
+
+  renderNotifications = () => {
+    const { profileId } = this.props;
+    console.log({ profileId });
+    return this.props.notifications.map(notification => {
+      console.log({ notification });
+      const { userId, trainerId } = notification.info;
+      if (userId === profileId || trainerId === profileId) {
+        return (
+          <Notification notification={notification} key={notification.id} />
+        );
+      }
+      return (
+        <p className="center">
+          Brak aktywności. Umów się z trenerem na spotkanie
+        </p>
+      );
+    });
+  };
+
   render() {
-    return (
-      <div className="card col s12 m8 l3 offset-m2 offset-l1">
-        <div className="card blue-grey darken-1">
-          <div className="card-content white-text">
-            <h5 className="card-title center" style={headerStyle}>
-              Twoje Ostatnie Aktywności
-            </h5>
-            <ul>
-              <li style={notificationStyle}>
-                <h5>Umówiono spotkanie z Claudio Ruiz!</h5>
-                <p>
-                  Status:{" "}
-                  <span style={trainingApprovedStyle}>"potwierdzone"</span>
-                  <i
-                    className="material-icons right"
-                    style={trainingApprovedStyle}
-                  >
-                    alarm_on
-                  </i>
-                </p>
-                <p>
-                  Data: <span style={trainingApprovedStyle}>20 maj 2019r</span>
-                </p>
-                <p>
-                  Typ zajęć: <span style={trainingApprovedStyle}>CrossFit</span>
-                </p>
-                <p>
-                  Koszt / Czas Trwania:{" "}
-                  <span style={trainingApprovedStyle}>75 zł / 2,5h</span>
-                </p>
-              </li>
-              <li style={notificationStyle}>
-                <h5>Wysłano ofertę spotkania z Claudio Ruiz!</h5>
-                <p>
-                  Status:{" "}
-                  <span style={trainingPendingStyle}>
-                    "czeka na potwierdzenie"
-                  </span>
-                  <i
-                    className="material-icons right"
-                    style={trainingPendingStyle}
-                  >
-                    alarm
-                  </i>
-                </p>
-                <p>
-                  Data: <span style={trainingPendingStyle}>20 maj 2019r</span>
-                </p>
-                <p>
-                  Typ zajęć: <span style={trainingPendingStyle}>CrossFit</span>
-                </p>
-                <p>
-                  Koszt / Czas Trwania:{" "}
-                  <span style={trainingPendingStyle}>75 zł / 2,5h</span>
-                </p>
-              </li>{" "}
-              <li style={notificationStyle}>
-                <h5>Odwołano spotkanie z Claudio Ruiz!</h5>
-                <p>
-                  Status:{" "}
-                  <span style={trainingCanceledStyle}>
-                    "anulowane przez trenera"
-                  </span>
-                  <i
-                    className="material-icons right"
-                    style={trainingCanceledStyle}
-                  >
-                    alarm_off
-                  </i>
-                </p>
-                <p>
-                  Data: <span style={trainingCanceledStyle}>20 maj 2019r</span>
-                </p>
-                <p>
-                  Typ zajęć: <span style={trainingCanceledStyle}>CrossFit</span>
-                </p>
-                <p>
-                  Koszt / Czas Trwania:{" "}
-                  <span style={trainingCanceledStyle}>75 zł / 2,5h</span>
-                </p>
-              </li>
-            </ul>
+    if (this.props.notifications) {
+      return (
+        <div className="card col s12 m8 l3 offset-m2 offset-l1">
+          <div className="card blue-grey darken-1">
+            <div className="card-content white-text">
+              <h5 className="card-title center" style={headerStyle}>
+                Twoje Ostatnie Aktywności
+              </h5>
+              <ul>{this.renderNotifications()}</ul>
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return null;
+    }
   }
 }
 const headerStyle = { margin: "10px 0" };
@@ -114,4 +69,15 @@ const trainingCanceledStyle = {
   color: "#FF5252"
 };
 
-export default Notifications;
+const mapStateToProps = (state, ownProps) => {
+  console.log(state, ownProps);
+  const notifications = state.firestore.ordered.notifications;
+  return {
+    notifications
+  };
+};
+
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([{ collection: "notifications" }])
+)(Notifications);

@@ -42,7 +42,7 @@ class Dashboard extends Component {
         <div className="container" style={dashboardContainerStyle}>
           <div className="row">
             <Profile profile={profile} profileId={profileId} />
-            <Notifications />
+            <Notifications profileId={profileId} />
             <TrainerList trainers={trainers} userId={profileId} />
           </div>
         </div>

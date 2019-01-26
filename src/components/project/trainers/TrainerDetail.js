@@ -14,7 +14,6 @@ const TrainerDetail = props => {
   const { userId } = props;
   const randClassTypeId = () => Math.random();
 
-  console.log(userId);
   return (
     <div className="col s12  center-align">
       <div className="card">
