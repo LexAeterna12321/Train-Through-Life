@@ -2,41 +2,17 @@ import React, { Component } from "react";
 import Profile from "./profile/Profile";
 import Notifications from "./notifications/Notifications";
 import TrainerList from "./trainers/TrainerList";
+import Loader from "./Loader";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 
 class Dashboard extends Component {
-  state = {
-    // trainers: [
-    //   {
-    //     trainerId: 1,
-    //     first_name: "Claudio ",
-    //     last_name: "Ruiz",
-    //     description:
-    //       "Cześć jestem Claudio ! Jestem trenerem personalnym od 7 lat. Zajmuję się profesjonalnym treningiem cardio oraz CrossFit. Dużą wagę przywiązuję do jakości przeprowadzanych zajęć, co pozytywnie przekłada się na zainteresowanie ćwiczących.",
-    //     photo:
-    //       "https://images.pexels.com/photos/733500/pexels-photo-733500.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-    //     // classes: ["Cardio", "Cross-Fit"],
-    //     classes: [{ type: "Cardio", cost: 30 }, { type: "CrossFit", cost: 50 }]
-    //   },
-    //   {
-    //     trainerId: 2,
-    //     first_name: "Claudio ",
-    //     last_name: "Ruiz",
-    //     description:
-    //       "Cześć jestem Claudio ! Jestem trenerem personalnym od 7 lat. Zajmuję się profesjonalnym treningiem cardio oraz CrossFit. Dużą wagę przywiązuję do jakości przeprowadzanych zajęć, co pozytywnie przekłada się na zainteresowanie ćwiczących.",
-    //     photo:
-    //       "https://images.pexels.com/photos/733500/pexels-photo-733500.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-    //     classes: [{ type: "Cardio", cost: 30 }, { type: "CrossFit", cost: 50 }]
-    //   }
-    // ]
-  };
-
   render() {
-    const { trainers, profile, profileId } = this.props;
-    if (!trainers) {
-      return <div>Ładowanie...</div>;
+    const { trainers, profile, profileId, notifications } = this.props;
+
+    if (!trainers || !profile || !profileId || !notifications) {
+      return <Loader />;
     } else {
       return (
         <div className="container" style={dashboardContainerStyle}>
@@ -58,22 +34,26 @@ const dashboardContainerStyle = {
 
 const mapStateToProps = (state, ownProps) => {
   const id = ownProps.match.params.id;
-
   const users = state.firestore.data.users;
   const trainers = state.firestore.data.trainers;
-
+  const notifications = state.firestore.data.notifications;
   const profiles = { ...users, ...trainers };
-
+  console.log({ notifications });
   const profile = profiles ? profiles[id] : null;
 
   return {
     profile,
     profileId: id,
-    trainers: state.firestore.ordered.trainers
+    trainers: state.firestore.ordered.trainers,
+    notifications
   };
 };
 
 export default compose(
   connect(mapStateToProps),
-  firestoreConnect([{ collection: "users" }, { collection: "trainers" }])
+  firestoreConnect([
+    { collection: "users" },
+    { collection: "trainers" },
+    { collection: "notifications" }
+  ])
 )(Dashboard);

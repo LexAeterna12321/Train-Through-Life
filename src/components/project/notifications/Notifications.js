@@ -19,14 +19,14 @@ class Notifications extends Component {
       const { userId, trainerId } = notification.info;
       if (userId === profileId || trainerId === profileId) {
         return (
-          <Notification notification={notification} key={notification.id} />
+          <Notification
+            notification={notification}
+            key={notification.id}
+            profileId={profileId}
+          />
         );
       }
-      return (
-        <p className="center">
-          Brak aktywności. Umów się z trenerem na spotkanie
-        </p>
-      );
+      return null;
     });
   };
 
@@ -50,24 +50,6 @@ class Notifications extends Component {
   }
 }
 const headerStyle = { margin: "10px 0" };
-
-const notificationStyle = {
-  border: "2px solid gray",
-  padding: "15px",
-  margin: "10px 0"
-};
-
-const trainingApprovedStyle = {
-  color: "#33ca9a"
-};
-
-const trainingPendingStyle = {
-  color: "#f1c40f"
-};
-
-const trainingCanceledStyle = {
-  color: "#FF5252"
-};
 
 const mapStateToProps = (state, ownProps) => {
   console.log(state, ownProps);

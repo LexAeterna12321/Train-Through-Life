@@ -1,28 +1,124 @@
 import React from "react";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
 
 const Notification = props => {
-  console.log({ props });
-  return (
-    <li style={notificationStyle}>
-      <h5>Umówiono spotkanie z Claudio Ruiz!</h5>
-      <p>
-        Status: <span style={trainingApprovedStyle}>"potwierdzone"</span>
-        <i className="material-icons right" style={trainingApprovedStyle}>
-          alarm_on
-        </i>
-      </p>
-      <p>
-        Data: <span style={trainingApprovedStyle}>20 maj 2019r</span>
-      </p>
-      <p>
-        Typ zajęć: <span style={trainingApprovedStyle}>CrossFit</span>
-      </p>
-      <p>
-        Koszt / Czas Trwania:{" "}
-        <span style={trainingApprovedStyle}>75 zł / 2,5h</span>
-      </p>
-    </li>
-  );
+  const {
+    info: { trainingStatus },
+    training
+  } = props.notification;
+
+  const { first_name, last_name } = props;
+
+  const renderTrainingList = () => {
+    return training.map((t, index) => {
+      return <span key={index}>{t.name}, </span>;
+    });
+  };
+
+  const calculateTotalCost = () => {
+    let totalCost = training.map(t => t.totalCost);
+    return totalCost.reduce((a, b) => {
+      return a + b;
+    }, 0);
+  };
+
+  const calculateTotalDuration = () => {
+    let totalDuration = training.map(t => t.duration);
+    return totalDuration.reduce((a, b) => {
+      return a + b;
+    }, 0);
+  };
+
+  switch (trainingStatus) {
+    case "pending":
+      return (
+        <li style={notificationStyle}>
+          <h5>
+            Wysłano ofertę spotkania z {first_name} {last_name}
+          </h5>
+          <p>
+            Status:{" "}
+            <span style={trainingPendingStyle}>"czeka na potwierdzenie"</span>
+            <i className="material-icons right" style={trainingPendingStyle}>
+              alarm
+            </i>
+          </p>
+          <p>
+            Data: <span style={trainingPendingStyle}>20 maj 2019r</span>
+          </p>
+          <p>
+            Typ zajęć:{" "}
+            <span style={trainingPendingStyle}>{renderTrainingList()}</span>
+          </p>
+          <p>
+            Koszt / Czas Trwania:{" "}
+            <span style={trainingPendingStyle}>
+              {calculateTotalCost()} zł / {calculateTotalDuration()} min
+            </span>
+          </p>
+        </li>
+      );
+    case "approved":
+      return (
+        <li style={notificationStyle}>
+          <h5>
+            Umówiono spotkanie z {first_name} {last_name}
+          </h5>
+          <p>
+            Status: <span style={trainingApprovedStyle}>"potwierdzone"</span>
+            <i className="material-icons right" style={trainingApprovedStyle}>
+              alarm_on
+            </i>
+          </p>
+          <p>
+            Data: <span style={trainingApprovedStyle}>20 maj 2019r</span>
+          </p>
+          <p>
+            Typ zajęć:{" "}
+            <span style={trainingApprovedStyle}>{renderTrainingList()}</span>
+          </p>
+          <p>
+            Koszt / Czas Trwania:{" "}
+            <span style={trainingApprovedStyle}>
+              {calculateTotalCost()} zł / {calculateTotalDuration()} min
+            </span>
+          </p>
+        </li>
+      );
+    case "canceled":
+      return (
+        <li style={notificationStyle}>
+          <h5>
+            Odwołano spotkanie z {first_name} {last_name}
+          </h5>
+          <p>
+            Status:{" "}
+            <span style={trainingCanceledStyle}>"anulowane przez trenera"</span>
+            <i className="material-icons right" style={trainingCanceledStyle}>
+              alarm_off
+            </i>
+          </p>
+          <p>
+            Data: <span style={trainingCanceledStyle}>20 maj 2019r</span>
+          </p>
+          <p>
+            Typ zajęć:{" "}
+            <span style={trainingCanceledStyle}>{renderTrainingList()}</span>
+          </p>
+          <p>
+            Koszt / Czas Trwania:{" "}
+            <span style={trainingCanceledStyle}>
+              {calculateTotalCost()} zł / {calculateTotalDuration()} min
+            </span>
+          </p>
+        </li>
+      );
+
+    default:
+      return <div>Loading...</div>;
+  }
 };
 
 const notificationStyle = {
@@ -42,81 +138,27 @@ const trainingPendingStyle = {
 const trainingCanceledStyle = {
   color: "#FF5252"
 };
+const mapStateToProps = (state, ownProps) => {
+  console.log({ ownProps, state });
+  if (state.firestore.data.trainers[ownProps.profileId]) {
+    const userId = ownProps.notification.info.userId;
+    const first_name = state.firestore.data.users[userId].first_name;
+    const last_name = state.firestore.data.users[userId].last_name;
 
-export default Notification;
+    return { first_name, last_name };
+  } else if (state.firestore.data.users[ownProps.profileId]) {
+    const trainerId = ownProps.notification.info.trainerId;
+    const first_name = state.firestore.data.trainers[trainerId].first_name;
+    const last_name = state.firestore.data.trainers[trainerId].last_name;
+    return { first_name, last_name };
+  }
+};
 
-{
-  /* <li style={notificationStyle}>
-                <h5>Umówiono spotkanie z Claudio Ruiz!</h5>
-                <p>
-                  Status:{" "}
-                  <span style={trainingApprovedStyle}>"potwierdzone"</span>
-                  <i
-                    className="material-icons right"
-                    style={trainingApprovedStyle}
-                  >
-                    alarm_on
-                  </i>
-                </p>
-                <p>
-                  Data: <span style={trainingApprovedStyle}>20 maj 2019r</span>
-                </p>
-                <p>
-                  Typ zajęć: <span style={trainingApprovedStyle}>CrossFit</span>
-                </p>
-                <p>
-                  Koszt / Czas Trwania:{" "}
-                  <span style={trainingApprovedStyle}>75 zł / 2,5h</span>
-                </p>
-              </li>
-              <li style={notificationStyle}>
-                <h5>Wysłano ofertę spotkania z Claudio Ruiz!</h5>
-                <p>
-                  Status:{" "}
-                  <span style={trainingPendingStyle}>
-                    "czeka na potwierdzenie"
-                  </span>
-                  <i
-                    className="material-icons right"
-                    style={trainingPendingStyle}
-                  >
-                    alarm
-                  </i>
-                </p>
-                <p>
-                  Data: <span style={trainingPendingStyle}>20 maj 2019r</span>
-                </p>
-                <p>
-                  Typ zajęć: <span style={trainingPendingStyle}>CrossFit</span>
-                </p>
-                <p>
-                  Koszt / Czas Trwania:{" "}
-                  <span style={trainingPendingStyle}>75 zł / 2,5h</span>
-                </p>
-              </li>{" "}
-              <li style={notificationStyle}>
-                <h5>Odwołano spotkanie z Claudio Ruiz!</h5>
-                <p>
-                  Status:{" "}
-                  <span style={trainingCanceledStyle}>
-                    "anulowane przez trenera"
-                  </span>
-                  <i
-                    className="material-icons right"
-                    style={trainingCanceledStyle}
-                  >
-                    alarm_off
-                  </i>
-                </p>
-                <p>
-                  Data: <span style={trainingCanceledStyle}>20 maj 2019r</span>
-                </p>
-                <p>
-                  Typ zajęć: <span style={trainingCanceledStyle}>CrossFit</span>
-                </p>
-                <p>
-                  Koszt / Czas Trwania:{" "}
-                  <span style={trainingCanceledStyle}>75 zł / 2,5h</span>
-                </p>
-              </li> */
-}
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([
+    { collection: "users" },
+    { collection: "trainers" },
+    { collection: "notifications" }
+  ])
+)(Notification);
