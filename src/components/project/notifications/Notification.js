@@ -5,7 +5,7 @@ import { firestoreConnect } from "react-redux-firebase";
 
 const Notification = props => {
   const {
-    info: { trainingStatus },
+    info: { trainingStatus, date, time },
     training
   } = props.notification;
 
@@ -46,7 +46,10 @@ const Notification = props => {
             </i>
           </p>
           <p>
-            Data: <span style={trainingPendingStyle}>20 maj 2019r</span>
+            Data:{" "}
+            <span style={trainingPendingStyle}>
+              {time} / {date}
+            </span>
           </p>
           <p>
             Typ zajęć:{" "}
@@ -73,7 +76,10 @@ const Notification = props => {
             </i>
           </p>
           <p>
-            Data: <span style={trainingApprovedStyle}>20 maj 2019r</span>
+            Data:{" "}
+            <span style={trainingApprovedStyle}>
+              {time} / {date}
+            </span>
           </p>
           <p>
             Typ zajęć:{" "}
@@ -101,7 +107,10 @@ const Notification = props => {
             </i>
           </p>
           <p>
-            Data: <span style={trainingCanceledStyle}>20 maj 2019r</span>
+            Data:{" "}
+            <span style={trainingCanceledStyle}>
+              {time} / {date}
+            </span>
           </p>
           <p>
             Typ zajęć:{" "}
@@ -139,7 +148,6 @@ const trainingCanceledStyle = {
   color: "#FF5252"
 };
 const mapStateToProps = (state, ownProps) => {
-  console.log({ ownProps, state });
   if (state.firestore.data.trainers[ownProps.profileId]) {
     const userId = ownProps.notification.info.userId;
     const first_name = state.firestore.data.users[userId].first_name;

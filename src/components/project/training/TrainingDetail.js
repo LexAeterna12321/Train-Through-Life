@@ -5,14 +5,13 @@ class TrainingDetail extends Component {
     super(props);
     this.classesRef = React.createRef();
     this.state = {
-      orderedClasses: { name: "", duration: 0, totalCost: 0 }
+      orderedClasses: {
+        name: "",
+        duration: 0,
+        totalCost: 0
+      }
     };
   }
-
-  // wynieść totalCost wyżej żeby sumować kwoty z paru treningów
-  // treningi też poziom wyżej w TrainingList najlepiej w tablicy. Potem mapowanie w zamówionych treningach
-  // może być problem z tym, że nie jest mapowany state, dlatego się resetuje wszystko po wywołaniu metody calculateTotalTrainingCost(totalCost);
-  ////
 
   activateClasses = () => {
     const ref = this.classesRef.current;

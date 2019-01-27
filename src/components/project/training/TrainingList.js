@@ -4,15 +4,24 @@ import addTraining from "../../store/actions/addTraining";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
+import DatePicker from "./DatePicker";
 
 class TrainingList extends Component {
   state = {
     totalCost: 0,
-    orderedClasses: []
+    orderedClasses: [],
+    date: "",
+    time: "",
+    description: ""
+  };
+
+  setTrainingDate = e => {
+    this.setState({ [e.target.id]: e.target.value });
   };
 
   randClassTypeId = () => Math.random();
 
+  // passing data from lower components
   passOrderedClasses = (orderedClasses, totalCost) => {
     const updatedOrderedClasses = [
       ...this.state.orderedClasses,
@@ -35,6 +44,7 @@ class TrainingList extends Component {
     });
   };
 
+  // sends data to database in notification collection
   reserveTraining = () => {
     const { trainerid, userid } = this.props.match.params;
 
@@ -46,6 +56,11 @@ class TrainingList extends Component {
     info.userId = userid;
     // adding starting status
     info.trainingStatus = "pending";
+    // date and time of training
+    info.date = this.state.date;
+    info.time = this.state.time;
+    // additional info for trainer
+    info.description = this.state.description;
 
     this.props.addTraining(training, info);
     this.props.history.goBack();
@@ -53,9 +68,14 @@ class TrainingList extends Component {
 
   render() {
     if (this.props.trainerClasses) {
-      const { totalCost } = this.state;
+      const { totalCost, orderedClasses, date, time, description } = this.state;
       const { trainerClasses } = this.props;
-      const { passOrderedClasses, reserveTraining, deleteClasses } = this;
+      const {
+        passOrderedClasses,
+        reserveTraining,
+        deleteClasses,
+        setTrainingDate
+      } = this;
 
       return (
         <div className="container">
@@ -103,15 +123,41 @@ class TrainingList extends Component {
                 ))}
               </div>
               <h6>Całkowity koszt treningu: {totalCost}</h6>
-              <button className="btn" onClick={reserveTraining}>
+              {/* datePicker */}
+              {this.state.orderedClasses.length > 0 ? (
+                <DatePicker
+                  setTrainingDate={setTrainingDate}
+                  date={date}
+                  time={time}
+                  description={description}
+                />
+              ) : (
+                ""
+              )}
+              {/*  */}
+              <button
+                className={
+                  orderedClasses.length !== 0 &&
+                  date !== "" &&
+                  time !== "" &&
+                  description !== ""
+                    ? "btn"
+                    : "btn disabled"
+                }
+                onClick={reserveTraining}
+              >
                 Umów spotkanie
-              </button>
+              </button>{" "}
             </React.Fragment>
           ) : null}
         </div>
       );
     } else {
-      return <div>loading...</div>;
+      return (
+        <div className="center valign-center flow-text">
+          Trener nie dodał jeszcze żadnych zajęć do swojej oferty treningowej.
+        </div>
+      );
     }
   }
 }
