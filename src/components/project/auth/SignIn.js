@@ -50,7 +50,6 @@ class SignIn extends Component {
   };
 
   render() {
-    console.log(this.props);
     const { email, password } = this.state;
     const { path } = this.props.match;
     const { authError } = this.props;
@@ -124,7 +123,6 @@ const bgStyle = {
 };
 
 const mapStateToProps = state => {
-  console.log(state);
   const trainers = state.firestore.ordered.trainers;
   const users = state.firestore.ordered.users;
   const authError = state.auth.authError;

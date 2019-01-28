@@ -1,5 +1,6 @@
 import React from "react";
 import Footer from "./Footer";
+import { Link } from "react-router-dom";
 const About = () => {
   return (
     <div className="container">
@@ -35,6 +36,9 @@ const About = () => {
                     ulubionym trenerem personalnym.
                   </p>
                 </div>
+                <Link to="/" className="btn">
+                  Powrót do strony logowania
+                </Link>
               </div>
             </div>
           </div>

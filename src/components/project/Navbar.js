@@ -1,26 +1,28 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { signOut } from "../store/actions/auth";
-const Navbar = props => {
-  const signOut = () => {
-    props.signOut();
-    props.history.push("/");
-  };
-  console.log(props);
+import { Redirect } from "react-router-dom";
+const Navbar = ({ auth, signOut }) => {
+  if (!auth.uid) return <Redirect to="/" />;
+
   return (
     <nav>
       <div className="nav-wrapper teal lighten-1">
-        <NavLink to="/" className="brand-logo center truncate ">
+        <Link to="/" className="brand-logo center truncate ">
           TRAIN THROUGH LIFE
-        </NavLink>
+        </Link>
         <ul id="nav-mobile" className="right hide-on-med-and-down">
-          {!props.auth.isEmpty ? (
+          {!auth.isEmpty ? (
             <React.Fragment>
               <li>
-                <button className="btn" style={buttonsStyle}>
-                  Start
-                </button>
+                <Link
+                  className="btn"
+                  style={buttonsStyle}
+                  to={`/dashboard/${auth.uid}`}
+                >
+                  Panel Główny
+                </Link>
               </li>
               <li>
                 <button className="btn" style={buttonsStyle} onClick={signOut}>
@@ -30,12 +32,12 @@ const Navbar = props => {
             </React.Fragment>
           ) : null}
           <li>
-            <NavLink
+            <Link
               to="/about"
               className=" btn-floating waves-effect waves-light yellow darken-1"
             >
               <i className="material-icons">info</i>
-            </NavLink>
+            </Link>
           </li>
         </ul>
       </div>
@@ -53,7 +55,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 const mapStateToProps = state => {
-  console.log(state);
   return {
     auth: state.firebase.auth
   };

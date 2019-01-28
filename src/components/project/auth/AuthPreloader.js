@@ -14,6 +14,12 @@ const AuthPreloader = () => {
                 alt="training person"
               />
               <span className="card-title">Personal Training App</span>
+              <Link
+                to="/about"
+                className=" btn-floating halfway-fab waves-effect waves-light yellow darken-1"
+              >
+                <i className="material-icons">info</i>
+              </Link>
             </div>
             <div className="card-content" style={authPreloaderStyle}>
               <h5>Train how You like. Share Your Passion. Training is You.</h5>
