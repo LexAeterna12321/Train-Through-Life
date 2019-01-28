@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
+import { signIn } from "../../store/actions/auth";
 
 class SignIn extends Component {
   state = {
@@ -16,7 +16,9 @@ class SignIn extends Component {
 
   onFormSubmit = e => {
     e.preventDefault();
-
+    // login through firebase auth
+    this.props.signIn(this.state);
+    //
     const userEmail = this.state.email;
     const userPassword = this.state.password;
 
@@ -48,8 +50,10 @@ class SignIn extends Component {
   };
 
   render() {
+    console.log(this.props);
     const { email, password } = this.state;
     const { path } = this.props.match;
+    const { authError } = this.props;
     return (
       <div style={bgStyle}>
         <div className="container white-text">
@@ -65,7 +69,7 @@ class SignIn extends Component {
                   <input
                     id="email"
                     type="email"
-                    className="validate white-text"
+                    className=" white-text"
                     value={email}
                     onChange={this.onInputChange}
                     required
@@ -82,22 +86,21 @@ class SignIn extends Component {
                   <input
                     id="password"
                     type="text"
-                    className="validate white-text"
+                    className="white-text"
                     value={password}
                     onChange={this.onInputChange}
                     required
                   />
                   <label htmlFor="password">Password</label>
-                  <span
-                    className="helper-text white-text"
-                    data-error="Hasło nieprawidłowe. Podaj prawidłowe hasło."
-                    data-success="dobrze"
-                  />
+                  <span className="helper-text white-text" />
                 </div>
               </div>
               <button className="btn" type="submit">
                 Zaloguj
               </button>
+              {authError ? (
+                <h5 className="red-text text-darken-2 center">{authError}</h5>
+              ) : null}
             </form>
           </div>
         </div>
@@ -121,21 +124,29 @@ const bgStyle = {
 };
 
 const mapStateToProps = state => {
+  console.log(state);
   const trainers = state.firestore.ordered.trainers;
   const users = state.firestore.ordered.users;
+  const authError = state.auth.authError;
 
   return {
     users,
-    trainers
+    trainers,
+    authError
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    signIn: creds => dispatch(signIn(creds))
   };
 };
 
 export default compose(
-  connect(mapStateToProps),
-  firestoreConnect([
-    // check this line
-    // { collection: "users", subCollections: [{ collection: "trainers" }] }
-    { collection: "users" },
-    { collection: "trainers" }
-  ])
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+
+  firestoreConnect([{ collection: "users" }, { collection: "trainers" }])
 )(SignIn);
