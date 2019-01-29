@@ -9,6 +9,7 @@ import Dashboard from "./components/project/Dashboard";
 import TrainingList from "./components/project/training/TrainingList";
 import About from "./components/project/About";
 import EditProfile from "./components/project/profile/EditProfile";
+import EditTraining from "./components/project/training/EditTraining";
 
 class App extends Component {
   render() {
@@ -29,6 +30,11 @@ class App extends Component {
               component={TrainingList}
             />
             <Route exact path="/editprofile/:id" component={EditProfile} />
+            <Route
+              exact
+              path="/editTraining/:trainingId"
+              component={EditTraining}
+            />
           </Switch>
         </React.Fragment>
       </Router>

@@ -1,11 +1,19 @@
 export const ADD_TRAINING = "ADD_TRAINING";
 export const ADD_TRAINING_ERROR = "ADD_TRAINING_ERROR";
+
 export const ADD_USER = "ADD_USER";
 export const ADD_USER_ERROR = "ADD_USER_ERROR";
+
 export const ADD_TRAINER = "ADD_TRAINER";
+
 export const EDIT_PROFILE = "EDIT_PROFILE";
 export const EDIT_PROFILE_ERROR = "EDIT_PROFILE_ERROR";
+
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_ERROR = "LOGIN_ERROR";
+
 export const SIGNOUT_SUCCESS = "SIGNOUT_SUCCESS";
 export const SIGNOUT_ERROR = "SIGNOUT_ERROR";
+
+export const EDIT_TRAINING = "EDIT_TRAINING";
+export const EDIT_TRAINING_ERROR = "EDIT_TRAINING_ERROR";

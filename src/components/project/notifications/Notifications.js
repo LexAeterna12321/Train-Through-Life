@@ -12,14 +12,14 @@ class Notifications extends Component {
   };
 
   renderNotifications = () => {
-    const { profileId } = this.props;
-    console.log({ profileId });
+    const { profileId, profile } = this.props;
+
     return this.props.notifications.map(notification => {
-      console.log({ notification });
       const { userId, trainerId } = notification.info;
       if (userId === profileId || trainerId === profileId) {
         return (
           <Notification
+            profile={profile}
             notification={notification}
             key={notification.id}
             profileId={profileId}
@@ -32,8 +32,16 @@ class Notifications extends Component {
 
   render() {
     if (this.props.notifications) {
+      const { profile } = this.props;
       return (
-        <div className="card col s12 m8 l3 offset-m2 offset-l1">
+        // trainer/user dashboard view
+        <div
+          className={
+            profile.user
+              ? "card col s12 m8 l3 offset-m2 offset-l1"
+              : "card col s12 m6 offset-m1 l6 offset-l1  "
+          }
+        >
           <div className="card blue-grey darken-1">
             <div className="card-content white-text">
               <h5 className="card-title center" style={headerStyle}>

@@ -2,15 +2,18 @@ import React from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
+import { Link } from "react-router-dom";
 
 const Notification = props => {
   const {
     info: { trainingStatus, date, time },
-    training
+    training,
+    id
   } = props.notification;
 
-  const { first_name, last_name } = props;
+  const { first_name, last_name, profile } = props;
 
+  console.log({ props });
   const renderTrainingList = () => {
     return training.map((t, index) => {
       return <span key={index}>{t.name}, </span>;
@@ -36,7 +39,14 @@ const Notification = props => {
       return (
         <li style={notificationStyle}>
           <h5>
-            Wysłano ofertę spotkania z {first_name} {last_name}
+            {profile.trainer ? (
+              <Link to={`/editTraining/${id}`} style={linkStyle}>
+                {" "}
+                Wysłano ofertę spotkania z {first_name} {last_name}
+              </Link>
+            ) : (
+              `Wysłano ofertę spotkania z ${first_name} ${last_name}`
+            )}
           </h5>
           <p>
             Status:{" "}
@@ -128,6 +138,10 @@ const Notification = props => {
     default:
       return <div>Loading...</div>;
   }
+};
+
+const linkStyle = {
+  color: "#ffab40"
 };
 
 const notificationStyle = {

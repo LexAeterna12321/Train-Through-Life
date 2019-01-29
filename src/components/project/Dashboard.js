@@ -9,10 +9,9 @@ import { firestoreConnect } from "react-redux-firebase";
 
 class Dashboard extends Component {
   render() {
-    const { trainers, profile, profileId, notifications, auth } = this.props;
-    console.log({ auth });
+    const { trainers, profile, profileId, notifications } = this.props;
+    console.log({ profile, profileId });
 
-    // if (!auth.uid || auth.isEmpty) return <Redirect to="/" />;
     if (!trainers || !profile || !profileId || !notifications) {
       return <Loader />;
     } else {
@@ -20,8 +19,10 @@ class Dashboard extends Component {
         <div className="container" style={dashboardContainerStyle}>
           <div className="row">
             <Profile profile={profile} profileId={profileId} />
-            <Notifications profileId={profileId} />
-            <TrainerList trainers={trainers} userId={profileId} />
+            <Notifications profileId={profileId} profile={profile} />
+            {profile.user ? (
+              <TrainerList trainers={trainers} userId={profileId} />
+            ) : null}
           </div>
         </div>
       );

@@ -1,12 +1,11 @@
 import { combineReducers } from "redux";
-import trainingOrders from "./trainingOrders";
-
+import trainingReducer from "./trainingReducer";
 import userReducer from "./userReducer";
 import { firestoreReducer } from "redux-firestore";
 import { firebaseReducer } from "react-redux-firebase";
 import authReducer from "./authReducer";
 const combindedReducers = combineReducers({
-  trainingOrders,
+  trainingReducer,
   auth: authReducer,
   users: userReducer,
   firebase: firebaseReducer,

@@ -5,10 +5,16 @@ class Profile extends Component {
   render() {
     if (this.props.profile) {
       const { first_name, last_name, city, photo } = this.props.profile;
-      const { profileId } = this.props;
+      const { profileId, profile } = this.props;
 
       return (
-        <div className="card col s12 m8 l3 offset-m2 ">
+        <div
+          className={
+            profile.user
+              ? "card col s12 m8 l3 offset-m2 offset-l1"
+              : "card col s12 m4 offset-m1 l4 offset-l1 "
+          }
+        >
           <div className="avatar-photo" style={avatarContainer}>
             <img
               // default photo if no photo provided
@@ -40,7 +46,7 @@ class Profile extends Component {
         </div>
       );
     } else {
-      return <div>brak</div>;
+      return null;
     }
   }
 }
