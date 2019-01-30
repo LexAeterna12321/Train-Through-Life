@@ -42,7 +42,7 @@ const Notification = props => {
             {profile.trainer ? (
               <Link to={`/editTraining/${id}`} style={linkStyle}>
                 {" "}
-                Wysłano ofertę spotkania z {first_name} {last_name}
+                Otrzymano ofertę spotkania z {first_name} {last_name}
               </Link>
             ) : (
               `Wysłano ofertę spotkania z ${first_name} ${last_name}`

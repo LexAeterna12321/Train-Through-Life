@@ -16,8 +16,7 @@ class SignIn extends Component {
 
   onFormSubmit = e => {
     e.preventDefault();
-    // login through firebase auth
-    this.props.signIn(this.state);
+
     //
     const userEmail = this.state.email;
     const userPassword = this.state.password;
@@ -40,6 +39,8 @@ class SignIn extends Component {
       (userMatched.user && this.props.match.path === "/signinuser")
     ) {
       const id = userMatched.id;
+      // login through firebase auth
+      this.props.signIn(this.state);
       this.props.history.push(`/dashboard/${id}`);
     } else {
       return console.log(

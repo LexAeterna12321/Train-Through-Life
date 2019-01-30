@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
+import { Link } from "react-router-dom";
 import Loader from "../Loader";
 
 class EditTraining extends Component {
@@ -9,6 +10,31 @@ class EditTraining extends Component {
 
   onInputChange = e => {
     this.setState({ trainingStatus: [e.target.id] });
+  };
+
+  calculateTotalCost = () => {
+    const { training } = this.props.notification[0];
+    let totalCost = training.map(t => t.totalCost);
+    return totalCost.reduce((a, b) => {
+      return a + b;
+    }, 0);
+  };
+
+  randTrainingId = () => Math.random();
+
+  renderTrainingList = () => {
+    const { training } = this.props.notification[0];
+
+    console.log({ training });
+    return training.map(t => {
+      return (
+        <div key={this.randTrainingId()} style={trainingListStyle}>
+          <p>Nazwa Treningu: {t.name}</p>
+          <p>Czas Trwania Treningu: {t.duration}</p>
+          <p>Kwota Zapłaty Za Trening: {t.totalCost}</p>
+        </div>
+      );
+    });
   };
 
   // populate component with data, apply switch function to checkboxes, or try buttons. Migrate profiles to auth collection
@@ -44,36 +70,53 @@ class EditTraining extends Component {
 
     if (!notification) return <Loader />;
     else {
+      console.log(this.props);
+      const {
+        date,
+        time,
+        description,
+        trainerId
+      } = this.props.notification[0].info;
       return (
-        <div className="container">
-          <h3 className="center">Edytuj trening</h3>
-          <h6 className="center">
-            Trening wysłany od użytkownika {first_name} {last_name}
-          </h6>
-          <div className="row">
-            <form className="col s12">
-              <div className="row">
-                <div className="input-field col s6">
-                  <input
-                    placeholder="Placeholder"
-                    id="first_name"
-                    type="text"
-                    className="validate"
-                  />
-                  <label htmlFor="first_name">First Name</label>
-                </div>
-                <div className="input-field col s6">
-                  <input id="last_name" type="text" className="validate" />
-                  <label htmlFor="last_name">Last Name</label>
+        <div className="container center">
+          <h3 className="">Zarządzaj Treningiem</h3>
+
+          <div className="row ">
+            <div className="col s12 center">
+              <div className="card blue-grey darken-1">
+                <div className="card-content white-text">
+                  <h6 className="card-title">
+                    Trening wysłany od użytkownika {first_name} {last_name}
+                  </h6>
+                  <p>
+                    Proponowana Data Spotkania: {date} {time}
+                  </p>
+                  <div style={trainingListStyle}>
+                    Wiadomości Dodatkowe:
+                    <p>{description}</p>
+                  </div>
+                  {this.renderTrainingList()}
+                  <p
+                    className="green-text text-lighten-2 flow-text"
+                    style={trainingListStyle}
+                  >
+                    Kwota Za Proponowane Treningi: {this.calculateTotalCost()}
+                  </p>
                 </div>
                 <div className="input-field col s10 m6" style={checkboxesStyle}>
-                  <span>Wybierz swoją rolę:</span>
+                  <span>Wybierz akcję związaną z treningiem:</span>
                   {checkboxes}
                 </div>
               </div>
-              <button className="btn">Zatwierdź wybór</button>
-            </form>
+            </div>
           </div>
+          <Link to={`/dashboard/${trainerId}`} className="btn">
+            {" "}
+            Wróć do panelu głównego
+          </Link>
+          <Link to={`/dashboard/${trainerId}`} className="btn">
+            Zatwierdź wybór
+          </Link>
         </div>
       );
     }
@@ -85,6 +128,11 @@ const checkboxesStyle = {
   flexDirection: "column",
   alignItems: "flex-start",
   justifyContent: "center"
+};
+
+const trainingListStyle = {
+  padding: "15px 0",
+  textAlign: "left"
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -123,5 +171,5 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  firestoreConnect([{ collection: "notifications" }, { collection: "users" }])
+  firestoreConnect([{ collection: "users" }, { collection: "notifications" }])
 )(EditTraining);
