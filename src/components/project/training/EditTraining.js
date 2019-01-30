@@ -4,12 +4,37 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Link } from "react-router-dom";
 import Loader from "../Loader";
+import editTraining from "../../store/actions/editTraining";
 
 class EditTraining extends Component {
-  state = { trainingStatus: "approved" };
+  state = {
+    trainingStatus: "approved",
+    approvedChecked: true,
+    canceledChecked: false
+  };
 
   onInputChange = e => {
-    this.setState({ trainingStatus: [e.target.id] });
+    if (e.target.id === "approved") {
+      this.setState({
+        approvedChecked: true,
+        canceledChecked: false,
+        trainingStatus: e.target.id
+      });
+    } else if (e.target.id === "canceled") {
+      this.setState({
+        approvedChecked: false,
+        canceledChecked: true,
+        trainingStatus: e.target.id
+      });
+    }
+  };
+
+  resolveTraining = () => {
+    // id of notification to update through actionCreator
+    const trainingId = this.props.match.params.trainingId;
+    console.log(this.props);
+    console.log({ trainingId });
+    this.props.editTraining(this.state.trainingStatus, trainingId);
   };
 
   calculateTotalCost = () => {
@@ -37,9 +62,9 @@ class EditTraining extends Component {
     });
   };
 
-  // populate component with data, apply switch function to checkboxes, or try buttons. Migrate profiles to auth collection
   render() {
-    const checkboxes = (
+    console.log(this.state);
+    const checkboxes = () => (
       <React.Fragment>
         <p>
           <label className="left-align">
@@ -47,7 +72,7 @@ class EditTraining extends Component {
               id="approved"
               type="checkbox"
               onChange={this.onInputChange}
-              onClick={this.onInputChange}
+              checked={this.state.approvedChecked}
             />
             <span className="green-text">Potwierdź Trening</span>
           </label>
@@ -59,6 +84,7 @@ class EditTraining extends Component {
               id="canceled"
               type="checkbox"
               onChange={this.onInputChange}
+              checked={this.state.canceledChecked}
             />
             <span className="red-text">Anuluj Trening</span>
           </label>
@@ -105,16 +131,26 @@ class EditTraining extends Component {
                 </div>
                 <div className="input-field col s10 m6" style={checkboxesStyle}>
                   <span>Wybierz akcję związaną z treningiem:</span>
-                  {checkboxes}
+                  {checkboxes()}
                 </div>
               </div>
             </div>
           </div>
-          <Link to={`/dashboard/${trainerId}`} className="btn">
+
+          <Link
+            to={`/dashboard/${trainerId}`}
+            className="btn"
+            style={{ margin: "10px" }}
+          >
             {" "}
             Wróć do panelu głównego
           </Link>
-          <Link to={`/dashboard/${trainerId}`} className="btn">
+          <Link
+            onClick={this.resolveTraining}
+            to={`/dashboard/${trainerId}`}
+            className="btn"
+            style={{ margin: "10px" }}
+          >
             Zatwierdź wybór
           </Link>
         </div>
@@ -164,8 +200,12 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => {
-  // editTraining dodać
+  return {
+    editTraining: (trainingStatus, trainingId) =>
+      dispatch(editTraining(trainingStatus, trainingId))
+  };
 };
+
 export default compose(
   connect(
     mapStateToProps,

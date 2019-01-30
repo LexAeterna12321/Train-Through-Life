@@ -60,7 +60,6 @@ class Notifications extends Component {
 const headerStyle = { margin: "10px 0" };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(state, ownProps);
   const notifications = state.firestore.ordered.notifications;
   return {
     notifications

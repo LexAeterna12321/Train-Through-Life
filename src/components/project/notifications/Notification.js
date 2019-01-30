@@ -13,7 +13,6 @@ const Notification = props => {
 
   const { first_name, last_name, profile } = props;
 
-  console.log({ props });
   const renderTrainingList = () => {
     return training.map((t, index) => {
       return <span key={index}>{t.name}, </span>;

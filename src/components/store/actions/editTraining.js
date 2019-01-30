@@ -1,26 +1,37 @@
 import { EDIT_TRAINING, EDIT_TRAINING_ERROR } from "../types";
-import { get } from "https";
 
-export default (training, info) => {
+export default (trainingStatus, trainingId) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
-    const oldState = getState();
-    console.log(oldState);
-    firestore
-      .collection("notifications")
-      .set({
-        training,
-        info,
-        createdAd: new Date()
-      })
-      .then(() => {
-        dispatch({
-          type: EDIT_TRAINING,
-          training
+    console.log(getState());
+    console.log(trainingId);
+    if (trainingId) {
+      const oldTraining = getState().firestore.data.notifications[trainingId];
+
+      // training status update due to trainer action
+      const updatedInfo = { ...oldTraining.info, trainingStatus };
+
+      const updatedTraining = {
+        ...oldTraining,
+        info: updatedInfo
+      };
+
+      firestore
+        .collection("notifications")
+        .doc(trainingId)
+        .set({
+          ...updatedTraining,
+          createdAd: new Date()
+        })
+        .then(() => {
+          dispatch({
+            type: EDIT_TRAINING,
+            trainingStatus
+          });
+        })
+        .catch(err => {
+          dispatch({ type: EDIT_TRAINING_ERROR, err });
         });
-      })
-      .catch(err => {
-        dispatch({ type: EDIT_TRAINING_ERROR, err });
-      });
+    }
   };
 };
