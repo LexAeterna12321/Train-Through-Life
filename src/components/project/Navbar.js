@@ -12,7 +12,7 @@ const Navbar = ({ auth, signOut }) => {
         <Link to="/" className="brand-logo center truncate ">
           TRAIN THROUGH LIFE
         </Link>
-        <ul id="nav-mobile" className="right hide-on-med-and-down">
+        <ul className="right hide-on-med-and-down">
           {!auth.isEmpty ? (
             <React.Fragment>
               <li>
@@ -39,6 +39,47 @@ const Navbar = ({ auth, signOut }) => {
               <i className="material-icons">info</i>
             </Link>
           </li>
+        </ul>
+        <ul
+          className="right hide-on-large-only teal lighten-1"
+          style={{ width: "100%" }}
+        >
+          <br />
+          {!auth.isEmpty ? (
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <li>
+                <Link
+                  className="btn"
+                  style={(buttonsStyle, { padding: "0 5px" })}
+                  to={`/dashboard/${auth.uid}`}
+                >
+                  Panel Główny
+                </Link>
+              </li>
+              <li>
+                <button
+                  className="btn"
+                  style={(buttonsStyle, { padding: "0 5p" })}
+                  onClick={signOut}
+                >
+                  Wyloguj
+                </button>
+              </li>
+              <li>
+                <Link
+                  to="/about"
+                  className=" btn-floating waves-effect waves-light yellow darken-1"
+                >
+                  <i
+                    className="material-icons tiny"
+                    style={{ fontSize: "1.5rem" }}
+                  >
+                    info
+                  </i>
+                </Link>
+              </li>
+            </div>
+          ) : null}
         </ul>
       </div>
     </nav>

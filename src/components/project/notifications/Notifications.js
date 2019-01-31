@@ -11,10 +11,17 @@ class Notifications extends Component {
     notifications: []
   };
 
-  renderNotifications = () => {
-    const { profileId, profile } = this.props;
+  notificationLimit = 4;
 
-    return this.props.notifications.map(notification => {
+  renderNotifications = () => {
+    const { profileId, profile, notifications } = this.props;
+
+    // get last 3 notifications from the array
+    const notificationsSliced = notifications
+      ? notifications.slice(0, this.notificationLimit)
+      : notifications;
+
+    return notificationsSliced.map(notification => {
       const { userId, trainerId } = notification.info;
       if (userId === profileId || trainerId === profileId) {
         return (

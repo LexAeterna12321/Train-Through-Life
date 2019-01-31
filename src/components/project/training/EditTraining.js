@@ -126,7 +126,8 @@ class EditTraining extends Component {
                     className="green-text text-lighten-2 flow-text"
                     style={trainingListStyle}
                   >
-                    Kwota Za Proponowane Treningi: {this.calculateTotalCost()}
+                    Kwota Za Proponowane Treningi: {this.calculateTotalCost()}{" "}
+                    zł
                   </p>
                 </div>
                 <div className="input-field col s10 m6" style={checkboxesStyle}>

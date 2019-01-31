@@ -5,7 +5,7 @@ import SignUpStepTwo from "./signUpForm/SignUpStepTwo";
 import SignUpSummary from "./signUpForm/SignUpSummary";
 import FormSteps from "./signUpForm/FormSteps";
 import Buttons from "./signUpForm/Buttons";
-
+import { Link } from "react-router-dom";
 import addUser from "../../store/actions/addUser";
 import { connect } from "react-redux";
 
@@ -138,8 +138,12 @@ class SignUp extends Component {
       redirectToStep
     } = this;
     return (
-      <div className="container center-align">
+      <div className="container center-align" style={{ position: "relative" }}>
+        <Link to="/" className="btn z-depth-0" style={homeButtonStyle}>
+          <i className="small material-icons ">home</i>
+        </Link>
         <div className="row">
+          {" "}
           <FormSteps step={step} redirectToStep={redirectToStep} />
           {this.renderForm()}
           <Buttons
@@ -153,6 +157,13 @@ class SignUp extends Component {
     );
   }
 }
+
+const homeButtonStyle = {
+  position: "fixed",
+  top: "0",
+  right: "0",
+  zIndex: 1
+};
 
 const mapStateToProps = state => {
   return {
