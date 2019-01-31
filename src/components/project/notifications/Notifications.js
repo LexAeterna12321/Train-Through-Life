@@ -59,8 +59,18 @@ class Notifications extends Component {
 }
 const headerStyle = { margin: "10px 0" };
 
-const mapStateToProps = (state, ownProps) => {
-  const notifications = state.firestore.ordered.notifications;
+const mapStateToProps = state => {
+  let notifications = state.firestore.ordered.notifications;
+
+  // sort by timestamps
+  notifications = notifications.sort((a, b) => {
+    if (a.createdAt > b.createdAt) {
+      return -1;
+    } else {
+      return 1;
+    }
+  });
+
   return {
     notifications
   };
@@ -68,5 +78,10 @@ const mapStateToProps = (state, ownProps) => {
 
 export default compose(
   connect(mapStateToProps),
-  firestoreConnect([{ collection: "notifications" }])
+  firestoreConnect([
+    {
+      // orderBy: [["createdAt", "desc"]],
+      collection: "notifications"
+    }
+  ])
 )(Notifications);

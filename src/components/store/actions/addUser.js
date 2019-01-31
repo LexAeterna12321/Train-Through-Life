@@ -13,7 +13,7 @@ export default user => {
         return firestore
           .collection(user.user ? "users" : "trainers")
           .doc(resp.user.uid)
-          .set({ ...user, createdAd: new Date() })
+          .set({ ...user, createdAt: new Date() })
           .then(() => {
             if (user.user) {
               dispatch({

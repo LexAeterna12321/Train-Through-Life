@@ -8,7 +8,7 @@ export default (training, info) => {
       .add({
         training,
         info,
-        createdAd: new Date()
+        createdAt: new Date()
       })
       .then(() => {
         dispatch({

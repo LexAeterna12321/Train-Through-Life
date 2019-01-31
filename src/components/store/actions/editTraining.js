@@ -21,7 +21,7 @@ export default (trainingStatus, trainingId) => {
         .doc(trainingId)
         .set({
           ...updatedTraining,
-          createdAd: new Date()
+          createdAt: new Date()
         })
         .then(() => {
           dispatch({
