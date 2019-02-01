@@ -1,19 +1,13 @@
-import React, { Component } from "react";
+import React from "react";
 
-import Notification from "./Notification";
+import Notification from "../notifications/Notification";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 
-class Notifications extends Component {
-  state = {
-    notifications: []
-  };
-
-  notificationLimit = 4;
-
-  renderNotifications = () => {
-    const { profileId, profile, notifications, match } = this.props;
+const TrainingHistory = props => {
+  const renderNotifications = () => {
+    const { profileId, profile, notifications } = props;
 
     // filter to get right notifs
     const notificationsFiltered = [
@@ -29,9 +23,7 @@ class Notifications extends Component {
         } else {
           return 1;
         }
-      })
-      //  slice to limit of notifications in dashboard view
-      .slice(0, this.notificationLimit);
+      });
 
     return notificationsFiltered.map(notification => {
       return (
@@ -40,54 +32,58 @@ class Notifications extends Component {
           notification={notification}
           key={notification.id}
           profileId={profileId}
-          match={match}
         />
       );
     });
   };
 
-  render() {
-    if (this.props.notifications) {
-      const { profile } = this.props;
-      return (
-        // trainer/user dashboard view
-        <div
-          className={
-            profile.user
-              ? "card col s12 m8 l3 offset-m2 offset-l1"
-              : "card col s12 m6 offset-m1 l6 offset-l1  "
-          }
-        >
+  if (props.notifications) {
+    return (
+      <div className="container">
+        <div className="card col s12">
           <div className="card blue-grey darken-1">
             <div className="card-content white-text">
               <h5 className="card-title center" style={headerStyle}>
-                Twoje Ostatnie Aktywności
+                Historia Twoich Treningów
               </h5>
-              <ul>{this.renderNotifications()}</ul>
+              <ul>{renderNotifications()}</ul>
             </div>
           </div>
         </div>
-      );
-    } else {
-      return null;
-    }
+      </div>
+    );
+  } else {
+    return null;
   }
-}
+};
+
 const headerStyle = { margin: "10px 0" };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   let notifications = state.firestore.ordered.notifications;
 
+  const id = ownProps.match.params.profileId;
+  const users = state.firestore.data.users;
+  const trainers = state.firestore.data.trainers;
+
+  const profiles = { ...users, ...trainers };
+
+  const profile = profiles ? profiles[id] : null;
+
   return {
-    notifications
+    profile,
+    profileId: id,
+    trainers: state.firestore.ordered.trainers,
+    notifications,
+    auth: state.firebase.auth
   };
 };
 
 export default compose(
   connect(mapStateToProps),
   firestoreConnect([
-    {
-      collection: "notifications"
-    }
+    { collection: "users" },
+    { collection: "trainers" },
+    { collection: "notifications" }
   ])
-)(Notifications);
+)(TrainingHistory);

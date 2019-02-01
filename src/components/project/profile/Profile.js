@@ -36,7 +36,7 @@ class Profile extends Component {
             <Link to="/">
               <h6 style={profileSectionsStyle}>Moje Treningi</h6>
             </Link>
-            <Link to="/">
+            <Link to={`/traininghistory/${profileId}`}>
               <h6 style={profileSectionsStyle}>Historia Treningów</h6>
             </Link>
             <Link to={`/editprofile/${profileId}`}>

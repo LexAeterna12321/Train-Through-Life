@@ -10,6 +10,7 @@ import TrainingList from "./components/project/training/TrainingList";
 import About from "./components/project/About";
 import EditProfile from "./components/project/profile/EditProfile";
 import EditTraining from "./components/project/training/EditTraining";
+import TrainingHistory from "./components/project/profile/TrainingHistory";
 
 class App extends Component {
   render() {
@@ -34,6 +35,11 @@ class App extends Component {
               exact
               path="/editTraining/:trainingId"
               component={EditTraining}
+            />
+            <Route
+              exact
+              path="/traininghistory/:profileId"
+              component={TrainingHistory}
             />
           </Switch>
         </React.Fragment>

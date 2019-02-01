@@ -11,7 +11,7 @@ const Notification = props => {
     id
   } = props.notification;
 
-  const { first_name, last_name, profile } = props;
+  const { first_name, last_name, profile, match } = props;
 
   const renderTrainingList = () => {
     return training.map((t, index) => {
@@ -38,7 +38,8 @@ const Notification = props => {
       return (
         <li style={notificationStyle}>
           <h5>
-            {profile.trainer ? (
+            {/* creates links to training edition only in elements with passed match prop */}
+            {profile.trainer && match ? (
               <Link to={`/editTraining/${id}`} style={linkStyle}>
                 {" "}
                 Otrzymano ofertę spotkania z {first_name} {last_name}
