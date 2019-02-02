@@ -26,10 +26,13 @@ export default user => {
                 user
               });
             }
-          })
-          .catch(err => {
-            dispatch({ type: ADD_USER_ERROR, err });
           });
+      })
+      .catch(err => {
+        dispatch({
+          type: ADD_USER_ERROR,
+          authError: err.message
+        });
       });
   };
 };

@@ -1,8 +1,10 @@
 import React from "react";
 
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-const AuthPreloader = () => {
+const AuthPreloader = ({ authError }) => {
+  console.log({ authError });
   return (
     <div className="container center hoverable">
       <div className="row">
@@ -59,4 +61,9 @@ const authPreloaderStyle = {
   textTransform: "uppercase"
 };
 
-export default AuthPreloader;
+const mapStateToProps = state => {
+  return {
+    authError: state.users.authError
+  };
+};
+export default connect(mapStateToProps)(AuthPreloader);

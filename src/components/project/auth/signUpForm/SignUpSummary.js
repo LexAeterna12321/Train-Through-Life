@@ -44,6 +44,7 @@ class SignUpSummary extends Component {
     } = this.props;
 
     const { empty, fieldsToFill } = this.state;
+
     return (
       <form
         onSubmit={() => {
