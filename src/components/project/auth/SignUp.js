@@ -70,6 +70,13 @@ class SignUp extends Component {
     e.preventDefault();
 
     const { personData } = this.state;
+
+    for (let i in personData) {
+      if (i !== "photo" && (i !== "phone" && personData[i] === "")) return;
+    }
+
+    if (personData.password === "" || personData.password.length < 6) return;
+
     this.props.addUser(personData);
     this.props.history.push("/");
   };
@@ -166,6 +173,7 @@ const homeButtonStyle = {
 };
 
 const mapStateToProps = state => {
+  console.log({ state });
   return {
     users: state.users
   };

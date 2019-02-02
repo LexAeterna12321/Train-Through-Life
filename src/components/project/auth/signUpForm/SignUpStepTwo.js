@@ -49,7 +49,7 @@ const SignUpStepTwo = props => {
               value={password}
             />
             <label htmlFor="password" className="active">
-              Create Password
+              Hasło (conajmniej 6 znaków)
             </label>
           </div>
           <div className="input-field col s10 m6">
