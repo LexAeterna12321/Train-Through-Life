@@ -3,12 +3,13 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { Link } from "react-router-dom";
-
+import moment from "moment";
 const Notification = props => {
   const {
     info: { trainingStatus, date, time },
     training,
-    id
+    id,
+    createdAt
   } = props.notification;
 
   const { first_name, last_name, profile, match } = props;
@@ -32,6 +33,8 @@ const Notification = props => {
       return a + b;
     }, 0);
   };
+
+  const ViewAdditiontimer = () => moment(createdAt.toDate()).calendar();
 
   switch (trainingStatus) {
     case "pending":
@@ -71,6 +74,10 @@ const Notification = props => {
               {calculateTotalCost()} zł / {calculateTotalDuration()} min
             </span>
           </p>
+          <p className="grey-text text-lighten-1">
+            Dodano / Modyfikowano:{" "}
+            <span style={{ display: "block" }}>{ViewAdditiontimer()}</span>
+          </p>
         </li>
       );
     case "approved":
@@ -100,6 +107,10 @@ const Notification = props => {
             <span style={trainingApprovedStyle}>
               {calculateTotalCost()} zł / {calculateTotalDuration()} min
             </span>
+          </p>
+          <p className="grey-text text-lighten-1">
+            Dodano / Modyfikowano:{" "}
+            <span style={{ display: "block" }}>{ViewAdditiontimer()}</span>
           </p>
         </li>
       );
@@ -131,6 +142,10 @@ const Notification = props => {
             <span style={trainingCanceledStyle}>
               {calculateTotalCost()} zł / {calculateTotalDuration()} min
             </span>
+          </p>
+          <p className="grey-text text-lighten-1">
+            Dodano / Modyfikowano:{" "}
+            <span style={{ display: "block" }}>{ViewAdditiontimer()}</span>
           </p>
         </li>
       );
