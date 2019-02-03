@@ -24,7 +24,16 @@ const AuthPreloader = ({ authError }) => {
               </Link>
             </div>
             <div className="card-content" style={authPreloaderStyle}>
-              <h5>Train how You like. Share Your Passion. Training is You.</h5>
+              {authError ? (
+                <h5 className="red-text text-lighten-1">
+                  Podany adres email jest już używany przez innego użytkownika.
+                  Spróbuj zarejestrować się przy użyciu innego adresu email.
+                </h5>
+              ) : (
+                <h5>
+                  Train how You like. Share Your Passion. Training is You.
+                </h5>
+              )}
             </div>
             <div className="card-action">
               <div className="row">

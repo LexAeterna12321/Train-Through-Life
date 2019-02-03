@@ -18,7 +18,7 @@ const TrainerDetail = props => {
     <div className="col s12  center-align">
       <div className="card">
         <div className="card-image">
-          <img src={`${photo}`} alt="trainer-avatar" />
+          <img src={!photo ? "/img/avatar.png" : photo} alt="trainer-avatar" />
           <span className="card-title black-text" style={trainerNameStyle}>
             {first_name} {last_name}
           </span>

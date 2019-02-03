@@ -2,10 +2,40 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 class Profile extends Component {
+  renderProfileLinks = () => {
+    const { profileId, profile } = this.props;
+
+    return profile.user ? (
+      <div className="card-action">
+        <Link to={`/traininghistory/${profileId}`}>
+          <h6 style={profileSectionsStyle}>Historia Treningów</h6>
+        </Link>
+        <Link to={`/editprofile/${profileId}`}>
+          <h6 style={profileSectionsStyle}>Edytuj Profil</h6>
+        </Link>
+      </div>
+    ) : (
+      <div className="card-action">
+        <Link to={`/traininghistory/${profileId}`}>
+          <h6 style={profileSectionsStyle}>Historia Treningów</h6>
+        </Link>
+        <Link to={`/editprofile/${profileId}`}>
+          <h6 style={profileSectionsStyle}>Edytuj Profil</h6>
+        </Link>{" "}
+        <Link to={`/traininghistory/${profileId}`}>
+          <h6 style={profileSectionsStyle}>Zarządzaj Opisem Profilu</h6>
+        </Link>
+        <Link to={`/editprofile/${profileId}`}>
+          <h6 style={profileSectionsStyle}>Zarządzaj Treningami</h6>
+        </Link>
+      </div>
+    );
+  };
+
   render() {
     if (this.props.profile) {
       const { first_name, last_name, city, photo } = this.props.profile;
-      const { profileId, profile } = this.props;
+      const { profile } = this.props;
 
       return (
         <div
@@ -31,18 +61,7 @@ class Profile extends Component {
             </h3>
             <h5>{city}</h5>
           </div>
-
-          <div className="card-action">
-            <Link to="/">
-              <h6 style={profileSectionsStyle}>Moje Treningi</h6>
-            </Link>
-            <Link to={`/traininghistory/${profileId}`}>
-              <h6 style={profileSectionsStyle}>Historia Treningów</h6>
-            </Link>
-            <Link to={`/editprofile/${profileId}`}>
-              <h6 style={profileSectionsStyle}>Edytuj Profil</h6>
-            </Link>
-          </div>
+          {this.renderProfileLinks()}
         </div>
       );
     } else {

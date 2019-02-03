@@ -3,11 +3,14 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { signIn } from "../../store/actions/auth";
+import { Link } from "react-router-dom";
 
 class SignIn extends Component {
   state = {
     email: "",
-    password: ""
+    password: "",
+    loginError: false,
+    userAsTrainerLoginError: false //dokończyć!!
   };
 
   onInputChange = e => {
@@ -32,7 +35,10 @@ class SignIn extends Component {
         })
       : null;
 
-    if (!userMatched) return;
+    if (!userMatched) {
+      this.setState({ loginError: true });
+      return;
+    }
     // matching if user is logging through user signIn and if trainer is logging through trainer signIn
     if (
       (userMatched.trainer && this.props.match.path === "/signintrainer") ||
@@ -43,6 +49,8 @@ class SignIn extends Component {
       this.props.signIn(this.state);
       this.props.history.push(`/dashboard/${id}`);
     } else {
+      this.setState({ userAsTrainerLoginError: true });
+
       return console.log(
         "Brak usera w bazie, lub user loguje się jako trener lub odwrotnie"
       );
@@ -51,13 +59,13 @@ class SignIn extends Component {
   };
 
   render() {
-    const { email, password } = this.state;
+    const { email, password, loginError, userAsTrainerLoginError } = this.state;
     const { path } = this.props.match;
     const { authError } = this.props;
     return (
       <div style={bgStyle}>
         <div className="container white-text">
-          <h2 style={{ paddingTop: "25px" }}>
+          <h2 style={{ paddingTop: "30px", marginTop: "0" }}>
             {path === "/signinuser"
               ? "Zaloguj się jako User"
               : "Zaloguj się jako Trener"}
@@ -95,11 +103,24 @@ class SignIn extends Component {
                   <span className="helper-text white-text" />
                 </div>
               </div>
-              <button className="btn" type="submit">
+              <Link to="/" className="btn" style={buttonStyle}>
+                Powrót
+              </Link>
+              <button className="btn" type="submit" style={buttonStyle}>
                 Zaloguj
               </button>
               {authError ? (
                 <h5 className="red-text text-darken-2 center">{authError}</h5>
+              ) : null}
+              {loginError ? (
+                <h5 className="red-text text-darken-2 center">
+                  Adres email lub hasło jest nieprawidłowe
+                </h5>
+              ) : null}
+              {userAsTrainerLoginError ? (
+                <h5 className="red-text text-darken-2 center">
+                  Próbujesz logowania poprzez błędne okno
+                </h5>
               ) : null}
             </form>
           </div>
@@ -109,11 +130,15 @@ class SignIn extends Component {
   }
 }
 
+const buttonStyle = {
+  margin: "0 10px"
+};
+
 const bgStyle = {
   backgroundImage:
     "linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.2)), url(https://images.pexels.com/photos/685534/pexels-photo-685534.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)",
   position: "relative",
-  top: "-36px",
+  top: "0",
   left: "0",
   width: "100%",
   height: "100vh",

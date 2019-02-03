@@ -7,7 +7,7 @@ const Navbar = ({ auth, signOut }) => {
   if (!auth.uid) return <Redirect to="/" />;
 
   return (
-    <nav>
+    <nav style={{ position: "relative", zIndex: "1" }}>
       <div className="nav-wrapper teal lighten-1">
         <Link to="/" className="brand-logo center truncate ">
           TRAIN THROUGH LIFE
