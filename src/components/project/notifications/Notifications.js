@@ -16,22 +16,24 @@ class Notifications extends Component {
     const { profileId, profile, notifications, match } = this.props;
 
     // filter to get right notifs
-    const notificationsFiltered = [
-      ...notifications.filter(n => {
-        const { userId, trainerId } = n.info;
-        return userId === profileId || trainerId === profileId;
-      })
-    ]
-      // sort by timestamps
-      .sort((a, b) => {
-        if (a.createdAt > b.createdAt) {
-          return -1;
-        } else {
-          return 1;
-        }
-      })
-      //  slice to limit of notifications in dashboard view
-      .slice(0, this.notificationLimit);
+    const notificationsFiltered = notifications
+      ? [
+          ...notifications.filter(n => {
+            const { userId, trainerId } = n.info;
+            return userId === profileId || trainerId === profileId;
+          })
+        ]
+          // sort by timestamps
+          .sort((a, b) => {
+            if (a.createdAt > b.createdAt) {
+              return -1;
+            } else {
+              return 1;
+            }
+          })
+          //  slice to limit of notifications in dashboard view
+          .slice(0, this.notificationLimit)
+      : null;
 
     return notificationsFiltered.map(notification => {
       return (

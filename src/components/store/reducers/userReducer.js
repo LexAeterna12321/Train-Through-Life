@@ -3,7 +3,9 @@ import {
   ADD_USER,
   ADD_USER_ERROR,
   EDIT_PROFILE,
-  EDIT_PROFILE_ERROR
+  EDIT_PROFILE_ERROR,
+  EDIT_DESCRIPTION,
+  EDIT_DESCRIPTION_ERROR
 } from "../types";
 
 const initState = {
@@ -103,6 +105,13 @@ export default (state = initState, action) => {
       return state;
     case EDIT_PROFILE_ERROR:
       console.log("error w update profilu");
+      return state;
+    case EDIT_DESCRIPTION:
+      console.log("update opisu");
+      console.log(action);
+      return state;
+    case EDIT_DESCRIPTION_ERROR:
+      console.log("error w update opisu");
       return state;
     default:
       console.log(" nie dodano usera, ani trenera");

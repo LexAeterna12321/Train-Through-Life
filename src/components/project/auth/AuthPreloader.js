@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 const AuthPreloader = ({ authError }) => {
-  console.log({ authError });
   return (
     <div className="container center hoverable">
       <div className="row">

@@ -30,7 +30,7 @@ const TrainerDetail = props => {
           </Link>
         </div>
         <div className="card-content left-align">
-          <p>{description}</p>
+          <p>{description ? description : "Trener nie dodał jeszcze opisu"}</p>
         </div>
         <div className="card-content left-align">
           <p>
@@ -41,7 +41,7 @@ const TrainerDetail = props => {
                     <span key={randClassTypeId()}>{classType.name}, </span>
                   );
                 })
-              : null}
+              : "Brak dostępnych zajęć"}
           </p>
         </div>
       </div>

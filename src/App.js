@@ -11,6 +11,7 @@ import About from "./components/project/About";
 import EditProfile from "./components/project/profile/EditProfile";
 import EditTraining from "./components/project/training/EditTraining";
 import TrainingHistory from "./components/project/profile/TrainingHistory";
+import TrainerDescription from "./components/project/profile/TrainerDescription";
 
 class App extends Component {
   render() {
@@ -40,6 +41,11 @@ class App extends Component {
               exact
               path="/traininghistory/:profileId"
               component={TrainingHistory}
+            />
+            <Route
+              exact
+              path="/trainerdescription/:profileId"
+              component={TrainerDescription}
             />
           </Switch>
         </React.Fragment>

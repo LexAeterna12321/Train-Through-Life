@@ -11,6 +11,7 @@ class Dashboard extends Component {
   render() {
     const { trainers, profile, profileId, notifications, match } = this.props;
 
+    // keep collections populated for view to load. Thanks to that if statement there is a feeling that all components load at once.
     if (!trainers || !profile || !profileId || !notifications) {
       return <Loader />;
     } else {
