@@ -25,7 +25,7 @@ class Profile extends Component {
         <Link to={`/trainerdescription/${profileId}`}>
           <h6 style={profileSectionsStyle}>Zarządzaj Opisem Profilu</h6>
         </Link>
-        <Link to={`/editprofile/${profileId}`}>
+        <Link to={`/trainerclasses/${profileId}`}>
           <h6 style={profileSectionsStyle}>Zarządzaj Treningami</h6>
         </Link>
       </div>

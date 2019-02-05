@@ -12,6 +12,7 @@ import EditProfile from "./components/project/profile/EditProfile";
 import EditTraining from "./components/project/training/EditTraining";
 import TrainingHistory from "./components/project/profile/TrainingHistory";
 import TrainerDescription from "./components/project/profile/TrainerDescription";
+import TrainerClasses from "./components/project/profile/TrainerClasses";
 
 class App extends Component {
   render() {
@@ -46,6 +47,11 @@ class App extends Component {
               exact
               path="/trainerdescription/:profileId"
               component={TrainerDescription}
+            />
+            <Route
+              exact
+              path="/trainerclasses/:profileId"
+              component={TrainerClasses}
             />
           </Switch>
         </React.Fragment>
