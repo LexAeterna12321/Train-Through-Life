@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 import editProfile from "../../store/actions/editProfile";
+import { storage } from "../../../fbConfig/index";
 
 export class EditProfile extends Component {
   state = {
@@ -10,15 +11,16 @@ export class EditProfile extends Component {
       email: "",
       password: "",
       city: "",
-      photo: "",
       phone: ""
     },
+    url: "",
     profileLoaded: false
   };
 
   componentDidUpdate() {
     // fetching data from firebase and then apply them to state
     if (!this.state.profileLoaded) {
+      this.getAvatarPhoto();
       this.renderProfileBeforeUpdate();
     }
   }
@@ -28,9 +30,8 @@ export class EditProfile extends Component {
   }
 
   renderProfileBeforeUpdate = () => {
-    const { email, password, city, photo, phone } = this.props.profile;
+    const { email, password, city, phone } = this.props.profile;
     const id = this.props.match.params.id;
-    console.log({ id });
     console.log(this.props.profile);
     this.setState({
       profileLoaded: true,
@@ -39,10 +40,33 @@ export class EditProfile extends Component {
         email,
         password,
         city,
-        photo,
         phone
       }
     });
+  };
+
+  onPhotoUpload = e => {
+    if (e.target.files[0]) {
+      const url = e.target.files[0];
+
+      this.setState({ url });
+    }
+  };
+
+  getAvatarPhoto = () => {
+    if (this.props.profile) {
+      const { email } = this.props.profile;
+      console.log({ email });
+      // firebase storage
+      const storageRef = storage.ref();
+      return storageRef
+        .child(`avatar_photos/${email}`)
+        .getDownloadURL()
+        .then(url => this.setState({ url }))
+        .catch(err => {
+          console.log(err);
+        });
+    }
   };
 
   onInputChange = e => {
@@ -57,14 +81,38 @@ export class EditProfile extends Component {
     e.preventDefault();
     this.setState({ profileLoaded: false });
     const id = this.props.match.params.id;
+
+    // create firebase storage reference
+    const storageRef = storage.ref();
+    const oldProfileRef = storageRef.child(
+      `avatar_photos/${this.props.profile.email}`
+    );
+    const imagesRef = storageRef.child(
+      `avatar_photos/${this.state.profileData.email}`
+    );
+    imagesRef.put(this.state.url).then(snapshot => {
+      console.log(snapshot);
+    });
+    // deleting the old avatar in old profile
+    oldProfileRef
+      .delete()
+      .then(function() {
+        console.log("stary img usunięty");
+      })
+      .catch(function(error) {
+        console.log("error w usuwaniu starego img");
+        console.log(error);
+      });
+
     this.props.editProfile(this.state.profileData, id);
     this.props.history.push(`/dashboard/${id}`);
   };
 
   render() {
     if (this.props.profile) {
-      const { email, password, city, photo, phone } = this.state.profileData;
-      const { onFormSubmit, onInputChange } = this;
+      const { email, password, city, phone } = this.state.profileData;
+      const { onFormSubmit, onInputChange, onPhotoUpload } = this;
+      const { url } = this.state;
 
       return (
         <div className="container center">
@@ -115,9 +163,8 @@ export class EditProfile extends Component {
                     id="photo"
                     type="file"
                     className="validate btn"
-                    src={photo}
-                    onChange={onInputChange}
-
+                    src={url}
+                    onChange={onPhotoUpload}
                     //
                   />
                   <label htmlFor="photo" className="active">

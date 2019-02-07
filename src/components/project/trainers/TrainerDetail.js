@@ -1,53 +1,77 @@
-import React from "react";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { storage } from "../../../fbConfig/index";
 
-const TrainerDetail = props => {
-  const {
-    first_name,
-    last_name,
-    photo,
-    description,
-    classes,
-    id
-  } = props.trainer;
+class TrainerDetail extends Component {
+  state = { url: "" };
 
-  const { userId } = props;
-  const randClassTypeId = () => Math.random();
+  componentDidMount() {
+    this.getAvatarPhoto();
+  }
+  getAvatarPhoto = () => {
+    console.log(this.props);
+    const { email } = this.props.trainer;
+    // firebase storage
+    const storageRef = storage.ref();
+    return storageRef
+      .child(`avatar_photos/${email}`)
+      .getDownloadURL()
+      .then(url => this.setState({ url }))
+      .catch(err => {
+        // default photo if no photo provided
+        this.setState({ url: "/img/avatar.png" });
+      });
+  };
+  render() {
+    const {
+      first_name,
+      last_name,
+      description,
+      classes,
+      id
+    } = this.props.trainer;
 
-  return (
-    <div className="col s12  center-align">
-      <div className="card">
-        <div className="card-image">
-          <img src={!photo ? "/img/avatar.png" : photo} alt="trainer-avatar" />
-          <span className="card-title black-text" style={trainerNameStyle}>
-            {first_name} {last_name}
-          </span>
-          <Link
-            to={`/addTraining/${id}/${userId}`}
-            className="btn-floating halfway-fab waves-effect waves-light red right"
-          >
-            <i className="material-icons">alarm_add</i>
-          </Link>
-        </div>
-        <div className="card-content left-align">
-          <p>{description ? description : "Trener nie dodał jeszcze opisu"}</p>
-        </div>
-        <div className="card-content left-align">
-          <p>
-            Zajęcia:{" "}
-            {classes
-              ? classes.map(classType => {
-                  return (
-                    <span key={randClassTypeId()}>{classType.name}, </span>
-                  );
-                })
-              : "Brak dostępnych zajęć"}
-          </p>
+    const { url } = this.state;
+    const { userId } = this.props;
+    const randClassTypeId = () => Math.random();
+
+    return (
+      <div className="col s12  center-align">
+        <div className="card">
+          <div className="card-image">
+            <img src={url} alt="trainer-avatar" />
+            <span className="card-title black-text" style={trainerNameStyle}>
+              {first_name} {last_name}
+            </span>
+            <Link
+              to={`/addTraining/${id}/${userId}`}
+              className="btn-floating halfway-fab waves-effect waves-light red right"
+            >
+              <i className="material-icons">alarm_add</i>
+            </Link>
+          </div>
+          <div className="card-content left-align">
+            <p>
+              {description ? description : "Trener nie dodał jeszcze opisu"}
+            </p>
+          </div>
+          <div className="card-content left-align">
+            <p>
+              Zajęcia:{" "}
+              {classes
+                ? classes.map(classType => {
+                    return (
+                      <span key={randClassTypeId()}>{classType.name}, </span>
+                    );
+                  })
+                : "Brak dostępnych zajęć"}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 const trainerNameStyle = {
   backgroundColor: "rgba(255,255,255,0.5)",

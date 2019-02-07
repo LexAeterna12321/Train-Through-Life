@@ -1,7 +1,7 @@
 import React from "react";
 
 const SignUpStepTwo = props => {
-  const { onInputChange, password, city, trainer, user } = props;
+  const { onInputChange, onPhotoUpload, password, city, trainer, user } = props;
 
   const checkboxes = (
     <React.Fragment>
@@ -73,9 +73,7 @@ const SignUpStepTwo = props => {
               id="photo"
               type="file"
               className="validate btn"
-              onChange={onInputChange}
-
-              //
+              onChange={onPhotoUpload}
             />
             <label htmlFor="photo" className="active">
               Add profile image

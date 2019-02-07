@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
+import { storage } from "../../../fbConfig/index";
 class Profile extends Component {
+  state = { url: "" };
   renderProfileLinks = () => {
     const { profileId, profile } = this.props;
 
@@ -32,10 +33,29 @@ class Profile extends Component {
     );
   };
 
+  componentDidMount() {
+    this.getAvatarPhoto();
+  }
+  getAvatarPhoto = () => {
+    const { email } = this.props.profile;
+    // firebase storage
+    const storageRef = storage.ref();
+    return storageRef
+      .child(`avatar_photos/${email}`)
+      .getDownloadURL()
+      .then(url => this.setState({ url }))
+      .catch(err => {
+        // default photo if no photo provided
+
+        this.setState({ url: "/img/avatar.png" });
+      });
+  };
+
   render() {
     if (this.props.profile) {
-      const { first_name, last_name, city, photo } = this.props.profile;
+      const { first_name, last_name, city } = this.props.profile;
       const { profile } = this.props;
+      const { url } = this.state;
 
       return (
         <div
@@ -47,8 +67,7 @@ class Profile extends Component {
         >
           <div className="avatar-photo" style={avatarContainer}>
             <img
-              // default photo if no photo provided
-              src={!photo ? "/img/avatar.png" : photo}
+              src={url}
               className="circle center"
               alt="profile avatar"
               style={avatarStyle}
