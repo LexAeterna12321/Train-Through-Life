@@ -14,58 +14,50 @@ export class EditProfile extends Component {
       phone: ""
     },
     url: "",
-    profileLoaded: false
+
+    profileLoaded: false,
+    photoReady: true
   };
 
-  componentDidUpdate() {
-    // fetching data from firebase and then apply them to state
-    if (!this.state.profileLoaded) {
-      this.getAvatarPhoto();
-      this.renderProfileBeforeUpdate();
-    }
-  }
-
-  componentWillUnmount() {
-    this.setState({ profileData: {} });
-  }
-
-  renderProfileBeforeUpdate = () => {
-    const { email, password, city, phone } = this.props.profile;
-    const id = this.props.match.params.id;
-    console.log(this.props.profile);
-    this.setState({
-      profileLoaded: true,
-      profileData: {
-        ...this.state.profileData,
-        email,
-        password,
-        city,
-        phone
-      }
-    });
+  addProfileToState = () => {
+    const profile = this.props.profile;
+    if (!this.state.profileLoaded && (profile && profile.length !== 0)) {
+      this.setState({ profileData: { ...profile } });
+      this.setState({ profileLoaded: true });
+    } else return null;
   };
+
+  componentDidMount() {
+    this.addProfileToState();
+  }
 
   onPhotoUpload = e => {
     if (e.target.files[0]) {
       const url = e.target.files[0];
 
       this.setState({ url });
-    }
-  };
 
-  getAvatarPhoto = () => {
-    if (this.props.profile) {
-      const { email } = this.props.profile;
-      console.log({ email });
-      // firebase storage
+      /////////////////////////
       const storageRef = storage.ref();
-      return storageRef
-        .child(`avatar_photos/${email}`)
-        .getDownloadURL()
-        .then(url => this.setState({ url }))
-        .catch(err => {
-          console.log(err);
-        });
+      const imagesRef = storageRef.child(
+        `avatar_photos/${this.state.profileData.email}`
+      );
+      const uploadTask = imagesRef.put(url);
+      uploadTask.on(
+        "state_changed",
+        snapshot => {
+          this.setState({ photoReady: false });
+        },
+        error => {
+          console.log(error);
+        },
+        () => {
+          uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+            this.setState({ photoReady: true });
+          });
+        }
+      );
+      /////////////////////////
     }
   };
 
@@ -74,7 +66,8 @@ export class EditProfile extends Component {
     this.setState({
       profileData: { ...this.state.profileData, [e.target.id]: e.target.value }
     });
-    console.log(this.state.profileData);
+
+    console.log(this.state);
   };
 
   onFormSubmit = e => {
@@ -82,27 +75,30 @@ export class EditProfile extends Component {
     this.setState({ profileLoaded: false });
     const id = this.props.match.params.id;
 
-    // create firebase storage reference
-    const storageRef = storage.ref();
-    const oldProfileRef = storageRef.child(
-      `avatar_photos/${this.props.profile.email}`
-    );
-    const imagesRef = storageRef.child(
-      `avatar_photos/${this.state.profileData.email}`
-    );
-    imagesRef.put(this.state.url).then(snapshot => {
-      console.log(snapshot);
-    });
-    // deleting the old avatar in old profile
-    oldProfileRef
-      .delete()
-      .then(function() {
-        console.log("stary img usunięty");
-      })
-      .catch(function(error) {
-        console.log("error w usuwaniu starego img");
-        console.log(error);
+    if (this.state.url) {
+      // create firebase storage reference
+      const storageRef = storage.ref();
+      const oldProfileRef = storageRef.child(
+        `avatar_photos/${this.props.profile.email}`
+      );
+      const imagesRef = storageRef.child(
+        `avatar_photos/${this.state.profileData.email}`
+      );
+      imagesRef.put(this.state.url).then(snapshot => {
+        console.log({ snapshot });
       });
+
+      // deleting the old avatar in old profile
+      oldProfileRef
+        .delete()
+        .then(function() {
+          console.log("stary img usunięty");
+        })
+        .catch(function(error) {
+          console.log("error w usuwaniu starego img");
+          console.log(error);
+        });
+    }
 
     this.props.editProfile(this.state.profileData, id);
     this.props.history.push(`/dashboard/${id}`);
@@ -112,7 +108,6 @@ export class EditProfile extends Component {
     if (this.props.profile) {
       const { email, password, city, phone } = this.state.profileData;
       const { onFormSubmit, onInputChange, onPhotoUpload } = this;
-      const { url } = this.state;
 
       return (
         <div className="container center">
@@ -130,7 +125,7 @@ export class EditProfile extends Component {
                     value={email}
                     onChange={onInputChange}
                   />
-                  <label htmlFor="icon_prefix active active">Email</label>
+                  {/* <label htmlFor="icon_prefix active ">Email</label> */}
                 </div>
                 <div className="input-field col s6">
                   <i className="material-icons prefix">vpn_key</i>
@@ -142,7 +137,7 @@ export class EditProfile extends Component {
                     value={password}
                     onChange={onInputChange}
                   />
-                  <label htmlFor="icon_prefix ">Hasło</label>
+                  {/* <label htmlFor="icon_prefix ">Hasło</label> */}
                 </div>
 
                 <div className="input-field col s6">
@@ -155,7 +150,7 @@ export class EditProfile extends Component {
                     value={city}
                     onChange={onInputChange}
                   />
-                  <label htmlFor="icon_prefix">Miasto</label>
+                  {/* <label htmlFor="icon_prefix">Miasto</label> */}
                 </div>
                 <div className="input-field col s6">
                   <i className="material-icons prefix ">photo_camera</i>
@@ -163,13 +158,12 @@ export class EditProfile extends Component {
                     id="photo"
                     type="file"
                     className="validate btn"
-                    src={url}
                     onChange={onPhotoUpload}
                     //
                   />
-                  <label htmlFor="photo" className="active">
+                  {/* <label htmlFor="photo" className="active">
                     Zdjęcie
-                  </label>
+                  </label> */}
                 </div>
 
                 <div className="input-field col s6">
@@ -182,10 +176,17 @@ export class EditProfile extends Component {
                     value={phone}
                     onChange={this.onInputChange}
                   />
-                  <label htmlFor="icon_telephone">Nr Telefonu</label>
+                  {/* <label htmlFor="icon_telephone">Nr Telefonu</label> */}
                 </div>
               </div>
-              <button className="btn">Zatwierdź zmiany</button>
+              <button
+                className={this.state.photoReady ? "btn" : "btn disabled"}
+              >
+                Zatwierdź zmiany
+              </button>
+              {!this.state.photoReady && this.state.url ? (
+                <h6>Ładuję obrazek</h6>
+              ) : null}
             </form>
           </div>
         </div>
@@ -203,7 +204,7 @@ const mapStateToProps = (state, ownProps) => {
 
   const profiles = { ...users, ...trainers };
 
-  const profile = profiles ? profiles[id] : null;
+  const profile = users && trainers ? profiles[id] : {};
   console.log({ profile });
 
   return {

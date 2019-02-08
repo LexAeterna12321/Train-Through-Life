@@ -7,7 +7,7 @@ const AuthPreloader = ({ authError }) => {
   return (
     <div className="container center hoverable">
       <div className="row">
-        <div className="col s12">
+        <div className="col s12" style={{ padding: 0 }}>
           <div className="card center-align">
             <div className="card-image">
               <img
