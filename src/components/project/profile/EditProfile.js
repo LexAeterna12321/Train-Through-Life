@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 import editProfile from "../../store/actions/editProfile";
+
 import { storage } from "../../../fbConfig/index";
 
 export class EditProfile extends Component {
@@ -14,22 +15,26 @@ export class EditProfile extends Component {
       phone: ""
     },
     url: "",
-
     profileLoaded: false,
     photoReady: true
   };
 
-  addProfileToState = () => {
-    const profile = this.props.profile;
-    if (!this.state.profileLoaded && (profile && profile.length !== 0)) {
-      this.setState({ profileData: { ...profile } });
-      this.setState({ profileLoaded: true });
-    } else return null;
-  };
-
   componentDidMount() {
-    this.addProfileToState();
+    this.setState({ profileLoaded: false });
+    this.uploadProfile();
   }
+
+  componentDidUpdate() {
+    if (!this.state.profileLoaded && this.props.profile) {
+      this.uploadProfile();
+    }
+  }
+
+  uploadProfile = () => {
+    const profile = this.props.profile;
+
+    this.setState({ profileData: { ...profile }, profileLoaded: true });
+  };
 
   onPhotoUpload = e => {
     if (e.target.files[0]) {
@@ -105,94 +110,94 @@ export class EditProfile extends Component {
   };
 
   render() {
-    if (this.props.profile) {
-      const { email, password, city, phone } = this.state.profileData;
-      const { onFormSubmit, onInputChange, onPhotoUpload } = this;
+    console.log(this.state);
+    const { email, password, city, phone } = this.state.profileData;
 
-      return (
-        <div className="container center">
-          <h3>Edytuj profil</h3>
-          <div className="row">
-            <form className="col s12" onSubmit={onFormSubmit}>
-              <div className="row ">
-                <div className="input-field col s6">
-                  <i className="material-icons prefix">email</i>
-                  <input
-                    id="email"
-                    type="text"
-                    className="validate"
-                    required
-                    value={email}
-                    onChange={onInputChange}
-                  />
-                  {/* <label htmlFor="icon_prefix active ">Email</label> */}
-                </div>
-                <div className="input-field col s6">
-                  <i className="material-icons prefix">vpn_key</i>
-                  <input
-                    id="password"
-                    type="text"
-                    className="validate"
-                    required
-                    value={password}
-                    onChange={onInputChange}
-                  />
-                  {/* <label htmlFor="icon_prefix ">Hasło</label> */}
-                </div>
+    const { onFormSubmit, onInputChange, onPhotoUpload } = this;
+    const { photoReady, url } = this.state;
+    return (
+      <div className="container center">
+        <h3>Edytuj profil</h3>
 
-                <div className="input-field col s6">
-                  <i className="material-icons prefix">location_city</i>
-                  <input
-                    id="city"
-                    type="text"
-                    className="validate"
-                    required
-                    value={city}
-                    onChange={onInputChange}
-                  />
-                  {/* <label htmlFor="icon_prefix">Miasto</label> */}
-                </div>
-                <div className="input-field col s6">
-                  <i className="material-icons prefix ">photo_camera</i>
-                  <input
-                    id="photo"
-                    type="file"
-                    className="validate btn"
-                    onChange={onPhotoUpload}
-                    //
-                  />
-                  {/* <label htmlFor="photo" className="active">
+        <div className="row">
+          <form className="col s12" onSubmit={onFormSubmit}>
+            <div className="row ">
+              <div className="input-field col s6">
+                <i className="material-icons prefix">email</i>
+                <input
+                  id="email"
+                  type="text"
+                  className="validate"
+                  required
+                  value={email}
+                  onChange={onInputChange}
+                />
+                {/* <label htmlFor="icon_prefix active ">Email</label> */}
+              </div>
+              <div className="input-field col s6">
+                <i className="material-icons prefix">vpn_key</i>
+                <input
+                  id="password"
+                  type="text"
+                  className="validate"
+                  required
+                  value={password}
+                  onChange={onInputChange}
+                />
+                {/* <label htmlFor="icon_prefix ">Hasło</label> */}
+              </div>
+
+              <div className="input-field col s6">
+                <i className="material-icons prefix">location_city</i>
+                <input
+                  id="city"
+                  type="text"
+                  className="validate"
+                  required
+                  value={city}
+                  onChange={onInputChange}
+                />
+                {/* <label htmlFor="icon_prefix">Miasto</label> */}
+              </div>
+              <div className="input-field col s6">
+                <i className="material-icons prefix ">photo_camera</i>
+                <input
+                  id="photo"
+                  type="file"
+                  className="validate btn"
+                  onChange={onPhotoUpload}
+                  //
+                />
+                {/* <label htmlFor="photo" className="active">
                     Zdjęcie
                   </label> */}
-                </div>
-
-                <div className="input-field col s6">
-                  <i className="material-icons prefix">phone</i>
-                  <input
-                    id="phone"
-                    type="tel"
-                    className="validate"
-                    required
-                    value={phone}
-                    onChange={this.onInputChange}
-                  />
-                  {/* <label htmlFor="icon_telephone">Nr Telefonu</label> */}
-                </div>
               </div>
-              <button
-                className={this.state.photoReady ? "btn" : "btn disabled"}
-              >
-                Zatwierdź zmiany
-              </button>
-              {!this.state.photoReady && this.state.url ? (
-                <h6>Ładuję obrazek</h6>
-              ) : null}
-            </form>
-          </div>
+
+              <div className="input-field col s6">
+                <i className="material-icons prefix">phone</i>
+                <input
+                  id="phone"
+                  type="tel"
+                  className="validate"
+                  required
+                  value={phone}
+                  onChange={this.onInputChange}
+                />
+                {/* <label htmlFor="icon_telephone">Nr Telefonu</label> */}
+              </div>
+            </div>
+            <h6>
+              W przypadku zmiany hasła lub adresu e-mail zostaniesz wylogowany
+            </h6>
+            <button className={photoReady ? "btn" : "btn disabled"}>
+              Zatwierdź zmiany
+            </button>
+            {!photoReady && url ? <h6>Ładuję zdjęcie profilowe</h6> : null}
+            {photoReady && url ? <h6>Zdjęcie profilowe załadowane</h6> : null}
+          </form>
         </div>
-      );
-    }
-    return <div>Loading content...</div>;
+      </div>
+    );
   }
 }
 
@@ -204,8 +209,7 @@ const mapStateToProps = (state, ownProps) => {
 
   const profiles = { ...users, ...trainers };
 
-  const profile = users && trainers ? profiles[id] : {};
-  console.log({ profile });
+  const profile = profiles[id];
 
   return {
     profile
