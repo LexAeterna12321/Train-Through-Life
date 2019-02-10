@@ -57,6 +57,8 @@ const SignUpStepOne = props => {
             <input
               id="phone"
               type="text"
+              pattern="[0-9]{9}"
+              placeholder="Opcjonalne. 9 cyfr"
               className="validate"
               onChange={onInputChange}
               value={phone}

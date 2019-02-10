@@ -8,7 +8,6 @@ import Buttons from "./signUpForm/Buttons";
 import { Link } from "react-router-dom";
 import addUser from "../../store/actions/addUser";
 import { connect } from "react-redux";
-import { storage } from "../../../fbConfig/index";
 
 class SignUp extends Component {
   state = {
@@ -22,8 +21,7 @@ class SignUp extends Component {
       city: "",
       trainer: false,
       user: true
-    },
-    photo: ""
+    }
   };
 
   prevStep = () => {
@@ -67,18 +65,10 @@ class SignUp extends Component {
     }
   };
 
-  onPhotoUpload = e => {
-    if (e.target.files[0]) {
-      const photo = e.target.files[0];
-
-      this.setState({ photo });
-    }
-  };
-
   onFormSubmit = e => {
     e.preventDefault();
 
-    const { personData, photo } = this.state;
+    const { personData } = this.state;
     personData.city = personData.city
       .charAt(0)
       .toUpperCase()
@@ -86,19 +76,10 @@ class SignUp extends Component {
       .trim();
 
     for (let i in personData) {
-      if (i !== "photo" && (i !== "phone" && personData[i] === "")) return;
+      if (i !== "phone" && personData[i] === "") return;
     }
 
     if (personData.password === "" || personData.password.length < 6) return;
-
-    // create firebase storage reference
-    const storageRef = storage.ref();
-    if (photo) {
-      const imagesRef = storageRef.child(
-        `avatar_photos/${this.state.personData.email}`
-      );
-      imagesRef.put(this.state.photo).then(snapshot => {});
-    }
     this.props.addUser(personData);
     this.props.history.push("/");
   };
@@ -107,7 +88,7 @@ class SignUp extends Component {
     const { personData } = this.state;
     const {
       onInputChange,
-      onPhotoUpload,
+
       state: {
         step,
         onFormSubmit,
@@ -145,7 +126,6 @@ class SignUp extends Component {
             city={city}
             trainer={trainer}
             user={user}
-            onPhotoUpload={onPhotoUpload}
           />
         );
       }

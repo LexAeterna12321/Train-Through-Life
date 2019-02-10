@@ -9,11 +9,12 @@ class TrainerDetail extends Component {
     this.getAvatarPhoto();
   }
   getAvatarPhoto = () => {
-    const { email } = this.props.trainer;
+    const { id } = this.props.trainer;
+
     // firebase storage
     const storageRef = storage.ref();
     return storageRef
-      .child(`avatar_photos/${email}`)
+      .child(`avatar_photos/${id}`)
       .getDownloadURL()
       .then(url => this.setState({ url }))
       .catch(err => {

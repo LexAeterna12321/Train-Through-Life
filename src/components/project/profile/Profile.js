@@ -43,18 +43,21 @@ class Profile extends Component {
     this.getAvatarPhoto();
   }
   getAvatarPhoto = () => {
-    const { email } = this.props.profile;
+    const { uid } = this.props;
+
     // firebase storage
     const storageRef = storage.ref();
-    return storageRef
-      .child(`avatar_photos/${email}`)
-      .getDownloadURL()
-      .then(url => this.setState({ url }))
-      .catch(err => {
-        // default photo if no photo provided
+    if (uid) {
+      return storageRef
+        .child(`avatar_photos/${uid}`)
+        .getDownloadURL()
+        .then(url => this.setState({ url }))
+        .catch(err => {
+          // default photo if no photo provided
 
-        this.setState({ url: "/img/avatar.png" });
-      });
+          this.setState({ url: "/img/avatar.png" });
+        });
+    }
   };
 
   render() {

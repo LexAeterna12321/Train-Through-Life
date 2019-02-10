@@ -13,7 +13,7 @@ import EditTraining from "./components/project/training/EditTraining";
 import TrainingHistory from "./components/project/profile/TrainingHistory";
 import TrainerDescription from "./components/project/profile/TrainerDescription";
 import TrainerClasses from "./components/project/profile/TrainerClasses";
-
+import EditPhoto from "./components/project/profile/EditPhoto";
 class App extends Component {
   render() {
     return (
@@ -53,6 +53,7 @@ class App extends Component {
               path="/trainerclasses/:profileId"
               component={TrainerClasses}
             />
+            <Route exact path="/editphoto/:profileId" component={EditPhoto} />
           </Switch>
         </React.Fragment>
       </Router>

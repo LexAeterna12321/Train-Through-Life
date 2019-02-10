@@ -9,7 +9,14 @@ import { firestoreConnect } from "react-redux-firebase";
 
 class Dashboard extends Component {
   render() {
-    const { trainers, profile, profileId, notifications, match } = this.props;
+    const {
+      trainers,
+      profile,
+      profileId,
+      notifications,
+      match,
+      auth
+    } = this.props;
 
     // keep collections populated for view to load. Thanks to that if statement there is a feeling that all components load at once.
     if (!trainers || !profile || !profileId || !notifications) {
@@ -18,7 +25,7 @@ class Dashboard extends Component {
       return (
         <div className="container" style={dashboardContainerStyle}>
           <div className="row">
-            <Profile profile={profile} profileId={profileId} />
+            <Profile profile={profile} profileId={profileId} uid={auth.uid} />
             <Notifications
               profileId={profileId}
               profile={profile}

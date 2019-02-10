@@ -99,8 +99,9 @@ export class EditProfile extends Component {
                 <input
                   id="phone"
                   type="tel"
+                  placeholder="numer musi być dziewięciocyfrowy"
                   className="validate"
-                  required
+                  pattern="[0-9]{9}"
                   value={phone}
                   onChange={this.onInputChange}
                 />
@@ -126,7 +127,7 @@ export class EditProfile extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const id = ownProps.match.params.id;
-
+  console.log({ id });
   const users = state.firestore.data.users;
   const trainers = state.firestore.data.trainers;
 

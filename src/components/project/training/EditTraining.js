@@ -181,8 +181,6 @@ const mapStateToProps = (state, ownProps) => {
     const notification = notifications.filter(
       notifi => trainingId === notifi.id
     );
-    console.log({ notification });
-    console.log({ state });
 
     const userId = notification[0].info.userId;
     console.log({ userId });
