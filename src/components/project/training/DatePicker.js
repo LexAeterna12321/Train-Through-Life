@@ -23,7 +23,10 @@ const DatePicker = ({ setTrainingDate, date, time, description }) => {
         />
         <label htmlFor="date">Wybierz godzinę</label>
       </div>
-      <div className="input-field col s12">
+      <div
+        className="input-field col s12"
+        style={{ margin: "10px 0", padding: "20px 0" }}
+      >
         <textarea
           id="description"
           className="materialize-textarea"

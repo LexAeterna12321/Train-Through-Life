@@ -79,79 +79,72 @@ class TrainingList extends Component {
 
       return (
         <div className="container">
-          <div className="row">
-            <table>
-              <thead>
-                <tr style={centeringContent}>
-                  <th>Typ aktywności</th>
-                  <th>Czas Trwania</th>
-                  <th>Cena (zł)</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {trainerClasses
-                  ? trainerClasses.map(classType => {
-                      return (
-                        <TrainingDetail
-                          key={this.randClassTypeId()}
-                          trainerClasses={classType}
-                          passOrderedClasses={passOrderedClasses}
-                        />
-                      );
-                    })
-                  : null}
-              </tbody>
-            </table>
-            {this.state.orderedClasses ? (
-              <React.Fragment>
-                <div>
-                  {this.state.orderedClasses.map((oc, id) => (
-                    <div key={this.randClassTypeId()}>
-                      <h6>
-                        Dodano {oc.name} w czasie: {oc.duration}min. Koszt -{" "}
-                        {oc.totalCost} zł
-                      </h6>
-                      <button
-                        className="btn"
-                        onClick={() => {
-                          deleteClasses(id, oc.totalCost);
-                        }}
-                      >
-                        Usuń
-                      </button>
-                    </div>
-                  ))}
-                </div>
-                <h6>Całkowity koszt treningu: {totalCost}</h6>
-                {/* datePicker */}
-                {this.state.orderedClasses.length > 0 ? (
-                  <DatePicker
-                    setTrainingDate={setTrainingDate}
-                    date={date}
-                    time={time}
-                    description={description}
+          <h4 className="center">Dodawanie Treninu</h4>
+          {trainerClasses
+            ? trainerClasses.map(classType => {
+                return (
+                  <TrainingDetail
+                    key={this.randClassTypeId()}
+                    trainerClasses={classType}
+                    passOrderedClasses={passOrderedClasses}
                   />
-                ) : (
-                  ""
-                )}
-                {/*  */}
-                <button
-                  className={
-                    orderedClasses.length !== 0 &&
-                    date !== "" &&
-                    time !== "" &&
-                    description !== ""
-                      ? "btn"
-                      : "btn disabled"
-                  }
-                  onClick={reserveTraining}
-                >
-                  Umów spotkanie
-                </button>{" "}
-              </React.Fragment>
-            ) : null}
-          </div>{" "}
+                );
+              })
+            : null}
+
+          {this.state.orderedClasses ? (
+            <React.Fragment>
+              <div
+                className="col s12 card blue-grey darken-1"
+                style={{ padding: "10px" }}
+              >
+                {this.state.orderedClasses.map((oc, id) => (
+                  <div key={this.randClassTypeId()} className="white-text">
+                    <h6>Dodano: {oc.name}</h6>
+                    <h6>Czas: {oc.duration}min</h6>
+                    <h6>Koszt: {oc.totalCost} zł</h6>
+                    <button
+                      className="btn"
+                      onClick={() => {
+                        deleteClasses(id, oc.totalCost);
+                      }}
+                    >
+                      Usuń
+                    </button>
+                  </div>
+                ))}{" "}
+                <h6 className="white-text">
+                  Całkowity koszt treningu: {totalCost}
+                </h6>
+              </div>
+              {/* datePicker */}
+              {this.state.orderedClasses.length > 0 ? (
+                <DatePicker
+                  setTrainingDate={setTrainingDate}
+                  date={date}
+                  time={time}
+                  description={description}
+                />
+              ) : (
+                ""
+              )}
+              {/*  */}
+              <button
+                className={
+                  orderedClasses.length !== 0 &&
+                  date !== "" &&
+                  time !== "" &&
+                  description !== ""
+                    ? "btn"
+                    : "btn disabled"
+                }
+                style={{ margin: "10px 0" }}
+                onClick={reserveTraining}
+              >
+                Umów spotkanie
+              </button>{" "}
+            </React.Fragment>
+          ) : null}
         </div>
       );
     } else {
@@ -164,11 +157,11 @@ class TrainingList extends Component {
   }
 }
 
-const centeringContent = {
-  textAlign: "center",
-  display: "flex",
-  justifyContent: "space-between"
-};
+// const centeringContent = {
+//   textAlign: "center",
+//   display: "flex",
+//   justifyContent: "space-between"
+// };
 
 const mapStateToProps = (state, ownProps) => {
   const trainerId = ownProps.match.params.trainerid;

@@ -8,6 +8,7 @@ class TrainerDetail extends Component {
   componentDidMount() {
     this.getAvatarPhoto();
   }
+
   getAvatarPhoto = () => {
     const { id } = this.props.trainer;
 
@@ -16,7 +17,9 @@ class TrainerDetail extends Component {
     return storageRef
       .child(`avatar_photos/${id}`)
       .getDownloadURL()
-      .then(url => this.setState({ url }))
+      .then(url => {
+        this.setState({ url });
+      })
       .catch(err => {
         // default photo if no photo provided
         this.setState({ url: "/img/avatar.png" });

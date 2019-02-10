@@ -42,6 +42,11 @@ class Profile extends Component {
   componentDidMount() {
     this.getAvatarPhoto();
   }
+  componentDidUpdate() {
+    if (!this.state.url) {
+      this.getAvatarPhoto();
+    }
+  }
   getAvatarPhoto = () => {
     const { uid } = this.props;
 
@@ -51,7 +56,9 @@ class Profile extends Component {
       return storageRef
         .child(`avatar_photos/${uid}`)
         .getDownloadURL()
-        .then(url => this.setState({ url }))
+        .then(url => {
+          this.setState({ url });
+        })
         .catch(err => {
           // default photo if no photo provided
 

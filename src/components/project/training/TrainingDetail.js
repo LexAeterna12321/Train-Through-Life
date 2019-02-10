@@ -16,8 +16,9 @@ class TrainingDetail extends Component {
   activateClasses = () => {
     const ref = this.classesRef.current;
     const name = ref.innerText;
-    ref.classList.remove("red-text");
+    ref.classList.remove("white-text");
     ref.classList.add("green-text");
+    ref.classList.add("text-lighten-1");
     const orderedClasses = { ...this.state.orderedClasses, name };
     this.setState({ orderedClasses });
   };
@@ -26,7 +27,7 @@ class TrainingDetail extends Component {
 
   deactivateClasses = () => {
     const ref = this.classesRef.current;
-
+    ref.classList.add("white-text");
     ref.classList.remove("green-text");
     const orderedClasses = {
       ...this.state.orderedClasses,
@@ -90,107 +91,122 @@ class TrainingDetail extends Component {
     } = this.state;
 
     return (
-      <tr style={centeringContent}>
-        <td style={columnsStyle}>
-          <button
-            className={
-              orderedClasses.name
-                ? "btn btn-small waves-effect waves-light red  left"
-                : "btn btn-small waves-effect waves-light red disabled left"
-            }
-            style={buttonsStyle}
-            onClick={this.deactivateClasses}
-          >
-            <i className="material-icons">remove</i>
-          </button>
+      <div
+        className="row card blue-grey darken-1 "
+        style={{ ...trainingStyle, flexDirection: "column" }}
+      >
+        <div className="col s12 m10 l8" style={trainingStyle}>
+          <div>
+            <button
+              className={
+                orderedClasses.name
+                  ? "btn btn-small waves-effect waves-light red  left"
+                  : "btn btn-small waves-effect waves-light red disabled left"
+              }
+              style={buttonsStyle}
+              onClick={this.deactivateClasses}
+            >
+              <i className="material-icons">remove</i>
+            </button>
 
-          <button
-            className="btn btn-small waves-effect waves-light teal lighten-1 left"
-            style={buttonsStyle}
-            onClick={this.activateClasses}
-          >
-            <i className="material-icons">add</i>
-          </button>
-          <p className="flow-text center" ref={this.classesRef}>
+            <button
+              className="btn btn-small waves-effect waves-light teal lighten-1 left"
+              style={buttonsStyle}
+              onClick={this.activateClasses}
+            >
+              <i className="material-icons">add</i>
+            </button>
+          </div>
+
+          <p className="flow-text white-text center" ref={this.classesRef}>
             {trainerClasses.name}
           </p>
-        </td>
+        </div>
         {/* ------------------------------------------------------------------- */}
-        <td style={columnsStyle}>
-          <button
-            className={
-              orderedClasses.duration > 0
-                ? "btn btn-small waves-effect waves-light red  left"
-                : "btn btn-small waves-effect waves-light red disabled left"
-            }
-            style={buttonsStyle}
-            onClick={this.decrementDuration}
-          >
-            <i className="material-icons">remove</i>
-          </button>
-
-          <button
-            className={
-              orderedClasses.name
-                ? "btn btn-small waves-effect waves-light teal lighten-1  left"
-                : "btn btn-small waves-effect waves-light teal lighten-1 disabled left"
-            }
-            style={buttonsStyle}
-            onClick={this.incrementDuration}
-          >
-            <i className="material-icons">add</i>
-          </button>
-          <p className="flow-text center">{orderedClasses.duration}min</p>
-        </td>
+        <div className="col s12 m10 l8" style={trainingStyle}>
+          <div>
+            <button
+              className={
+                orderedClasses.duration > 0
+                  ? "btn btn-small waves-effect waves-light red  left"
+                  : "btn btn-small waves-effect waves-light red disabled left"
+              }
+              style={buttonsStyle}
+              onClick={this.decrementDuration}
+            >
+              <i className="material-icons">remove</i>
+            </button>
+            <button
+              className={
+                orderedClasses.name
+                  ? "btn btn-small waves-effect waves-light teal lighten-1  left"
+                  : "btn btn-small waves-effect waves-light teal lighten-1 disabled left"
+              }
+              style={buttonsStyle}
+              onClick={this.incrementDuration}
+            >
+              <i className="material-icons">add</i>
+            </button>
+          </div>
+          <p className="flow-text  white-text right">
+            {orderedClasses.duration}min
+          </p>
+        </div>
         {/* ------------------------------------------------------------------- */}
-        <td style={columnsStyle}>
-          <button
-            className="btn btn-small waves-effect waves-light red disabled left"
-            style={{ ...buttonsStyle, transform: "scale(0)" }}
-          >
-            <i className="material-icons">remove</i>
-          </button>
-          <button
-            className="btn btn-small waves-effect waves-light teal lighten-1 left"
-            style={{ ...buttonsStyle, transform: "scale(0)" }}
-          >
-            <i className="material-icons">add</i>
-          </button>{" "}
-          <p className="flow-text center">{orderedClasses.totalCost}</p>
-        </td>
-        <td>
-          <button
-            className={`btn ${
-              orderedClasses.name && orderedClasses.duration > 0
-                ? ""
-                : "disabled"
-            }`}
-            onClick={() =>
-              this.props.passOrderedClasses(orderedClasses, totalCost)
-            }
-          >
-            Zatwierdź
-          </button>
-        </td>
-      </tr>
+        <div
+          className="col s12 m10 l8 card blue-grey darken-1"
+          style={trainingStyle}
+        >
+          <div className="col s12 m10 l8">
+            <p className="white-text">
+              <span className="flow-text left">Cena (zł)</span>
+              <span className="flow-text" style={{ padding: "0 20px" }}>
+                {orderedClasses.totalCost}
+              </span>
+            </p>
+          </div>
+          <div>
+            <button
+              className={`btn ${
+                orderedClasses.name && orderedClasses.duration > 0
+                  ? ""
+                  : "disabled"
+              }`}
+              onClick={() =>
+                this.props.passOrderedClasses(orderedClasses, totalCost)
+              }
+            >
+              Zatwierdź
+            </button>
+          </div>
+        </div>
+      </div>
     );
   }
 }
-const centeringContent = {
-  textAlign: "center",
+
+const trainingStyle = {
   display: "flex",
-  justifyContent: "space-between"
+  justifyContent: "space-between",
+  alignItems: "center",
+  margin: "20px 0"
 };
+
 const buttonsStyle = {
   margin: "10px",
   width: "70px"
 };
+// const centeringContent = {
+//   textAlign: "center",
+//   display: "flex",
+//   justifyContent: "space-between"
+// };
 
-const columnsStyle = {
-  display: "flex",
-  flexDirection: "column",
-  padding: "30px",
-  alignItems: "center",
-  width: "90%"
-};
+// const columnsStyle = {
+//   display: "flex",
+//   flexDirection: "column",
+//   padding: "30px",
+//   alignItems: "center",
+//   width: "90%"
+// };
 export default TrainingDetail;
