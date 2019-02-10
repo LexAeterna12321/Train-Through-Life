@@ -9,8 +9,6 @@ export const editProfile = (profile, id) => {
     const user = firebase.auth().currentUser;
 
     const { email, password } = profile;
-    console.log({ profile });
-    console.log({ user });
 
     user
       .updateEmail(email)
@@ -36,7 +34,7 @@ export const editProfile = (profile, id) => {
       : getState().firestore.data.trainers[id];
 
     const updatedProfile = { ...oldProfile, ...profile };
-    console.log({ oldProfile, profile, id });
+
     firestore
       .collection(oldProfile.user ? "users" : "trainers")
       .doc(id)

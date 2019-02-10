@@ -12,9 +12,16 @@ class SignIn extends Component {
     loginError: false,
     userAsTrainerLoginError: false //dokończyć!!
   };
+  ref = React.createRef();
 
   onInputChange = e => {
     this.setState({ [e.target.id]: e.target.value });
+  };
+
+  passwordShowToggle = () => {
+    this.ref.current.type === "password"
+      ? (this.ref.current.type = "text")
+      : (this.ref.current.type = "password");
   };
 
   onFormSubmit = e => {
@@ -83,24 +90,27 @@ class SignIn extends Component {
                     required
                   />
                   <label htmlFor="email">Email</label>
-                  <span
-                    className="helper-text white-text"
-                    data-error=""
-                    data-success=""
-                  />
                 </div>
 
                 <div className="input-field col s12">
+                  {" "}
                   <input
+                    ref={this.ref}
                     id="password"
-                    type="text"
+                    type="password"
                     className="white-text"
                     value={password}
                     onChange={this.onInputChange}
                     required
-                  />
+                  />{" "}
+                  <i
+                    style={{ cursor: "pointer" }}
+                    className="material-icons right grey-text"
+                    onClick={this.passwordShowToggle}
+                  >
+                    remove_red_eye
+                  </i>
                   <label htmlFor="password">Password</label>
-                  <span className="helper-text white-text" />
                 </div>
               </div>
               <Link to="/" className="btn" style={buttonStyle}>

@@ -10,6 +10,7 @@ class Notifications extends Component {
     notifications: []
   };
 
+  // how many notifications should be displayed in dashboard view
   notificationLimit = 4;
 
   renderNotifications = () => {

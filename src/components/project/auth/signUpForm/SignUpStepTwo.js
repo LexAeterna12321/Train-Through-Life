@@ -88,6 +88,7 @@ const SignUpStepTwo = props => {
     </React.Fragment>
   );
 };
+
 const checkboxesStyle = {
   display: "flex",
   flexDirection: "column",

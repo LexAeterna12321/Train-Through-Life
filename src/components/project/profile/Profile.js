@@ -14,6 +14,9 @@ class Profile extends Component {
         <Link to={`/editprofile/${profileId}`}>
           <h6 style={profileSectionsStyle}>Edytuj Profil</h6>
         </Link>
+        <Link to={`/editphoto/${profileId}`}>
+          <h6 style={profileSectionsStyle}>Edytuj Zdjęcie</h6>
+        </Link>
       </div>
     ) : (
       <div className="card-action">
@@ -22,7 +25,10 @@ class Profile extends Component {
         </Link>
         <Link to={`/editprofile/${profileId}`}>
           <h6 style={profileSectionsStyle}>Edytuj Profil</h6>
-        </Link>{" "}
+        </Link>
+        <Link to={`/editphoto/${profileId}`}>
+          <h6 style={profileSectionsStyle}>Edytuj Zdjęcie</h6>
+        </Link>
         <Link to={`/trainerdescription/${profileId}`}>
           <h6 style={profileSectionsStyle}>Zarządzaj Opisem Profilu</h6>
         </Link>

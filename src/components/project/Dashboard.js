@@ -25,7 +25,11 @@ class Dashboard extends Component {
               match={match}
             />
             {profile.user ? (
-              <TrainerList trainers={trainers} userId={profileId} />
+              <TrainerList
+                trainers={trainers}
+                userId={profileId}
+                userCity={profile.city}
+              />
             ) : null}
           </div>
         </div>

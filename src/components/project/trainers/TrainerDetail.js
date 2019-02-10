@@ -9,7 +9,6 @@ class TrainerDetail extends Component {
     this.getAvatarPhoto();
   }
   getAvatarPhoto = () => {
-    console.log(this.props);
     const { email } = this.props.trainer;
     // firebase storage
     const storageRef = storage.ref();

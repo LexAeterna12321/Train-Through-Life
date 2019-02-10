@@ -102,7 +102,7 @@ class SignUpSummary extends Component {
               required
             />
             <label htmlFor="disabled" className="active">
-              Phone
+              Phone Number
             </label>
           </div>
           <div className="input-field col s12">

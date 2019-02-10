@@ -78,7 +78,12 @@ class SignUp extends Component {
   onFormSubmit = e => {
     e.preventDefault();
 
-    const { personData } = this.state;
+    const { personData, photo } = this.state;
+    personData.city = personData.city
+      .charAt(0)
+      .toUpperCase()
+      .concat(personData.city.substr(1))
+      .trim();
 
     for (let i in personData) {
       if (i !== "photo" && (i !== "phone" && personData[i] === "")) return;
@@ -88,13 +93,12 @@ class SignUp extends Component {
 
     // create firebase storage reference
     const storageRef = storage.ref();
-    const imagesRef = storageRef.child(
-      `avatar_photos/${this.state.personData.email}`
-    );
-    imagesRef.put(this.state.photo).then(snapshot => {
-      console.log(snapshot);
-    });
-
+    if (photo) {
+      const imagesRef = storageRef.child(
+        `avatar_photos/${this.state.personData.email}`
+      );
+      imagesRef.put(this.state.photo).then(snapshot => {});
+    }
     this.props.addUser(personData);
     this.props.history.push("/");
   };
@@ -157,7 +161,6 @@ class SignUp extends Component {
   };
 
   render() {
-    console.log(this.state);
     const {
       state: { step },
       prevStep,
@@ -194,7 +197,6 @@ const homeButtonStyle = {
 };
 
 const mapStateToProps = state => {
-  console.log({ state });
   return {
     users: state.users
   };
