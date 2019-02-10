@@ -32,8 +32,7 @@ class EditTraining extends Component {
   resolveTraining = () => {
     // id of notification to update through actionCreator
     const trainingId = this.props.match.params.trainingId;
-    console.log(this.props);
-    console.log({ trainingId });
+
     this.props.editTraining(this.state.trainingStatus, trainingId);
   };
 
@@ -50,7 +49,6 @@ class EditTraining extends Component {
   renderTrainingList = () => {
     const { training } = this.props.notification[0];
 
-    console.log({ training });
     return training.map(t => {
       return (
         <div key={this.randTrainingId()} style={trainingListStyle}>
@@ -63,7 +61,6 @@ class EditTraining extends Component {
   };
 
   render() {
-    console.log(this.state);
     const checkboxes = () => (
       <React.Fragment>
         <p>
@@ -96,7 +93,6 @@ class EditTraining extends Component {
 
     if (!notification) return <Loader />;
     else {
-      console.log(this.props);
       const {
         date,
         time,
@@ -183,7 +179,7 @@ const mapStateToProps = (state, ownProps) => {
     );
 
     const userId = notification[0].info.userId;
-    console.log({ userId });
+
     const first_name = userId
       ? state.firestore.data.users[userId].first_name
       : null;

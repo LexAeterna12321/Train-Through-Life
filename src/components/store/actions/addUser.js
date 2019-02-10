@@ -4,7 +4,6 @@ export default user => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
     const firebase = getFirebase();
-    console.log(user);
 
     firebase
       .auth()

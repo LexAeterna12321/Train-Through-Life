@@ -38,7 +38,6 @@ export class EditProfile extends Component {
   };
 
   onFormSubmit = e => {
-    console.log(this.props);
     e.preventDefault();
     if (this.state.profileData.password.length < 6) return;
     this.setState({ profileLoaded: false });
@@ -127,7 +126,7 @@ export class EditProfile extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const id = ownProps.match.params.id;
-  console.log({ id });
+
   const users = state.firestore.data.users;
   const trainers = state.firestore.data.trainers;
 

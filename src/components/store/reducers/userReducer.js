@@ -89,41 +89,28 @@ export default (state = initState, action) => {
   const authError = action.authError;
   switch (action.type) {
     case ADD_USER:
-      console.log("dodano usera");
       const users = [...state.users, user];
-      console.log(users);
+
       return { ...state, users, authError: null };
     case ADD_USER_ERROR:
-      console.log("error przy signUp");
       return { ...state, authError };
     case ADD_TRAINER:
-      console.log("dodano trenera");
       const trainers = [...state.trainers, user];
-      console.log(trainers);
+
       return { ...state, trainers, authError: null };
     case EDIT_PROFILE:
-      console.log("update profilu");
-      console.log(action);
       return state;
     case EDIT_PROFILE_ERROR:
-      console.log("error w update profilu");
       return state;
     case EDIT_DESCRIPTION:
-      console.log("update opisu");
-      console.log(action);
       return state;
     case EDIT_DESCRIPTION_ERROR:
-      console.log("error w update opisu");
       return state;
     case EDIT_CLASSES:
-      console.log("edytowano classes");
-      console.log(action);
       return state;
     case EDIT_CLASSES_ERROR:
-      console.log("error w edycji classes");
       return state;
     default:
-      console.log(" nie dodano usera, ani trenera");
       return state;
   }
 };

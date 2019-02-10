@@ -42,8 +42,7 @@ class EditPhoto extends Component {
   };
   render() {
     const { photoReady, uploadProgress, redirect, photo } = this.state;
-    console.log(this.state);
-    console.log(this.props.auth);
+
     const { onFormSubmit } = this;
     return (
       <div className="container center">
@@ -108,67 +107,3 @@ export default compose(
   connect(mapStateToProps),
   firestoreConnect([{ collection: "users" }, { collection: "trainers" }])
 )(EditPhoto);
-
-// // create firebase storage reference
-// const storageRef = storage.ref();
-
-// const imgRef = storageRef.child(`avatar_photos/${this.props.profile.email}`);
-
-// const emailChanged = this.state.profileData.email !== this.props.profile.email;
-
-// // email changed / no new photo / img already exists in storage
-
-// if (emailChanged && imgRef && this.state.url) {
-//   imgRef.put(this.state.url).then(snapshot => {
-//     console.log({ snapshot });
-//   });
-
-//   const oldProfileRef = storageRef.child(
-//     `avatar_photos/${this.props.profile.email}`
-//   );
-
-//   // deleting the old avatar in old profile
-//   oldProfileRef
-//     .delete()
-//     .then(function() {
-//       console.log("stary img usunięty");
-//     })
-//     .catch(function(error) {
-//       console.log("error w usuwaniu starego img");
-//       console.log(error);
-//     });
-// }
-// //   else if (emailChanged && this.state.url && imgRef) {
-// //   imgRef.put(this.state.url).then(snapshot => {
-// //     console.log({ snapshot });
-// //   });
-
-// //   const oldProfileRef = storageRef.child(
-// //     `avatar_photos/${this.props.profile.email}`
-// //   );
-
-// //   // deleting the old avatar in old profile
-// //   oldProfileRef
-// //     .delete()
-// //     .then(function() {
-// //       console.log("stary img usunięty");
-// //     })
-// //     .catch(function(error) {
-// //       console.log("error w usuwaniu starego img");
-// //       console.log(error);
-// //     });
-// // } else if (!emailChanged && this.state.url && imgRef) {
-// //   imgRef.put(this.state.url).then(snapshot => {
-// //     console.log({ snapshot });
-// //   });
-// // }
-// <div className="input-field col s10 m6">
-//   <i className="material-icons prefix ">photo_camera</i>
-//   <input
-//     id="photo"
-//     type="file"
-//     className="validate btn"
-//     onChange={onPhotoUpload}
-//     //
-//   />
-// </div>;

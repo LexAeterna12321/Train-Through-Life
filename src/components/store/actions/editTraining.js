@@ -3,8 +3,7 @@ import { EDIT_TRAINING, EDIT_TRAINING_ERROR } from "../types";
 export default (trainingStatus, trainingId) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
-    console.log(getState());
-    console.log(trainingId);
+
     if (trainingId) {
       const oldTraining = getState().firestore.data.notifications[trainingId];
 

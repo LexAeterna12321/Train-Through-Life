@@ -35,7 +35,7 @@ class TrainerClasses extends Component {
     const trainings = this.state.classes.filter((training, index) => {
       return index !== targetId;
     });
-    console.log({ trainings });
+
     this.setState({
       classes: [...trainings]
     });
@@ -90,7 +90,6 @@ class TrainerClasses extends Component {
   };
 
   render() {
-    console.log(this.state);
     const profileId = this.props.match.params.profileId;
     return (
       <div className="container center">
@@ -158,7 +157,6 @@ const buttonsStyle = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log({ state });
   const profileId = ownProps.match.params.profileId;
   const trainings = state.firestore.data.trainers
     ? state.firestore.data.trainers[profileId].classes

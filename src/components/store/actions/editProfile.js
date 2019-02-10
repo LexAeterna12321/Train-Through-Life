@@ -12,20 +12,16 @@ export const editProfile = (profile, id) => {
 
     user
       .updateEmail(email)
-      .then(function() {
-        console.log("zmiana maila");
-      })
+      .then(function() {})
       .catch(function(error) {
-        console.log("błąd zmiany maila", error);
+        console.log(error);
       })
       .then(() => {
         user
           .updatePassword(password)
-          .then(function() {
-            console.log("zmiana hasła");
-          })
+          .then(function() {})
           .catch(function(error) {
-            console.log("błąd zmiany hasła", error);
+            console.log(error);
           });
       });
 

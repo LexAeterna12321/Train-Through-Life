@@ -9,7 +9,7 @@ export default (description, profileId) => {
 
       // training status update due to trainer action
       const updatedDescription = { ...oldDescription, description };
-      console.log(updatedDescription);
+
       firestore
         .collection("trainers")
         .doc(profileId)
