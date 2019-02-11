@@ -62,7 +62,7 @@ class Profile extends Component {
         .catch(err => {
           // default photo if no photo provided
 
-          this.setState({ url: "img/avatar.png" });
+          this.setState({ url: "./img/avatar.png" });
         });
     }
   };
