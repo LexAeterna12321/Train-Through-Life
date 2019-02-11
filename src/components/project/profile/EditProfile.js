@@ -40,10 +40,11 @@ export class EditProfile extends Component {
   onFormSubmit = e => {
     e.preventDefault();
     if (this.state.profileData.password.length < 6) return;
+    const { profileData } = this.state;
     this.setState({ profileLoaded: false });
     const id = this.props.match.params.id;
 
-    this.props.editProfile(this.state.profileData, id);
+    this.props.editProfile(profileData, id);
     this.props.history.push(`/dashboard/${id}`);
   };
 

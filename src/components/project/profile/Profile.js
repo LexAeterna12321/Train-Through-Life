@@ -62,7 +62,7 @@ class Profile extends Component {
         .catch(err => {
           // default photo if no photo provided
 
-          this.setState({ url: "/img/avatar.png" });
+          this.setState({ url: "img/avatar.png" });
         });
     }
   };
@@ -94,7 +94,13 @@ class Profile extends Component {
             <h3>
               {first_name} {last_name}
             </h3>
-            <h5>{city}</h5>
+            <h5>
+              {city
+                .charAt(0)
+                .toUpperCase()
+                .concat(city.substr(1))
+                .trim()}
+            </h5>
           </div>
           {this.renderProfileLinks()}
         </div>

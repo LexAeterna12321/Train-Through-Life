@@ -12,7 +12,8 @@ class TrainingList extends Component {
     orderedClasses: [],
     date: "",
     time: "",
-    description: ""
+    description: "",
+    correctDate: true
   };
 
   setTrainingDate = e => {
@@ -47,7 +48,7 @@ class TrainingList extends Component {
   // sends data to database in notification collection
   reserveTraining = () => {
     const { trainerid, userid } = this.props.match.params;
-
+    const { date, time, description } = this.state;
     const training = this.state.orderedClasses;
 
     const info = {};
@@ -57,18 +58,40 @@ class TrainingList extends Component {
     // adding starting status
     info.trainingStatus = "pending";
     // date and time of training
-    info.date = this.state.date;
-    info.time = this.state.time;
+    info.date = date;
+    info.time = time;
     // additional info for trainer
-    info.description = this.state.description;
+    info.description = description;
 
-    this.props.addTraining(training, info);
-    this.props.history.goBack();
+    const years = parseInt(info.date.split("-")[0]);
+    const months = parseInt(info.date.split("-")[1]);
+    const days = parseInt(info.date.split("-")[2]);
+    const hours = parseInt(info.time.split(":")[0]);
+    const mins = parseInt(info.time.split(":")[1]);
+
+    // parsing local time from state to UTC
+    const utcDate = Date.UTC(years, months - 1, days, hours - 1, mins, 0, 0);
+
+    if (utcDate < Date.now()) {
+      this.setState({ correctDate: false });
+      return;
+    } else {
+      this.setState({ correctDate: true });
+      this.props.addTraining(training, info);
+      this.props.history.goBack();
+    }
   };
 
   render() {
     if (this.props.trainerClasses) {
-      const { totalCost, orderedClasses, date, time, description } = this.state;
+      const {
+        totalCost,
+        orderedClasses,
+        date,
+        time,
+        description,
+        correctDate
+      } = this.state;
       const { trainerClasses } = this.props;
       const {
         passOrderedClasses,
@@ -128,7 +151,11 @@ class TrainingList extends Component {
               ) : (
                 ""
               )}
-              {/*  */}
+              {correctDate ? null : (
+                <h5 className="center red-text lighten-text-4">
+                  Podana data jest zbyt wczesna
+                </h5>
+              )}
               <button
                 className={
                   orderedClasses.length !== 0 &&

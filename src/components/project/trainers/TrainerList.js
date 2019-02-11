@@ -10,7 +10,21 @@ const TrainerList = ({ trainers, userId, userCity }) => {
       {/* filters trainers by user's city  */}
       {trainers ? (
         trainers
-          .filter(trainer => trainer.city === userCity)
+          .filter(trainer => {
+            const trainerC = trainer.city
+              .toLowerCase()
+              .replace(/żź/gi, "z")
+              .replace(/ł/gi, "l")
+              .replace(/ó/gi, "o")
+              .trim();
+            const userC = userCity
+              .toLowerCase()
+              .replace(/żź/gi, "z")
+              .replace(/ł/gi, "l")
+              .replace(/ó/gi, "o")
+              .trim();
+            return trainerC === userC;
+          })
           .map(trainer => {
             return (
               <TrainerDetail

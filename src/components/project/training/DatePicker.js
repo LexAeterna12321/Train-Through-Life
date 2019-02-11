@@ -1,13 +1,19 @@
 import React from "react";
 
 const DatePicker = ({ setTrainingDate, date, time, description }) => {
+  const minDate = new Date().toISOString().split("T")[0];
+  const minHours = new Date().getHours();
+  const minMinutes = new Date().getMinutes();
+
   return (
     <form className="col s12">
       <div className="input-field col s6">
         <input
           type="date"
+          min={minDate}
           placeholder="pick a date"
           id="date"
+          required
           onChange={setTrainingDate}
           value={date}
         />{" "}
@@ -20,6 +26,8 @@ const DatePicker = ({ setTrainingDate, date, time, description }) => {
           id="time"
           onChange={setTrainingDate}
           value={time}
+          min={`${minHours}:${minMinutes}`.toString()}
+          required
         />
         <label htmlFor="date">Wybierz godzinę</label>
       </div>

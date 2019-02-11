@@ -69,11 +69,6 @@ class SignUp extends Component {
     e.preventDefault();
 
     const { personData } = this.state;
-    personData.city = personData.city
-      .charAt(0)
-      .toUpperCase()
-      .concat(personData.city.substr(1))
-      .trim();
 
     for (let i in personData) {
       if (i !== "phone" && personData[i] === "") return;
