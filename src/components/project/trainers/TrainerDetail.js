@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { storage } from "../../../fbConfig/index";
+import avatar from "../avatar.png";
 
 class TrainerDetail extends Component {
   state = { url: "" };
@@ -22,7 +23,7 @@ class TrainerDetail extends Component {
       })
       .catch(err => {
         // default photo if no photo provided
-        this.setState({ url: "/img/avatar.png" });
+        this.setState({ url: avatar });
       });
   };
   render() {

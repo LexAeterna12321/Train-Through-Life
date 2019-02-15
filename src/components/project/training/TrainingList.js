@@ -102,7 +102,7 @@ class TrainingList extends Component {
 
       return (
         <div className="container">
-          <h4 className="center">Dodawanie Treninu</h4>
+          <h4 className="center">Dodawanie Treningu</h4>
           {trainerClasses
             ? trainerClasses.map(classType => {
                 return (
