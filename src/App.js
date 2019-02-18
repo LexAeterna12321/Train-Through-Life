@@ -18,7 +18,7 @@ import EditPhoto from "./components/project/profile/EditPhoto";
 class App extends Component {
   render() {
     return (
-      <Router>
+      <Router basename={process.env.PUBLIC_URL}>
         <React.Fragment>
           <Navbar />
           <Switch>
