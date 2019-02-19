@@ -3,6 +3,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
+import startPageImg from "../img/preload.jpeg";
+
 const AuthPreloader = ({ authError }) => {
   return (
     <div className="container center hoverable">
@@ -10,10 +12,7 @@ const AuthPreloader = ({ authError }) => {
         <div className="col s12" style={{ padding: 0 }}>
           <div className="card center-align">
             <div className="card-image">
-              <img
-                src="https://images.pexels.com/photos/116079/pexels-photo-116079.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                alt="training person"
-              />
+              <img src={startPageImg} alt="training person" />
               <span className="card-title">Personal Training App</span>
               <Link
                 to="/about"

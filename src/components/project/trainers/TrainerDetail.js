@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { storage } from "../../../fbConfig/index";
-import avatar from "../avatar.png";
+import avatar from "../img/avatar.png";
 
 class TrainerDetail extends Component {
   state = { url: "" };

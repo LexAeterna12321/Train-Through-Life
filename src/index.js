@@ -30,4 +30,4 @@ store.firebaseAuthIsReady.then(() => {
   );
 });
 
-serviceWorker.unregister();
+serviceWorker.register();
