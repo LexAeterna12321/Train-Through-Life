@@ -10,7 +10,7 @@ class SignIn extends Component {
     email: "",
     password: "",
     loginError: false,
-    userAsTrainerLoginError: false //dokończyć!!
+    userAsTrainerLoginError: false
   };
   ref = React.createRef();
 
