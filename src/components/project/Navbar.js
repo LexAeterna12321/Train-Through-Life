@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { signOut } from "../store/actions/auth";
 import { Redirect } from "react-router-dom";
+
 const Navbar = ({ auth, signOut }) => {
   if (!auth.uid) return <Redirect to="/" />;
 
+  // two ul conditionally rendered to ensure responsiveness
   return (
     <nav style={{ position: "relative", zIndex: "1" }}>
       <div className="nav-wrapper teal lighten-1">
@@ -59,7 +61,7 @@ const Navbar = ({ auth, signOut }) => {
               <li>
                 <button
                   className="btn"
-                  style={(buttonsStyle, { padding: "0 5p" })}
+                  style={(buttonsStyle, { padding: "0 5px" })}
                   onClick={signOut}
                 >
                   Wyloguj
