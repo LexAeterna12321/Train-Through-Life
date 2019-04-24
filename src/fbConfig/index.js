@@ -2,9 +2,9 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/storage";
-
+const { FIREBASE_API_KEY } = process.env;
 var config = {
-  apiKey: "AIzaSyD93VMBzfT0hdnyfSGYv6VFsTNb6SJV3Pw",
+  apiKey: FIREBASE_API_KEY,
   authDomain: "train-through-life.firebaseapp.com",
   databaseURL: "https://train-through-life.firebaseio.com",
   projectId: "train-through-life",
