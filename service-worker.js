@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/Train-Through-Life/precache-manifest.8ede864ce29cbe4ddd24bfb17fc8573f.js"
+  "/Train-Through-Life/precache-manifest.f6d00c1f7227a7b99a1d6fd32734c917.js"
 );
 
 workbox.clientsClaim();
