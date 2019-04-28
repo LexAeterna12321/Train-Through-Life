@@ -2,7 +2,7 @@ import { EDIT_PROFILE, EDIT_PROFILE_ERROR } from "../types";
 
 export const editProfile = (profile, id) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
-    // make async call to database
+
     const firestore = getFirestore();
     const firebase = getFirebase();
 
@@ -12,14 +12,9 @@ export const editProfile = (profile, id) => {
 
     user
       .updateEmail(email)
-      .then(function() {})
-      .catch(function(error) {
-        console.log(error);
-      })
       .then(() => {
         user
           .updatePassword(password)
-          .then(function() {})
           .catch(function(error) {
             console.log(error);
           });

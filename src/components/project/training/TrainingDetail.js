@@ -196,17 +196,5 @@ const buttonsStyle = {
   margin: "10px",
   width: "70px"
 };
-// const centeringContent = {
-//   textAlign: "center",
-//   display: "flex",
-//   justifyContent: "space-between"
-// };
 
-// const columnsStyle = {
-//   display: "flex",
-//   flexDirection: "column",
-//   padding: "30px",
-//   alignItems: "center",
-//   width: "90%"
-// };
 export default TrainingDetail;

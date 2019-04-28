@@ -11,7 +11,7 @@ class Notifications extends Component {
   };
 
   // how many notifications should be displayed in dashboard view
-  notificationLimit = 4;
+  _notificationLimit = 4;
 
   renderNotifications = () => {
     const { profileId, profile, notifications, match } = this.props;
@@ -33,7 +33,7 @@ class Notifications extends Component {
             }
           })
           //  slice to limit of notifications in dashboard view
-          .slice(0, this.notificationLimit)
+          .slice(0, this._notificationLimit)
       : null;
 
     return notificationsFiltered.map(notification => {

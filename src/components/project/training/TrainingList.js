@@ -184,12 +184,6 @@ class TrainingList extends Component {
   }
 }
 
-// const centeringContent = {
-//   textAlign: "center",
-//   display: "flex",
-//   justifyContent: "space-between"
-// };
-
 const mapStateToProps = (state, ownProps) => {
   const trainerId = ownProps.match.params.trainerid;
 

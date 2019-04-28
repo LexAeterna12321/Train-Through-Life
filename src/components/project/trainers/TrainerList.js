@@ -1,41 +1,48 @@
 import React from "react";
 import TrainerDetail from "../trainers/TrainerDetail";
 
+const formatToUniversalString = unformatedString => {
+  const formatedString = unformatedString
+    .toLowerCase()
+    .replace(/żź/gi, "z")
+    .replace(/ł/gi, "l")
+    .replace(/ó/gi, "o")
+    .trim();
+  return formatedString;
+};
+
 const TrainerList = ({ trainers, userId, userCity }) => {
+  const checkForMatchingTrainers = () =>
+    matchTrainersByCity().length > 0 ? true : false;
+
+  const matchTrainersByCity = () => {
+    return trainers.filter(trainer => {
+      const trainerC = formatToUniversalString(trainer.city);
+      const userC = formatToUniversalString(userCity);
+      return trainerC === userC;
+    });
+  };
+
+  const matchedTrainers = [...matchTrainersByCity()];
+
+  const renderTrainersList = trainers => {
+    return trainers.map(trainer => (
+      <TrainerDetail key={trainer.id} trainer={trainer} userId={userId} />
+    ));
+  };
+
   return (
-    <div className="card col s12 m8 l3 offset-m2 offset-l1 kot">
+    <div className="card col s12 m8 l3 offset-m2 offset-l1">
       <h5 className="center" style={headerStyle}>
         Oferty Trenerów z Twojego Miasta
       </h5>
-      {/* filters trainers by user's city  */}
-      {trainers ? (
-        trainers
-          .filter(trainer => {
-            const trainerC = trainer.city
-              .toLowerCase()
-              .replace(/żź/gi, "z")
-              .replace(/ł/gi, "l")
-              .replace(/ó/gi, "o")
-              .trim();
-            const userC = userCity
-              .toLowerCase()
-              .replace(/żź/gi, "z")
-              .replace(/ł/gi, "l")
-              .replace(/ó/gi, "o")
-              .trim();
-            return trainerC === userC;
-          })
-          .map(trainer => {
-            return (
-              <TrainerDetail
-                key={trainer.id}
-                trainer={trainer}
-                userId={userId}
-              />
-            );
-          })
+      {checkForMatchingTrainers() ? (
+        renderTrainersList(matchedTrainers)
       ) : (
-        <h6>Ładuję listę trenerów</h6>
+        <h5 className="center red-text text-lighten-2">
+          Brak zarejestrowanych trenerów w Twoim mieście. Spróbuj wyszukiwania w
+          innym mieście.
+        </h5>
       )}
     </div>
   );
